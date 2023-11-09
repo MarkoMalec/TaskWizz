@@ -1,5 +1,5 @@
 # TaskWizz
-## Dashboard for managing tasks. Create, assign, and track with ease 
+### Dashboard for managing tasks. Create, assign, and track with ease 
 
 This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
 
