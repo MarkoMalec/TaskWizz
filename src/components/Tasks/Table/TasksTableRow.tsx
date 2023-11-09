@@ -1,0 +1,103 @@
+import React, { useRef } from "react";
+import { usePathname } from 'next/navigation';
+import format from "date-fns/format";
+import { usePriorityStyle } from "~/lib/hooks/usePriorityStyle";
+import { TableCell, TableRow } from "~/components/ui/table";
+import { toast } from "react-hot-toast";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "~/components/ui/dropdown-menu";
+import { MoreHorizontal } from "lucide-react";
+import { Checkbox } from "~/components/ui/checkbox";
+import { Button } from "../../ui/button";
+
+import Link from "next/link";
+
+type UsersTableRowProps = {
+  task: any;
+  onCheck: (taskId: string) => void;
+  onUncheck: (taskId: string) => void;
+  isSelected: boolean;
+};
+
+const TasksTableRow = ({
+  task,
+  onCheck,
+  onUncheck,
+  isSelected,
+}: UsersTableRowProps) => {
+  const checkboxRef = useRef<HTMLButtonElement>(null);
+  const pathname = usePathname();
+  const { priorityStyle } = usePriorityStyle(task.priority);
+
+  const simulateCheckboxClick = () => {
+    const checkbox = checkboxRef.current;
+    if (checkbox) {
+      checkbox.click();
+    }
+  };
+
+  const deadlineDate = new Date(task.deadline);
+  const formattedDeadlineDate = format(deadlineDate, "dd-MM-Y");
+
+  return (
+    <TableRow key={task.id} className={`${isSelected ? "bg-muted/50" : null}`}>
+      <TableCell onClick={simulateCheckboxClick}>
+        <Checkbox
+          ref={checkboxRef}
+          checked={isSelected}
+          onCheckedChange={(selectedTasks) =>
+            selectedTasks ? onCheck(task.id) : onUncheck(task.id)
+          }
+        />
+      </TableCell>
+      <TableCell className="font-medium">
+        <span className={`${priorityStyle} rounded px-2 py-1`}>
+          {task.priority}
+        </span>
+      </TableCell>
+      <TableCell>{task.name}</TableCell>
+      <TableCell>{task.city}</TableCell>
+      <TableCell>{formattedDeadlineDate}</TableCell>
+      <TableCell className="text-right">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              asChild
+              variant="ghost"
+              className="h-8 w-8 cursor-pointer p-0"
+            >
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem
+              onClick={() => {
+                navigator.clipboard.writeText(
+                  `localhost:3000${pathname}/${task.id}`,
+                );
+                toast.success("Task URL copied!");
+              }}
+              className="cursor-pointer"
+            >
+              Copy task link
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <Link href={`/admin/tasks/${task.id}`}>View task</Link>
+            </DropdownMenuItem>
+            <div className="mt-3 flex flex-col justify-stretch gap-1"></div>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </TableCell>
+    </TableRow>
+  );
+};
+
+export default TasksTableRow;
