@@ -6,6 +6,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "~/server/auth";
 import Link from "next/link";
 import { Button } from "~/components/ui/button";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 export const metadata = {
   title: "Tasks",
@@ -43,8 +44,7 @@ const TasksPage = async ({
     <>
       <AddTaskDialog user={session?.user} />
       <TasksTable admin={true} tasks={tasks} />
-
-      <div>
+      <div className="flex w-full justify-center gap-2">
         <Button asChild>
           <Link
             href={{
@@ -52,12 +52,12 @@ const TasksPage = async ({
               query: { page: Math.max(1, page - 1) },
             }}
           >
-            {"<"}
+            <ArrowLeft />
           </Link>
         </Button>
         <Button asChild>
           <Link href={{ pathname: "/admin/tasks", query: { page: page + 1 } }}>
-            {">"}
+            <ArrowRight className="w-6" />
           </Link>
         </Button>
       </div>

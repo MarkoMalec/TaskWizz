@@ -21,7 +21,7 @@ const AddTaskDialog = ({ user }: any) => {
         <AlarmClock className="w-5" />
         New assignment
       </DialogTrigger>
-      <DialogContent className="max-h-screen w-[100%] max-w-[850px] overflow-y-scroll">
+      <DialogContent className="max-h-[95vh] w-[100%] max-w-[850px] overflow-y-scroll">
         <DialogHeader>
           <DialogTitle className="text-center text-3xl">
             Add new assignment
