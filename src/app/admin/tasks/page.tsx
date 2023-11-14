@@ -26,6 +26,8 @@ const TasksPage = async ({
     totalPages,
   );
 
+  const isLastPage = page >= totalPages;
+
   const tasks = await prisma.task.findMany({
     orderBy: { dateCreated: "desc" },
     skip: (page - 1) * pageSize,
@@ -55,7 +57,7 @@ const TasksPage = async ({
             <ArrowLeft />
           </Link>
         </Button>
-        <Button asChild>
+        <Button disabled={isLastPage}>
           <Link href={{ pathname: "/admin/tasks", query: { page: page + 1 } }}>
             <ArrowRight className="w-6" />
           </Link>

@@ -34,7 +34,7 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <Header session={session} />
-          {children}
+          <main className="container">{children}</main>
           <Toaster />
         </ThemeProvider>
       </body>

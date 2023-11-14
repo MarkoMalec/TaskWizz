@@ -14,7 +14,7 @@ const DashboardLayout = async ({ children }: DashboardLayoutProps) => {
     redirect("/dashboard");
   }
 
-  return <main className="container">{children}</main>;
+  return <>{children}</>;
 };
 
 export default DashboardLayout;

@@ -7,7 +7,16 @@ export default async function HomePage() {
   if (!session) {
     redirect('/signin');
   }
+
+  if (session && session.user.role === 'admin') {
+    redirect('/admin');
+  }
+
+  if (session && session.user.role !== 'admin') {
+    redirect('/dashboard');
+  }
+
   return (
-    <div>Forbidden</div>
+    <div>How did you even get here?</div>
   );
 }

@@ -18,9 +18,9 @@ const DashboardLayout = async ({ children }: DashboardLayoutProps) => {
   }
 
   return (
-    <div className="pt-[100px]">
-      <main className="container">{children}</main>
-    </div>
+    <>
+      {children}
+    </>
   );
 };
 
