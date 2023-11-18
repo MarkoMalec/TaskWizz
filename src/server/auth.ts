@@ -53,12 +53,6 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     session: ({ session, token }) => {
-
-      // console.log("================ USER: session =======================", session)
-      
-
-      // console.log(token, "================= TOKEN: session ===================");
-
       return {
         ...session,
         user: {
@@ -68,12 +62,11 @@ export const authOptions: NextAuthOptions = {
           randomKey: token.randomKey,
         },
       };
-
     },
     jwt: ({ token, user }) => {
       if (user) {
         const u = user as unknown as any;
-        // console.log('=================== u: jwt ========================', u)
+
         return {
           ...token,
           id: u.id,
@@ -81,7 +74,6 @@ export const authOptions: NextAuthOptions = {
           randomKey: u.randomKey,
         };
       }
-      // console.log("---------------- THE TOKEN: jwt ------------------------", token );
       return token;
     },
   },
@@ -114,8 +106,6 @@ export const authOptions: NextAuthOptions = {
           },
         });
 
-        // console.log("Fetched user:", user);
-
         if (!user) {
           return null;
         }
@@ -126,8 +116,6 @@ export const authOptions: NextAuthOptions = {
           .digest("hex");
 
         if (hashedPassword === user.password) {
-          // console.log(user.password, "THE PASSSSWORORORORORD");
-
           // Return the user object with additional keys if you like
           return {
             id: user.id,

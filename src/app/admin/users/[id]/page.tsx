@@ -43,7 +43,5 @@ export default async function UserProfilePage({ params }: Props) {
 
   const taskAssignments = assignments.map((assignment) => assignment.task);
 
-  console.table(taskAssignments);
-
   return <UserProfile user={user} taskAssignments={taskAssignments} />;
 }

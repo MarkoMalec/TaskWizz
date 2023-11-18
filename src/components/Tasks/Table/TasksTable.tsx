@@ -30,16 +30,15 @@ type Task = {
 type TaskTableProps = {
   tasks: Task[];
   admin?: true | false;
+  totalTasks: number;
 };
 
-const TasksTable = ({ admin, tasks }: TaskTableProps) => {
+const TasksTable = ({ admin, tasks, totalTasks }: TaskTableProps) => {
   const { isMutating, doFetch } = useMutatingFetch();
   const [selectedTasks, setSelectedTasks] = useState<string[]>([]);
   const {
     items: sortedTasks,
     requestSort,
-    sortField,
-    sortDirection,
   } = useSortableTasksTableData(tasks);
 
   const onCheck = (taskId: string) => {
@@ -74,27 +73,23 @@ const TasksTable = ({ admin, tasks }: TaskTableProps) => {
   return (
     <>
       <Table>
-        <TableCaption>A list all available tasks.</TableCaption>
-        <TableHeader className="bg-secondary">
+        <TableCaption>
+          Showing {tasks.length} of {totalTasks} tasks.
+        </TableCaption>
+        <TableHeader>
           <TableRow>
             <TableHead></TableHead>
             <TableHead
-              className={`w-[100px] ${tableHeadStyle}`}
+              className={`w-[100px]`}
               onClick={() => requestSort("priority")}
             >
               Priority <ArrowUpDown className="inline w-3" />
             </TableHead>
-            <TableHead
-              className={tableHeadStyle}
-              onClick={() => requestSort("name")}
-            >
+            <TableHead onClick={() => requestSort("name")}>
               Task name <ArrowUpDown className="inline w-3" />
             </TableHead>
             <TableHead>Location</TableHead>
-            <TableHead
-              className={tableHeadStyle}
-              onClick={() => requestSort("deadline")}
-            >
+            <TableHead onClick={() => requestSort("deadline")}>
               Deadline <ArrowUpDown className="inline w-3" />
             </TableHead>
             <TableHead className="text-right">Actions</TableHead>

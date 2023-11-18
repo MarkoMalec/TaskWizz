@@ -170,7 +170,7 @@ export function SelectUsers({ control, name, label }: SelectUsersInputProps) {
                   {users.map((user) => (
                     <CommandItem
                       key={user.id}
-                      value={user.id}
+                      value={user.name ? user.name : undefined}
                       onSelect={() => {
                         field.value.includes(user.id)
                           ? field.onChange(
@@ -211,7 +211,7 @@ export function DatePicker({ control, name, label }: any) {
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{label}</FormLabel>
+          <FormLabel className="block">{label}</FormLabel>
           <Popover>
             <PopoverTrigger asChild>
               <Button

@@ -20,6 +20,7 @@ import {
   TooltipTrigger,
 } from "~/components/ui/tooltip";
 
+import getInitials from "~/lib/getInitials";
 import { usePriorityStyle } from "~/lib/hooks/usePriorityStyle";
 import { format, formatDistance, subDays } from "date-fns";
 import { CalendarDays, Clock } from "lucide-react";
@@ -39,8 +40,8 @@ const Task = ({ task }: any) => {
   const deadlineDate = new Date(task.deadline);
   const formattedDeadlineDate = format(deadlineDate, "dd.MM.yyyy");
 
-  const handleSave = (name: any, value: any) => {
-    setTheTask((prev) => ({ ...prev, [name]: value }));
+  const handleSave = (name: string, value: string) => {
+    setTheTask((prev: object) => ({ ...prev, [name]: value }));
     const currentChanges = { [name]: value };
 
     saveChangeToServer(currentChanges);
@@ -81,7 +82,8 @@ const Task = ({ task }: any) => {
           </CardTitle>
           <CardDescription>
             {" "}
-            <span className={priorityStyle}>{task.priority}</span>
+            <span className={priorityStyle} />
+            {task.priority}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -105,28 +107,31 @@ const Task = ({ task }: any) => {
         </CardHeader>
         <CardContent>
           <div className="flex">
-            {task?.assignedTo.map((task: any, index: number) => (
-              <TooltipProvider delayDuration={0}>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <Link
-                      key={task.user.id}
-                      className={`-ml-3 block z-${index++}`}
-                      href={`/admin/users/${task.user.id}`}
-                    >
-                      {/* {task.user.name} */}
-                      <Avatar className="h-[52px] w-[52px] border-2 border-black">
-                        <AvatarImage src={task.user.image} />
-                        <AvatarFallback>CN</AvatarFallback>
-                      </Avatar>
-                    </Link>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>{task.user.name}</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            ))}
+            {task?.assignedTo.map((task: any, index: number) => {
+              const initials = getInitials(task.user.name);
+
+              return (
+                <TooltipProvider key={task.user.id} delayDuration={0}>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Link
+                        key={task.user.id}
+                        className={`-ml-3 block z-${index++}`}
+                        href={`/admin/users/${task.user.id}`}
+                      >
+                        <Avatar className="h-[52px] w-[52px] border-2 border-black">
+                          <AvatarImage src={task.user.image} />
+                          <AvatarFallback>{initials}</AvatarFallback>
+                        </Avatar>
+                      </Link>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{task.user.name}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              );
+            })}
           </div>
         </CardContent>
       </Card>

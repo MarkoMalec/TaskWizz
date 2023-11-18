@@ -27,7 +27,7 @@ const SingleTaskPage = async ({ params }: Params) => {
       },
     },
   });
-// console.log(task, "SingleTaskPage")
+
   return (
     <div className="py-10">
       <Task task={task} />

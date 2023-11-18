@@ -23,8 +23,6 @@ const UserProfile = ({ user, taskAssignments }: UserProfileProps) => {
     return <div>Loading</div>;
   }
 
-  console.log(taskAssignments);
-
   return (
     <div className="flex mt-[100px] items-center justify-center">
       <Card className="m-auto w-full max-w-[860px]">
@@ -40,7 +38,7 @@ const UserProfile = ({ user, taskAssignments }: UserProfileProps) => {
           <CardDescription>View or edit the user's tasks</CardDescription>
         </CardHeader>
         <CardContent>
-          <TasksTable tasks={taskAssignments} />
+          <TasksTable totalTasks={taskAssignments.length} tasks={taskAssignments} />
         </CardContent>
       </Card>
     </div>

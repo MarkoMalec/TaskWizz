@@ -1,8 +1,8 @@
 export const usePriorityStyle = (priority: string) => {
-  const extra = "rounded px-2 py-1 text-white"
+  const extra = "rounded-full inline-block w-3 h-3 mr-1 text-white";
   const priorityStyle =
     priority === "Normal"
-      ? `bg-orange-600 ${extra}`
+      ? `bg-yellow-400 ${extra}`
       : priority === "High"
       ? `bg-red-600 ${extra}`
       : priority === "Low"

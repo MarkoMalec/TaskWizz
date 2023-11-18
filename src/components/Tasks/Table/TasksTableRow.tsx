@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { usePathname } from 'next/navigation';
+import { usePathname } from "next/navigation";
 import format from "date-fns/format";
 import { usePriorityStyle } from "~/lib/hooks/usePriorityStyle";
 import { TableCell, TableRow } from "~/components/ui/table";
@@ -17,6 +17,7 @@ import { Checkbox } from "~/components/ui/checkbox";
 import { Button } from "../../ui/button";
 
 import Link from "next/link";
+import DeleteTaskDialog from "../DeleteTaskDialog";
 
 type UsersTableRowProps = {
   task: any;
@@ -46,7 +47,10 @@ const TasksTableRow = ({
   const formattedDeadlineDate = format(deadlineDate, "dd-MM-Y");
 
   return (
-    <TableRow key={task.id} className={`${isSelected ? "bg-muted/50" : null}`}>
+    <TableRow
+      key={task.id}
+      className={`${isSelected ? "bg-muted" : null}`}
+    >
       <TableCell onClick={simulateCheckboxClick}>
         <Checkbox
           ref={checkboxRef}
@@ -57,9 +61,8 @@ const TasksTableRow = ({
         />
       </TableCell>
       <TableCell className="font-medium">
-        <span className={`${priorityStyle} rounded px-2 py-1`}>
-          {task.priority}
-        </span>
+        <span className={`${priorityStyle}`} />
+        {task.priority}
       </TableCell>
       <TableCell>{task.name}</TableCell>
       <TableCell>{task.city}</TableCell>
@@ -92,7 +95,9 @@ const TasksTableRow = ({
             <DropdownMenuItem>
               <Link href={`/admin/tasks/${task.id}`}>View task</Link>
             </DropdownMenuItem>
-            <div className="mt-3 flex flex-col justify-stretch gap-1"></div>
+            <div className="mt-3 flex flex-col justify-stretch gap-1">
+              <DeleteTaskDialog taskId={task.id} />
+            </div>
           </DropdownMenuContent>
         </DropdownMenu>
       </TableCell>

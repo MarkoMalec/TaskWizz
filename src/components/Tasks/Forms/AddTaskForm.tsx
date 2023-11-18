@@ -39,7 +39,7 @@ const AddTaskForm = ({ user }: any) => {
       name: "",
       priority: "Normal",
       description: "",
-      deadline: new Date,
+      deadline: new Date(),
       address: "",
       city: "",
       assignedTo: [],
@@ -55,7 +55,7 @@ const AddTaskForm = ({ user }: any) => {
       ...values,
       createdById: userId,
     };
-    console.log(values);
+    console.log(values)
     doFetch(
       "/api/task/create",
       {

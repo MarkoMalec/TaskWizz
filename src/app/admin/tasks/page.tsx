@@ -4,9 +4,7 @@ import TasksTable from "~/components/Tasks/Table/TasksTable";
 import AddTaskDialog from "~/components/Tasks/AddTaskDialog";
 import { getServerSession } from "next-auth";
 import { authOptions } from "~/server/auth";
-import Link from "next/link";
-import { Button } from "~/components/ui/button";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import PaginationControls from "~/components/elements/PaginationControls";
 
 export const metadata = {
   title: "Tasks",
@@ -18,20 +16,23 @@ const TasksPage = async ({
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
   const session = await getServerSession(authOptions);
-  const pageSize = 10;
-  const totalTasks = await prisma.task.count();
-  const totalPages = Math.ceil(totalTasks / pageSize);
-  const page = Math.min(
-    Math.max(1, parseInt(searchParams?.page as string) || 1),
-    totalPages,
+  const defaultPageSize = 8;
+
+  const perPage = Math.min(
+    Math.max(parseInt(searchParams?.per_page as string) || defaultPageSize, 1),
+    100,
   );
 
-  const isLastPage = page >= totalPages;
+  const totalTasks = await prisma.task.count();
+  const totalPages = Math.ceil(totalTasks / perPage);
+
+  let page = parseInt(searchParams?.page as string) || 1;
+  page = Math.max(1, Math.min(page, totalPages));
 
   const tasks = await prisma.task.findMany({
     orderBy: { dateCreated: "desc" },
-    skip: (page - 1) * pageSize,
-    take: pageSize,
+    skip: (page - 1) * perPage,
+    take: perPage,
     select: {
       id: true,
       name: true,
@@ -42,27 +43,22 @@ const TasksPage = async ({
     },
   });
 
+  const hasNextPage = page < totalPages;
+  const hasPrevPage = page > 1;
+
   return (
     <>
       <AddTaskDialog user={session?.user} />
-      <TasksTable admin={true} tasks={tasks} />
-      <div className="flex w-full justify-center gap-2">
-        <Button asChild>
-          <Link
-            href={{
-              pathname: "/admin/tasks",
-              query: { page: Math.max(1, page - 1) },
-            }}
-          >
-            <ArrowLeft />
-          </Link>
-        </Button>
-        <Button disabled={isLastPage}>
-          <Link href={{ pathname: "/admin/tasks", query: { page: page + 1 } }}>
-            <ArrowRight className="w-6" />
-          </Link>
-        </Button>
-      </div>
+      <TasksTable
+        admin={true}
+        tasks={tasks}
+        totalTasks={totalTasks}
+      />
+      <PaginationControls
+        hasNextPage={hasNextPage}
+        hasPrevPage={hasPrevPage}
+        totalTasks={totalTasks}
+      />
     </>
   );
 };

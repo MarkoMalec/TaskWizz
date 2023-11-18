@@ -39,7 +39,7 @@ export async function PATCH(req: NextRequest): Promise<NextResponse> {
       json: { user, message: "User updated successfully!" },
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return NextResponse.json({
       status: 500,
       json: { message: "Internal server error" },

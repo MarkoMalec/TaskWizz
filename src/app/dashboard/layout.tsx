@@ -11,17 +11,11 @@ interface DashboardLayoutProps {
 const DashboardLayout = async ({ children }: DashboardLayoutProps) => {
   const session = await getServerSession(authOptions);
 
-  // console.log(session?.user, "session.user: DashboardLayout");
-
   if (!session || !session.user) {
     redirect("/signin");
   }
 
-  return (
-    <>
-      {children}
-    </>
-  );
+  return <>{children}</>;
 };
 
 export default DashboardLayout;

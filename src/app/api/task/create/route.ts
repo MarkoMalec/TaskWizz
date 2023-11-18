@@ -32,7 +32,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         },
       },
     });
-    console.log(newTask);
+
     return NextResponse.json({
       status: 200,
       json: { user: newTask, message: "Task created successfully!" },
