@@ -24,10 +24,14 @@ import getInitials from "~/lib/getInitials";
 import { usePriorityStyle } from "~/lib/hooks/usePriorityStyle";
 import { format, formatDistance, subDays } from "date-fns";
 import { CalendarDays, Clock } from "lucide-react";
-import { EditableInputField } from "./EditTaskFields/EditableFields";
+import {
+  EditableDatepickerField,
+  EditableInputField,
+} from "./EditTaskFields/EditableFields";
 
 const Task = ({ task }: any) => {
   const { isMutating, doFetch } = useMutatingFetch();
+  const [mutatingFieldName, setMutatingFieldName] = useState(""); // identifier for mutating fields
   const { priorityStyle } = usePriorityStyle(task.priority);
   const [theTask, setTheTask] = useState(task);
 
@@ -44,6 +48,7 @@ const Task = ({ task }: any) => {
     setTheTask((prev: object) => ({ ...prev, [name]: value }));
     const currentChanges = { [name]: value };
 
+    setMutatingFieldName(name);
     saveChangeToServer(currentChanges);
   };
 
@@ -59,6 +64,7 @@ const Task = ({ task }: any) => {
       },
       () => {
         toast.success(`Field successfully edited`);
+        setMutatingFieldName("");
       },
     );
   };
@@ -87,15 +93,24 @@ const Task = ({ task }: any) => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <h3 className="text-lg font-bold">Description</h3>
+          <h3 className="text-md font-bold">Description</h3>
           <EditableInputField
             initialValue={theTask.description}
             name="description"
             onSave={handleSave}
-            isMutating={isMutating}
+            isMutating={isMutating && mutatingFieldName === "description"}
             type="textarea"
           />
-          {formattedDeadlineDate}
+          <h3 className="text-md font-bold">Deadline</h3>
+          <EditableDatepickerField
+            initialValue={formattedDeadlineDate}
+            nonFormatDate={theTask.deadline}
+            name="deadline"
+            onSave={handleSave}
+            isMutating={isMutating && mutatingFieldName === "deadline"}
+            type="datepicker"
+          />
+          {/* {formattedDeadlineDate} */}
         </CardContent>
       </Card>
       <Card className="flex-none">

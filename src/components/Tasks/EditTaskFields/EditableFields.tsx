@@ -1,13 +1,18 @@
 "use client";
 
 import React, { useState } from "react";
+import format from "date-fns/format";
 import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
 import { Skeleton } from "~/components/ui/skeleton";
 import { PenSquare } from "lucide-react";
+import { Calendar } from "~/components/ui/calendar";
+import { Popover, PopoverContent } from "~/components/ui/popover";
+import { PopoverTrigger } from "@radix-ui/react-popover";
 
 export const EditableInputField = ({
   initialValue,
+  nonFormatDate,
   name,
   onSave,
   isMutating,
@@ -27,10 +32,24 @@ export const EditableInputField = ({
     onSave(name, value);
   };
 
+  const handleOnDateChange = (selectedDate: any) => {
+    setValue(selectedDate);
+    onSave(name, selectedDate);
+  };
+
   if (isEditing) {
     return (
       <>
-        {type === "datepicker" ? (<div></div>) : type === "textarea" ? (
+        {type === "datepicker" ? (
+          <div className="absolute top-0 bg-secondary p-3">
+            <Calendar
+              mode="single"
+              selected={nonFormatDate}
+              onSelect={handleOnDateChange}
+              initialFocus
+            />
+          </div>
+        ) : type === "textarea" ? (
           <Textarea
             value={value}
             onBlur={handleSave}
@@ -68,9 +87,44 @@ export const EditableInputField = ({
       ) : (
         value
       )}
-      <button className="hidden group-hover:block ml-2" onClick={handleEdit}>
+      <button className="ml-2 hidden group-hover:block" onClick={handleEdit}>
         <PenSquare className="w-4 hover:stroke-cyan-500" />
       </button>
     </div>
+  );
+};
+
+export const EditableDatepickerField = ({
+  initialValue,
+  nonFormatDate,
+  name,
+  onSave,
+  isMutating,
+  type,
+}: any) => {
+  const [value, setValue] = useState(initialValue);
+
+  console.log(initialValue, "initial date value");
+  console.log(value, 'state value')
+
+  const handleOnDateChange = (selectedDate: any) => {
+    const newValue = new Date(selectedDate);
+    const formattedDate = format(newValue, "dd.MM.yyyy");
+    setValue(formattedDate);
+    onSave(name, selectedDate);
+  };
+
+  return (
+    <Popover>
+      <PopoverTrigger>{value}</PopoverTrigger>
+      <PopoverContent>
+        <Calendar
+          mode="single"
+          selected={nonFormatDate}
+          onSelect={handleOnDateChange}
+          initialFocus
+        />
+      </PopoverContent>
+    </Popover>
   );
 };
