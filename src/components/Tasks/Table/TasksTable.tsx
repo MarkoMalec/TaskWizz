@@ -124,5 +124,3 @@ const TasksTable = ({ admin, tasks, totalTasks }: TaskTableProps) => {
 };
 
 export default TasksTable;
-
-const tableHeadStyle = "cursor-pointer rounded hover:bg-primary/10";

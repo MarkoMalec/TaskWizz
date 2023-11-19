@@ -23,6 +23,8 @@ export default async function UserProfilePage({ params }: Props) {
     },
   });
 
+  console.log(user)
+
   const assignments = await prisma.taskAssignment.findMany({
     where: {
       userId: params.id,

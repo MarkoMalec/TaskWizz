@@ -7,12 +7,12 @@ type User = {
   name: string;
   email: string;
   password: string;
+  image: string;
 };
 
 export async function PATCH(req: NextRequest): Promise<NextResponse> {
   try {
-    const { id, name, password, email, profile } = await req.json(); // Extract profile
-
+    const { id, name, password, email, profile, fileUrl } = await req.json(); // Extract profile
     const hashedPassword = crypto
     .createHash("sha256")
     .update(password)
@@ -26,6 +26,7 @@ export async function PATCH(req: NextRequest): Promise<NextResponse> {
         name: name,
         email: email,
         password: hashedPassword,
+        image: fileUrl,
         profile: {
           update: { ...profile },
         },
@@ -36,7 +37,7 @@ export async function PATCH(req: NextRequest): Promise<NextResponse> {
     });
     return NextResponse.json({
       status: 200,
-      json: { user, message: "User updated successfully!" },
+      json: { user, message: `User updated successfully!` },
     });
   } catch (error) {
     console.error(error);

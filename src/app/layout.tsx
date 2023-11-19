@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import Header from "~/components/elements/Header/Header";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "~/server/auth";
+import { EdgeStoreProvider } from "../lib/edgestore";
 import { ThemeProvider } from "~/components/theme-provider";
 import { Toaster } from "react-hot-toast";
 
@@ -34,7 +35,9 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <Header session={session} />
-          <main className="container">{children}</main>
+          <EdgeStoreProvider>
+            <main className="container">{children}</main>
+          </EdgeStoreProvider>
           <Toaster />
         </ThemeProvider>
       </body>
