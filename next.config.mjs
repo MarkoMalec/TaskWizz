@@ -18,17 +18,19 @@ await import("./src/env.mjs");
 //     },
 //   }
 const config = {
-    images: {
-        remotePatterns: [
-          {
-            protocol: 'https',
-            hostname: 'cdn.discordapp.com',
-            port: '',
-          //   pathname: '/account123/**',
-          },
-        ],
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cdn.discordapp.com",
+        port: "",
+        //   pathname: '/account123/**',
       },
+      {
+        hostname: "files.edgestore.dev",
+      },
+    ],
+  },
 };
-
 
 export default config;

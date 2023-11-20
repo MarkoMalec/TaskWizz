@@ -1,11 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { SingleImageDropzone } from "../ui/SingleImageDropzone";
-import { useEdgeStore } from "~/lib/edgestore";
 
 import UserFormInput from "~/components/forms/UserFormInput";
 
@@ -14,9 +12,7 @@ import { useMutatingFetch } from "~/lib/hooks/useMutatingFetch";
 import { toast } from "react-hot-toast";
 import { Button } from "~/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
-import {
-  Form,
-} from "~/components/ui/form";
+import { Form } from "~/components/ui/form";
 import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
@@ -38,10 +34,6 @@ const formSchema = z.object({
 });
 
 const EditUserForm = ({ userData }: any) => {
-  const [tempValue, setTempValue] = useState(null);
-  const [file, setFile] = useState<File>();
-  const [fileUrl, setFileUrl] = useState("");
-  const { edgestore } = useEdgeStore();
   const { isMutating, doFetch } = useMutatingFetch();
 
   if (!userData) {
@@ -70,7 +62,7 @@ const EditUserForm = ({ userData }: any) => {
       "/api/user/edit",
       {
         method: "PATCH",
-        body: JSON.stringify({ ...values, id: userData.id, fileUrl }),
+        body: JSON.stringify({ ...values, id: userData.id }),
         headers: {
           "Content-Type": "application/json",
         },
@@ -80,8 +72,6 @@ const EditUserForm = ({ userData }: any) => {
       },
     );
   };
-
-  console.log(userData);
 
   return (
     <Tabs defaultValue="account" className="w-full">
@@ -97,14 +87,6 @@ const EditUserForm = ({ userData }: any) => {
       <TabsContent value="account">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <SingleImageDropzone
-              width={200}
-              height={200}
-              value={file ? file : userData.image}
-              onChange={(file) => {
-                setFile(file);
-              }}
-            />
             <UserFormInput
               control={form.control}
               name="name"
@@ -126,25 +108,7 @@ const EditUserForm = ({ userData }: any) => {
               label="Password"
               placeholder="Password"
             />
-            <Button
-              type="submit"
-              onClick={async () => {
-                if (file) {
-                  const res = await edgestore.publicFiles.upload({
-                    file,
-                    onProgressChange: (progress) => {
-                      // you can use this to show a progress bar
-                      console.log(progress);
-                    },
-                  });
-                  // you can run some server action or api here
-                  // to add the necessary data to your database
-                  console.log(res);
-                  setFileUrl(res.url);
-                  console.log(fileUrl, 'file URL');
-                }
-              }}
-            >
+            <Button type="submit">
               {isMutating ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (

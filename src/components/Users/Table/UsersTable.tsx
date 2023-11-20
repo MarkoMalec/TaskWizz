@@ -61,9 +61,10 @@ const UsersTable = ({ users }: UserTableProps) => {
         <TableHeader>
           <TableRow>
             <TableHead></TableHead>
-            <TableHead className="w-[100px]">Role</TableHead>
+            <TableHead className="w-[80px]">Avatar</TableHead>
             <TableHead>Username</TableHead>
             <TableHead>E-mail Address</TableHead>
+            <TableHead className="w-[100px]">Role</TableHead>
             <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>

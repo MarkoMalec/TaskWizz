@@ -16,6 +16,7 @@ import { Button } from "../../ui/button";
 
 import { User } from "~/lib/types";
 import Link from "next/link";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 
 type UsersTableRowProps = {
   user: User;
@@ -50,9 +51,15 @@ const UsersTableRow = ({
           }
         />
       </TableCell>
-      <TableCell className="font-medium">{user.role}</TableCell>
+      <TableCell>
+        <Avatar>
+          <AvatarImage src={user.image ? user.image : undefined} />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
+      </TableCell>
       <TableCell>{user.name}</TableCell>
       <TableCell>{user.email}</TableCell>
+      <TableCell className="font-medium">{user.role}</TableCell>
       <TableCell className="text-right">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
