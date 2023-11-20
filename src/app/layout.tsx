@@ -30,7 +30,7 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <EdgeStoreProvider>
-            <main className="container">{children}</main>
+            {children}
           </EdgeStoreProvider>
           <Toaster />
         </ThemeProvider>

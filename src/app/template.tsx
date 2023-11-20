@@ -17,7 +17,7 @@ export default async function Template({
   return (
     <>
       <Header user={user} />
-      {children}
+      <main className="container">{children}</main>
     </>
   );
 }
