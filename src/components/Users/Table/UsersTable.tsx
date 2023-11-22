@@ -15,7 +15,8 @@ import { Loader2, Trash2 } from "lucide-react";
 import { Button } from "../../ui/button";
 import UsersTableRow from "./UsersTableRow";
 
-import { User } from "~/lib/types";
+// import { User } from "~/lib/types";
+import { User } from "@prisma/client";
 
 interface UserTableProps {
   users: User[];

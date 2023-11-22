@@ -4,7 +4,6 @@ import TasksTable from "~/components/Tasks/Table/TasksTable";
 import AddTaskDialog from "~/components/Tasks/AddTaskDialog";
 import { getServerSession } from "next-auth";
 import { authOptions } from "~/server/auth";
-import PaginationControls from "~/components/elements/PaginationControls";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 import { CalendarSearch } from "lucide-react";
@@ -54,10 +53,17 @@ const TasksPage = async ({
       address: true,
       city: true,
     },
+    
   });
 
   const hasNextPage = page < totalPages;
   const hasPrevPage = page > 1;
+
+
+  if (!tasks) {
+    return <>Loading</>
+  }
+
 
   return (
     <>

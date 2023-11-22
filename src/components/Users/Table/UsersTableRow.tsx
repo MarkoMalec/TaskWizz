@@ -20,9 +20,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 
 type UsersTableRowProps = {
   user: User;
-  onCheck: (userId: string) => void;
-  onUncheck: (userId: string) => void;
-  isSelected: boolean;
+  onCheck: (userId: string | any) => void;
+  onUncheck: (userId: string | any) => void;
+  isSelected: any;
 };
 
 const UsersTableRow = ({
