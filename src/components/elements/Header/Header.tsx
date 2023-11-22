@@ -5,9 +5,14 @@ import UserHeader from "./UserHeader";
 import { ThemeSwitcher } from "../ThemeSwitcher/ThemeSwitcher";
 import Link from "next/link";
 import NavigationBar from "../NavigationBar";
+import { User } from "~/lib/types";
 
-const Header = ({ session }: any) => {
-  const userRole = session && session.user.role === "admin" ? true : false;
+type HeaderProps = {
+  user: User | null;
+};
+
+const Header = ({ user }: HeaderProps) => {
+  const userRole = user && user.role === "admin" ? true : false;
   return (
     <header className="relative sticky top-0 z-10 w-full border-b-2 backdrop-blur ">
       <div className="container flex items-center justify-between">
@@ -19,9 +24,9 @@ const Header = ({ session }: any) => {
         <NavigationBar admin={userRole} />
         <div className="flex w-fit gap-2">
           <UserHeader
-            username={session?.user.name}
-            avatar={session?.user.image}
-            role={session?.user.role}
+            username={user?.name}
+            avatar={user?.image}
+            role={user?.role}
           />
           <ThemeSwitcher />
         </div>

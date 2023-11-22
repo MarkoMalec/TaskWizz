@@ -14,11 +14,11 @@ type Profile = {
   };
 
 export type User = {
-    profile: Profile | null,
-    id: string,
+    profile?: Profile | null,
+    id: string | null,
     name: string | null,
     email: string | null,
     image: string | null,
-    role: string,
+    role: string | null,
     tasks?: object | null,
 }
