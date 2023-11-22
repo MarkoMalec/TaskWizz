@@ -11,6 +11,7 @@ import { Separator } from "../ui/separator";
 import { UserCog } from "lucide-react";
 import { buttonVariants } from "../ui/button";
 import EditUserForm from "../forms/EditUserForm";
+import ProfilePhoto from "./Profile/ProfilePhoto";
 
 const EditUserDialog = ({ user }: any) => {
   return (
@@ -22,14 +23,17 @@ const EditUserDialog = ({ user }: any) => {
         </div>
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader>
-          <DialogTitle className="text-center text-sm">Edit user:</DialogTitle>
-          <DialogTitle className="text-center text-3xl font-bold">
-            {user.name}
-          </DialogTitle>
-          <DialogDescription className="text-center">
-            This action has to be saved after changes.
-          </DialogDescription>
+        <DialogHeader className="flex-row gap-4">
+          <ProfilePhoto userId={user.id} photo={user.image} />
+          <div>
+            <DialogTitle className="text-center text-sm">Edit user</DialogTitle>
+            <DialogTitle className="text-center text-3xl font-bold">
+              {user.name}
+            </DialogTitle>
+            <DialogDescription className="text-center">
+              This action has to be saved after changes.
+            </DialogDescription>
+          </div>
         </DialogHeader>
         <Separator />
         <EditUserForm userData={user} />

@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
+import { Task } from "@prisma/client";
 import useSortableTasksTableData from "~/lib/hooks/useSortableTasksTableData";
 import { useMutatingFetch } from "~/lib/hooks/useMutatingFetch";
 import TasksTableRow from "./TasksTableRow";
 import { toast } from "react-hot-toast";
+import PaginationControls from "~/components/elements/PaginationControls";
 import { Button } from "~/components/ui/button";
 import {
   Table,
@@ -16,30 +18,27 @@ import {
 } from "~/components/ui/table";
 import { Loader2, Trash2, ArrowUpDown } from "lucide-react";
 
-type Task = {
-  id: string;
-  // taskNumber: number,
-  name: string | null;
-  priority: string | "High" | "Normal" | "Low" | null;
-  deadline: Date | undefined | null;
-  address: string | null;
-  city: string | null;
-  // costAmount?: string,
-};
+// exclude values from TS since we are not using them in table
+type PartialTask = Omit<Task, 'createdById' | 'dateCreated' | 'description'>;
 
 type TaskTableProps = {
-  tasks: Task[];
+  tasks: PartialTask[];
   admin?: true | false;
   totalTasks: number;
+  hasPrevPage: boolean;
+  hasNextPage: boolean;
 };
 
-const TasksTable = ({ admin, tasks, totalTasks }: TaskTableProps) => {
+const TasksTable = ({
+  admin,
+  tasks,
+  totalTasks,
+  hasPrevPage,
+  hasNextPage,
+}: TaskTableProps) => {
   const { isMutating, doFetch } = useMutatingFetch();
   const [selectedTasks, setSelectedTasks] = useState<string[]>([]);
-  const {
-    items: sortedTasks,
-    requestSort,
-  } = useSortableTasksTableData(tasks);
+  const { items: sortedTasks, requestSort } = useSortableTasksTableData(tasks);
 
   const onCheck = (taskId: string) => {
     setSelectedTasks((prevSelectedTasks) => [...prevSelectedTasks, taskId]);
@@ -107,18 +106,25 @@ const TasksTable = ({ admin, tasks, totalTasks }: TaskTableProps) => {
           ))}
         </TableBody>
       </Table>
-      {selectedTasks.length && admin ? (
-        <Button disabled={isMutating && true} asChild>
-          <button onClick={() => bulkTasksDelete(selectedTasks)}>
-            {isMutating ? (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            ) : (
-              <Trash2 className="mr-2 w-4" />
-            )}
-            Delete selected tasks
-          </button>
-        </Button>
-      ) : null}
+      <PaginationControls
+        hasNextPage={hasNextPage}
+        hasPrevPage={hasPrevPage}
+        totalTasks={totalTasks}
+      />
+      <div className="mt-6 flex justify-end">
+        {selectedTasks.length && admin ? (
+          <Button disabled={isMutating && true} asChild>
+            <button onClick={() => bulkTasksDelete(selectedTasks)}>
+              {isMutating ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Trash2 className="mr-2 w-4" />
+              )}
+              Delete selected tasks
+            </button>
+          </Button>
+        ) : null}
+      </div>
     </>
   );
 };

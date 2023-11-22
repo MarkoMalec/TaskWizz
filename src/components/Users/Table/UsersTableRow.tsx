@@ -41,7 +41,7 @@ const UsersTableRow = ({
   };
 
   return (
-    <TableRow key={user.id} className={`${isSelected ? "bg-muted/50" : null}`}>
+    <TableRow key={user.id} className={`${isSelected ? "bg-muted/90" : null}`}>
       <TableCell onClick={simulateCheckboxClick}>
         <Checkbox
           ref={checkboxRef}

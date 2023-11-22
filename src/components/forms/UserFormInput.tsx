@@ -19,6 +19,7 @@ type UserFormInputProps = {
 };
 
 const UserFormInput: React.FC<UserFormInputProps> = ({ control, name, type, label, placeholder }) => {
+  console.log(control._formValues)
   return (
     <FormField control={control} name={name} render={({ field }) => (
       <FormItem className={type === 'switch' ? 'flex items-center gap-5' : ''}>

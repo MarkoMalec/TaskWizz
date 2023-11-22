@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { Task } from "@prisma/client";
 import { useMutatingFetch } from "~/lib/hooks/useMutatingFetch";
 import toast from "react-hot-toast";
 import Link from "next/link";
@@ -29,7 +30,7 @@ import {
   EditableInputField,
 } from "./EditTaskFields/EditableFields";
 
-const Task = ({ task }: any) => {
+const Task = ({ task }: { task: Task | any }) => {
   const { isMutating, doFetch } = useMutatingFetch();
   const [mutatingFieldName, setMutatingFieldName] = useState(""); // identifier for mutating fields
   const { priorityStyle } = usePriorityStyle(task.priority);

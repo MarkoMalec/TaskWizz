@@ -28,39 +28,6 @@ const ProfilePhoto = ({ userId, photo }: ProfilePhotoProps) => {
   const { edgestore } = useEdgeStore();
   const { doFetch } = useMutatingFetch();
 
-  //   const handleImageUpload = async () => {
-  //     if (file) {
-  //       const replaceTargetUrl = photo ? photo : null;
-  //       const res = await edgestore.publicFiles.upload({
-  //         file,
-  //         options: replaceTargetUrl ? { replaceTargetUrl } : {},
-  //         onProgressChange: (progress) => {
-  //           // you can use this to show a progress bar
-  //           console.log(progress);
-  //         },
-  //       });
-  //       setFileUrl(res.url);
-  //       return res.url;
-  //     }
-  //   };
-
-  //   const onSubmit = async () => {
-  //     const uploadedImageUrl = (await handleImageUpload()) || fileUrl;
-  //     doFetch(
-  //       "/api/user/edit",
-  //       {
-  //         method: "PATCH",
-  //         body: JSON.stringify({ id: userId, fileUrl: uploadedImageUrl }),
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       },
-  //       () => {
-  //         toast.success(`Profile photo successfully edited`);
-  //       },
-  //     );
-  //   };
-
   return (
     <Dialog>
       <DialogTrigger>
@@ -90,7 +57,6 @@ const ProfilePhoto = ({ userId, photo }: ProfilePhotoProps) => {
         <Button
           onClick={async () => {
             try {
-              // Perform the file upload
               let uploadedImageUrl = fileUrl;
               if (file) {
                 const replaceTargetUrl = photo ? photo : null;
@@ -98,13 +64,12 @@ const ProfilePhoto = ({ userId, photo }: ProfilePhotoProps) => {
                   file,
                   options: replaceTargetUrl ? { replaceTargetUrl } : {},
                   onProgressChange: (progress) => {
-                    setProgress(progress); // For progress indication
+                    setProgress(progress);
                   },
                 });
-                uploadedImageUrl = res.url; // Update the URL with the new uploaded image
+                uploadedImageUrl = res.url;
               }
 
-              // Update the user profile with the new image URL
               if (uploadedImageUrl) {
                 await doFetch(
                   "/api/user/edit",
@@ -131,7 +96,7 @@ const ProfilePhoto = ({ userId, photo }: ProfilePhotoProps) => {
         >
           Save
         </Button>
-        {(progress > 0 && progress < 100) ? <Progress value={progress} /> : null}
+        {progress > 0 && progress < 100 ? <Progress value={progress} /> : null}
       </DialogContent>
     </Dialog>
   );

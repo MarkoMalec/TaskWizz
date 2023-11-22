@@ -5,6 +5,9 @@ import AddTaskDialog from "~/components/Tasks/AddTaskDialog";
 import { getServerSession } from "next-auth";
 import { authOptions } from "~/server/auth";
 import PaginationControls from "~/components/elements/PaginationControls";
+import { Input } from "~/components/ui/input";
+import { Button } from "~/components/ui/button";
+import { CalendarSearch } from "lucide-react";
 
 export const metadata = {
   title: "Tasks",
@@ -13,23 +16,33 @@ export const metadata = {
 const TasksPage = async ({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: { [key: string]: string | string[] | undefined | any };
 }) => {
   const session = await getServerSession(authOptions);
   const defaultPageSize = 8;
+
+  const searchQuery = searchParams?.search || "";
+
+  // Update Prisma query to include search logic
+  const whereClause = searchQuery
+    ? {
+        OR: [{ name: { contains: searchQuery } }],
+      }
+    : {};
 
   const perPage = Math.min(
     Math.max(parseInt(searchParams?.per_page as string) || defaultPageSize, 1),
     100,
   );
 
-  const totalTasks = await prisma.task.count();
+  const totalTasks = await prisma.task.count({ where: whereClause });
   const totalPages = Math.ceil(totalTasks / perPage);
 
   let page = parseInt(searchParams?.page as string) || 1;
   page = Math.max(1, Math.min(page, totalPages));
 
   const tasks = await prisma.task.findMany({
+    where: whereClause,
     orderBy: { dateCreated: "desc" },
     skip: (page - 1) * perPage,
     take: perPage,
@@ -48,16 +61,26 @@ const TasksPage = async ({
 
   return (
     <>
-      <AddTaskDialog user={session?.user} />
+      <div className="flex items-center justify-between">
+        <form method="get" action="/admin/tasks" className="flex items-center">
+          <Input
+            type="text"
+            name="search"
+            placeholder="Search tasks..."
+            defaultValue={searchQuery}
+          />
+          <Button className="-ml-[58px]" type="submit">
+            <CalendarSearch />
+          </Button>
+        </form>
+        <AddTaskDialog user={session?.user} />
+      </div>
       <TasksTable
         admin={true}
         tasks={tasks}
         totalTasks={totalTasks}
-      />
-      <PaginationControls
         hasNextPage={hasNextPage}
         hasPrevPage={hasPrevPage}
-        totalTasks={totalTasks}
       />
     </>
   );

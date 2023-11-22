@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { Task } from "@prisma/client";
 import { usePathname } from "next/navigation";
 import format from "date-fns/format";
 import { usePriorityStyle } from "~/lib/hooks/usePriorityStyle";
@@ -47,10 +48,7 @@ const TasksTableRow = ({
   const formattedDeadlineDate = format(deadlineDate, "dd-MM-Y");
 
   return (
-    <TableRow
-      key={task.id}
-      className={`${isSelected ? "bg-muted" : null}`}
-    >
+    <TableRow key={task.id} className={`${isSelected ? "bg-muted" : null}`}>
       <TableCell onClick={simulateCheckboxClick}>
         <Checkbox
           ref={checkboxRef}
@@ -64,7 +62,9 @@ const TasksTableRow = ({
         <span className={`${priorityStyle}`} />
         {task.priority}
       </TableCell>
-      <TableCell>{task.name}</TableCell>
+      <TableCell>
+        <Link href={`/admin/tasks/${task.id}`}>{task.name}</Link>
+      </TableCell>
       <TableCell>{task.city}</TableCell>
       <TableCell>{formattedDeadlineDate}</TableCell>
       <TableCell className="text-right">

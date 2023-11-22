@@ -1,25 +1,37 @@
 "use client";
 
 import React from "react";
-import { User } from "~/lib/types";
+import { User, Task, TaskAssignment } from "@prisma/client";
 import EditUserForm from "~/components/forms/EditUserForm";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
 import TasksTable from "~/components/Tasks/Table/TasksTable";
 import ProfilePhoto from "./ProfilePhoto";
 
+// exclude values from TS since we are not using them in table
+type PartialTask = Omit<Task, 'createdById' | 'dateCreated' | 'description'>;
+
 type UserProfileProps = {
   user: User | null;
-  taskAssignments: any;
+  taskAssignments: PartialTask[];
+  page: number;
+  totalTasks: number;
+  hasPrevPage: boolean;
+  hasNextPage: boolean;
 };
 
-const UserProfile = ({ user, taskAssignments }: UserProfileProps) => {
+const UserProfile = ({
+  user,
+  taskAssignments,
+  totalTasks,
+  hasPrevPage,
+  hasNextPage,
+}: UserProfileProps) => {
   if (!user) {
     return <div>Loading</div>;
   }
@@ -28,7 +40,10 @@ const UserProfile = ({ user, taskAssignments }: UserProfileProps) => {
     <div className="mt-[100px] flex items-center justify-center">
       <Card className="m-auto w-full max-w-[860px]">
         <CardHeader className="flex flex-row items-center gap-4">
-          <ProfilePhoto userId={user.id} photo={user.image ? user.image : undefined} />
+          <ProfilePhoto
+            userId={user.id}
+            photo={user.image ? user.image : undefined}
+          />
           <div>
             <CardTitle>{user.name}</CardTitle>
             <CardDescription>
@@ -45,8 +60,10 @@ const UserProfile = ({ user, taskAssignments }: UserProfileProps) => {
         </CardHeader>
         <CardContent>
           <TasksTable
-            totalTasks={taskAssignments.length}
+            totalTasks={totalTasks}
             tasks={taskAssignments}
+            hasPrevPage={hasPrevPage}
+            hasNextPage={hasNextPage}
           />
         </CardContent>
       </Card>

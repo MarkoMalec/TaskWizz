@@ -1,4 +1,4 @@
-export const usePriorityStyle = (priority: string) => {
+export const usePriorityStyle = (priority: string | null) => {
   const extra = "rounded-full inline-block w-3 h-3 mr-1 text-white";
   const priorityStyle =
     priority === "Normal"

@@ -6,7 +6,9 @@ import UserProfile from "~/components/Users/Profile/UserProfile";
 interface Props {
   params: {
     id: string;
+    page: string;
   };
+  searchParams: any;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -14,7 +16,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return { title: `${user?.name}` };
 }
 
-export default async function UserProfilePage({ params }: Props) {
+export default async function UserProfilePage({ params, searchParams }: Props) {
+  const defaultPageSize = 8;
+
+  const totalTasks = await prisma.taskAssignment.count({
+    where: { userId: params.id },
+  });
+
+  const perPage = Math.min(
+    Math.max(parseInt(searchParams?.per_page as string) || defaultPageSize, 1),
+    100,
+  );
+
   const user = await prisma.user.findUnique({
     where: { id: params.id },
     include: {
@@ -23,7 +36,13 @@ export default async function UserProfilePage({ params }: Props) {
     },
   });
 
-  console.log(user)
+  const totalAssignments = await prisma.taskAssignment.count({
+    where: { userId: params.id },
+  });
+  const totalPages = Math.ceil(totalAssignments / perPage);
+
+  let page = parseInt(searchParams?.page as string) || 1;
+  page = Math.max(1, Math.min(page, totalPages));
 
   const assignments = await prisma.taskAssignment.findMany({
     where: {
@@ -41,9 +60,23 @@ export default async function UserProfilePage({ params }: Props) {
         },
       },
     },
+    skip: (page - 1) * perPage,
+    take: perPage,
   });
 
   const taskAssignments = assignments.map((assignment) => assignment.task);
 
-  return <UserProfile user={user} taskAssignments={taskAssignments} />;
+  const hasNextPage = page < totalPages;
+  const hasPrevPage = page > 1;
+
+  return (
+    <UserProfile
+      user={user}
+      taskAssignments={taskAssignments}
+      page={page}
+      totalTasks={totalTasks}
+      hasPrevPage={hasPrevPage}
+      hasNextPage={hasNextPage}
+    />
+  );
 }
