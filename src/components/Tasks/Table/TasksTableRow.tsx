@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import { Task } from "@prisma/client";
 import { usePathname } from "next/navigation";
 import format from "date-fns/format";
 import { usePriorityStyle } from "~/lib/hooks/usePriorityStyle";
