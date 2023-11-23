@@ -46,7 +46,7 @@ const loading = () => {
             <TableHead className="w-[89px]">
             </TableHead>
             <TableHead>
-              <Skeleton className="h-4 w-[150px]" />
+              <Skeleton className="h-4 w-[60px]" />
             </TableHead>
             <TableHead>
               <Skeleton className="h-4 w-[150px]" />
