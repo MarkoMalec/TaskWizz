@@ -9,10 +9,14 @@ import {
   TableCell,
 } from "~/components/ui/table";
 import { Skeleton } from "~/components/ui/skeleton";
+import { Checkbox } from "~/components/ui/checkbox";
 
 const SkeletonTableRow = () => {
   return (
     <TableRow>
+      <TableCell>
+        <Checkbox />
+      </TableCell>
       <TableCell>
         <Skeleton className="h-4 w-[150px]" />
       </TableCell>
@@ -39,6 +43,8 @@ const loading = () => {
       <Table>
         <TableHeader>
           <TableRow>
+            <TableHead>
+            </TableHead>
             <TableHead>
               <Skeleton className="h-4 w-[150px]" />
             </TableHead>
