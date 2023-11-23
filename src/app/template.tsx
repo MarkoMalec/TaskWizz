@@ -9,9 +9,12 @@ export default async function Template({
   children: React.ReactNode;
 }) {
   const session = await getServerSession(authOptions);
+  if (!session) {
+    return <>Loading...</>;
+  }
 
   const user = await prisma.user.findUnique({
-    where: { id: session?.user.id },
+    where: { id: session.user.id },
   });
 
   return (
