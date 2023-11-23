@@ -31,33 +31,35 @@ const SkeletonTableRow = () => {
 
 const loading = ({ searchParams }: { searchParams: { per_page: number } }) => {
   const tableRows = Array.from({
-    length: searchParams ? searchParams.per_page : 8,
+    length: 8,
   });
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>
-            <Skeleton className="h-4 w-[150px]" />
-          </TableHead>
-          <TableHead>
-            <Skeleton className="h-4 w-[150px]" />
-          </TableHead>
-          <TableHead>
-            <Skeleton className="h-4 w-[150px]" />
-          </TableHead>
-          <TableHead>
-            <Skeleton className="h-4 w-[150px]" />
-          </TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {tableRows.map((_, index) => (
-          <SkeletonTableRow key={index} />
-        ))}
-      </TableBody>
-    </Table>
+    <div className="mt-[100px]">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>
+              <Skeleton className="h-4 w-[150px]" />
+            </TableHead>
+            <TableHead>
+              <Skeleton className="h-4 w-[150px]" />
+            </TableHead>
+            <TableHead>
+              <Skeleton className="h-4 w-[150px]" />
+            </TableHead>
+            <TableHead>
+              <Skeleton className="h-4 w-[150px]" />
+            </TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {tableRows.map((_, index) => (
+            <SkeletonTableRow key={index} />
+          ))}
+        </TableBody>
+      </Table>
+    </div>
   );
 };
 
