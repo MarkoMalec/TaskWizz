@@ -26,7 +26,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`min-h-screen font-sans ${inter.variable} container`}>
+      <body className={`min-h-screen font-sans ${inter.variable}`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
