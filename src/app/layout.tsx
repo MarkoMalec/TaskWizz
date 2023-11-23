@@ -1,6 +1,8 @@
 import "~/styles/globals.css";
 import { Inter } from "next/font/google";
-import { EdgeStoreProvider } from "../lib/edgestore";
+import Header from "~/components/elements/Header/Header";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "~/server/auth";
 import { ThemeProvider } from "~/components/theme-provider";
 import { Toaster } from "react-hot-toast";
 
@@ -20,6 +22,8 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getServerSession(authOptions);
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`min-h-screen font-sans ${inter.variable}`}>
@@ -29,9 +33,8 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <EdgeStoreProvider>
-            {children}
-          </EdgeStoreProvider>
+          <Header session={session} />
+          {children}
           <Toaster />
         </ThemeProvider>
       </body>
