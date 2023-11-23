@@ -26,7 +26,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`min-h-screen font-sans ${inter.variable}`}>
+      <body className={`min-h-screen font-sans ${inter.variable} container`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -34,7 +34,7 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <Header session={session} />
-          {children}
+          <main className="container">{children}</main>
           <Toaster />
         </ThemeProvider>
       </body>
