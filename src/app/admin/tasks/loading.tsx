@@ -10,7 +10,30 @@ import {
 } from "~/components/ui/table";
 import { Skeleton } from "~/components/ui/skeleton";
 
-const loading = () => {
+const SkeletonTableRow = () => {
+  return (
+    <TableRow>
+      <TableCell>
+        <Skeleton className="h-4 w-[150px]" />
+      </TableCell>
+      <TableCell>
+        <Skeleton className="h-4 w-[150px]" />
+      </TableCell>
+      <TableCell>
+        <Skeleton className="h-4 w-[150px]" />
+      </TableCell>
+      <TableCell>
+        <Skeleton className="h-4 w-[150px]" />
+      </TableCell>
+    </TableRow>
+  );
+};
+
+const loading = ({ searchParams }: { searchParams: { per_page: number } }) => {
+  const tableRows = Array.from({
+    length: searchParams ? searchParams.per_page : 8,
+  });
+
   return (
     <Table>
       <TableHeader>
@@ -30,20 +53,9 @@ const loading = () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow>
-          <TableCell>
-            <Skeleton className="h-4 w-[150px]" />
-          </TableCell>
-          <TableCell>
-            <Skeleton className="h-4 w-[150px]" />
-          </TableCell>
-          <TableCell>
-            <Skeleton className="h-4 w-[150px]" />
-          </TableCell>
-          <TableCell>
-            <Skeleton className="h-4 w-[150px]" />
-          </TableCell>
-        </TableRow>
+        {tableRows.map((_, index) => (
+          <SkeletonTableRow key={index} />
+        ))}
       </TableBody>
     </Table>
   );
