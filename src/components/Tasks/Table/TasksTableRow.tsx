@@ -92,7 +92,7 @@ const TasksTableRow = ({
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link href={`/admin/tasks/${task.id}`}>View task</Link>
+              <Link prefetch={false} href={`/admin/tasks/${task.id}`}>View task</Link>
             </DropdownMenuItem>
             <div className="mt-3 flex flex-col justify-stretch gap-1">
               <DeleteTaskDialog taskId={task.id} />
