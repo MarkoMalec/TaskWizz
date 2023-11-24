@@ -49,6 +49,7 @@ const TasksPage = async ({
       id: true,
       name: true,
       priority: true,
+      status: true,
       deadline: true,
       address: true,
       city: true,
