@@ -23,6 +23,7 @@ import {
 
 import getInitials from "~/lib/getInitials";
 import { usePriorityStyle } from "~/lib/hooks/usePriorityStyle";
+import { useTaskStatusStyle } from "~/lib/hooks/useTaskStatusStyle";
 import { format, formatDistance, subDays } from "date-fns";
 import { CalendarDays, Clock } from "lucide-react";
 import {
@@ -35,6 +36,7 @@ const Task = ({ task }: { task: Task | any }) => {
   const { isMutating, doFetch } = useMutatingFetch();
   const [mutatingFieldName, setMutatingFieldName] = useState(""); // identifier for mutating fields
   const { priorityStyle } = usePriorityStyle(task.priority);
+  const { taskStatusStyle } = useTaskStatusStyle(task.status);
   const [theTask, setTheTask] = useState(task);
 
   const dateCreated = new Date(task.dateCreated);
@@ -93,7 +95,7 @@ const Task = ({ task }: { task: Task | any }) => {
             <span className={priorityStyle} />
             {task.priority}
             {" "}
-            {task.status}
+            <span className={taskStatusStyle}>{task.status}</span>
           </CardDescription>
         </CardHeader>
         <CardContent>

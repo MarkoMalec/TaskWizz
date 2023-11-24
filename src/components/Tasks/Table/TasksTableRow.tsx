@@ -106,7 +106,7 @@ const TasksTableRow = ({
               </Link>
             </DropdownMenuItem>
             <div className="mt-3 flex flex-col justify-stretch gap-1">
-              {admin ? null : <TaskStatusChange taskId={task.id} status={task.status} />}
+              <TaskStatusChange admin={admin} taskId={task.id} status={task.status} />
               {admin ? <DeleteTaskDialog taskId={task.id} /> : null}
             </div>
           </DropdownMenuContent>

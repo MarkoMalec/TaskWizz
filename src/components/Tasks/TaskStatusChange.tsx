@@ -11,15 +11,25 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "~/components/ui/alert-dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
+
 import { Button } from "../ui/button";
+import { Loader2 } from "lucide-react";
 import { toast } from "react-hot-toast";
 
 type TaskStatusChangeProps = {
+  admin?: boolean;
   taskId: string;
   status: "Pending" | "In progress" | "Finished";
 };
 
-const TaskStatusChange = ({ taskId, status }: TaskStatusChangeProps) => {
+const TaskStatusChange = ({ admin, taskId, status }: TaskStatusChangeProps) => {
   const { isMutating, doFetch } = useMutatingFetch();
 
   const updateStatusOnServer = async (status: any) => {
@@ -33,11 +43,36 @@ const TaskStatusChange = ({ taskId, status }: TaskStatusChangeProps) => {
         },
       },
       () => {
-        toast.success(status === "In progress" ? "Task started. Good luck!" : "Task finished. Great work!");
-        console.log(status, "status update");
+        toast.success(
+          status === "In progress"
+            ? "Task started. Good luck!"
+            : "Task finished. Great work!",
+        );
       },
     );
   };
+
+  if (admin) {
+    return (
+      <Select onValueChange={(value) => updateStatusOnServer(value)}>
+        {isMutating ? (
+          <div className="my-2 flex w-full justify-center">
+            <Loader2 className="mr-2 h-6 w-6 animate-spin" />
+          </div>
+        ) : (
+          <SelectTrigger>
+            <SelectValue placeholder="Status" />
+          </SelectTrigger>
+        )}
+
+        <SelectContent>
+          <SelectItem value="Pending">Pending</SelectItem>
+          <SelectItem value="In progress">In progress</SelectItem>
+          <SelectItem value="Finished">Finished</SelectItem>
+        </SelectContent>
+      </Select>
+    );
+  }
 
   return (
     <AlertDialog>
