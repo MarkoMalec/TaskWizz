@@ -44,6 +44,7 @@ const TasksPage = async ({ searchParams }: any) => {
           id: true,
           name: true,
           priority: true,
+          status: true,
           deadline: true,
           address: true,
           city: true,

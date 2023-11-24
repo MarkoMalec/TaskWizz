@@ -91,6 +91,7 @@ const TasksTable = ({
             <TableHead onClick={() => requestSort("deadline")}>
               Deadline <ArrowUpDown className="inline w-3" />
             </TableHead>
+            <TableHead>Status</TableHead>
             <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -98,6 +99,7 @@ const TasksTable = ({
           {sortedTasks.map((task) => (
             <TasksTableRow
               key={task.id}
+              admin={admin}
               task={task}
               onCheck={onCheck}
               onUncheck={onUncheck}

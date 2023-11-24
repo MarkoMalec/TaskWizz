@@ -29,6 +29,7 @@ import {
   EditableDatepickerField,
   EditableInputField,
 } from "./EditTaskFields/EditableFields";
+import TaskStatusChange from "./TaskStatusChange";
 
 const Task = ({ task }: { task: Task | any }) => {
   const { isMutating, doFetch } = useMutatingFetch();
@@ -85,15 +86,18 @@ const Task = ({ task }: { task: Task | any }) => {
         </div>
         <CardHeader className="pt-0">
           <CardTitle className="antialised mb-2 pt-0 text-5xl font-extrabold tracking-tight">
-            {task?.name}
+            {task.name}
           </CardTitle>
           <CardDescription>
             {" "}
             <span className={priorityStyle} />
             {task.priority}
+            {" "}
+            {task.status}
           </CardDescription>
         </CardHeader>
         <CardContent>
+          {/* <TaskStatusChange status={task.status} /> */}
           <h3 className="text-md font-bold">Description</h3>
           <EditableInputField
             initialValue={theTask.description}

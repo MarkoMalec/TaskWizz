@@ -98,6 +98,7 @@ model Task {
     createdBy   User             @relation(fields: [createdById], references: [id])
     createdById String
     dateCreated DateTime?        @default(now())
+    status      String           @default("Pending")
     name        String?          @default("Task name")
     priority    String?          @default("Normal")
     deadline    DateTime?

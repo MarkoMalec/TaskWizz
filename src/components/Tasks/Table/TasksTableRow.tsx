@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { usePathname } from "next/navigation";
 import format from "date-fns/format";
 import { usePriorityStyle } from "~/lib/hooks/usePriorityStyle";
+import { useTaskStatusStyle } from "~/lib/hooks/useTaskStatusStyle";
 import { TableCell, TableRow } from "~/components/ui/table";
 import { toast } from "react-hot-toast";
 import {
@@ -18,8 +19,10 @@ import { Button } from "../../ui/button";
 
 import Link from "next/link";
 import DeleteTaskDialog from "../DeleteTaskDialog";
+import TaskStatusChange from "../TaskStatusChange";
 
 type UsersTableRowProps = {
+  admin?: boolean;
   task: any;
   onCheck: (taskId: string) => void;
   onUncheck: (taskId: string) => void;
@@ -27,14 +30,17 @@ type UsersTableRowProps = {
 };
 
 const TasksTableRow = ({
+  admin,
   task,
   onCheck,
   onUncheck,
   isSelected,
 }: UsersTableRowProps) => {
+  console.log(task);
   const checkboxRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
   const { priorityStyle } = usePriorityStyle(task.priority);
+  const { taskStatusStyle } = useTaskStatusStyle(task.status);
 
   const simulateCheckboxClick = () => {
     const checkbox = checkboxRef.current;
@@ -66,6 +72,9 @@ const TasksTableRow = ({
       </TableCell>
       <TableCell>{task.city}</TableCell>
       <TableCell>{formattedDeadlineDate}</TableCell>
+      <TableCell>
+        <span className={taskStatusStyle}>{task.status}</span>
+      </TableCell>
       <TableCell className="text-right">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -92,10 +101,13 @@ const TasksTableRow = ({
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link prefetch={false} href={`/admin/tasks/${task.id}`}>View task</Link>
+              <Link prefetch={false} href={`/admin/tasks/${task.id}`}>
+                View task
+              </Link>
             </DropdownMenuItem>
             <div className="mt-3 flex flex-col justify-stretch gap-1">
-              <DeleteTaskDialog taskId={task.id} />
+              {admin ? null : <TaskStatusChange taskId={task.id} status={task.status} />}
+              {admin ? <DeleteTaskDialog taskId={task.id} /> : null}
             </div>
           </DropdownMenuContent>
         </DropdownMenu>
