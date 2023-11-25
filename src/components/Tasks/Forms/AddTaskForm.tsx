@@ -54,6 +54,7 @@ const AddTaskForm = ({ user }: any) => {
   const { isMutating, doFetch } = useMutatingFetch(reset);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    doFetch("/api/task/email", {method: "POST", headers: { "Content-Type": "application/json" }});
     const userId = user.id;
     const extendedValues = {
       ...values,
