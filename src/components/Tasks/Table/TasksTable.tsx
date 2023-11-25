@@ -19,7 +19,7 @@ import {
 import { Loader2, Trash2, ArrowUpDown } from "lucide-react";
 
 // exclude values from TS since we are not using them in table
-type PartialTask = Omit<Task, 'createdById' | 'dateCreated' | 'description'>;
+type PartialTask = Omit<Task, "createdById" | "dateCreated" | "description">;
 
 type TaskTableProps = {
   tasks: PartialTask[];
@@ -71,7 +71,7 @@ const TasksTable = ({
 
   return (
     <>
-      <Table>
+      <Table className="text-[11px] sm:text-[14px]">
         <TableCaption>
           Showing {tasks.length} of {totalTasks} tasks.
         </TableCaption>

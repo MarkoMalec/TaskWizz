@@ -26,6 +26,9 @@ const formSchema = z.object({
   address: z.string().min(5, {
     message: "Invalid address.",
   }),
+  postcode: z.string().regex(/^\d{4}[A-Za-z]{2}$/, {
+    message: "Please enter a valid post code (e.g., 1234AB)",
+  }),
   city: z.string().min(1, {
     message: "City must be filled in.",
   }),
@@ -41,6 +44,7 @@ const AddTaskForm = ({ user }: any) => {
       description: "",
       deadline: new Date(),
       address: "",
+      postcode: "",
       city: "",
       assignedTo: [],
     },
@@ -55,7 +59,7 @@ const AddTaskForm = ({ user }: any) => {
       ...values,
       createdById: userId,
     };
-    console.log(values)
+    console.log(values);
     doFetch(
       "/api/task/create",
       {
@@ -104,25 +108,32 @@ const AddTaskForm = ({ user }: any) => {
           <DatePicker control={form.control} label="Deadline" name="deadline" />
           <Separator />
           <h3 className="text-xl font-extrabold">Location</h3>
-          <div className="flex gap-3">
+          <div className="flex max-w-[400px] gap-3">
             <TaskFormInput
               control={form.control}
               name="address"
               label="Address"
               type="text"
               placeholder="Streetname + House nr."
-              className="flex-1"
+              className="mb-2 flex-1"
             />
             <TaskFormInput
               control={form.control}
-              name="city"
-              label="City"
+              name="postcode"
+              label="Post code"
               type="text"
-              placeholder="City"
-              className="flex-1"
+              placeholder="1234AB"
+              className="max-w-[90px] flex-1"
             />
           </div>
-
+          <TaskFormInput
+            control={form.control}
+            name="city"
+            label="City"
+            type="text"
+            placeholder="City"
+            className="max-w-[400px] flex-1"
+          />
           <SelectUsers
             name="assignedTo"
             control={form.control}

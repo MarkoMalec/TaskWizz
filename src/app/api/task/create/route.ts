@@ -11,6 +11,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       description,
       deadline,
       address,
+      postcode,
       city,
       assignedTo,
     } = await req.json();
@@ -24,6 +25,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         description: description,
         deadline: deadline,
         address: address,
+        postcode: postcode,
         city: city,
         assignedTo: {
           createMany: {

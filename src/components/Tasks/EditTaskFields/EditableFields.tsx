@@ -81,11 +81,11 @@ export const EditableInputField = ({
   }
 
   return (
-    <div className="group flex gap-2">
+    <div className="group mb-2 flex max-w-[400px] justify-between gap-2 rounded-md bg-primary/5 px-2 py-1">
       {isMutating ? (
-        <Skeleton className="h-[25px] w-[100%] max-w-[300px] rounded-full" />
+        <Skeleton className="h-[30px] w-[100%] max-w-[400px] rounded-full" />
       ) : (
-        value
+        <div className="max-w-[92%]">{value}</div>
       )}
       <button className="ml-2 hidden group-hover:block" onClick={handleEdit}>
         <PenSquare className="w-4 hover:stroke-cyan-500" />
@@ -104,9 +104,6 @@ export const EditableDatepickerField = ({
 }: any) => {
   const [value, setValue] = useState(initialValue);
 
-  console.log(initialValue, "initial date value");
-  console.log(value, 'state value')
-
   const handleOnDateChange = (selectedDate: any) => {
     const newValue = new Date(selectedDate);
     const formattedDate = format(newValue, "dd.MM.yyyy");
@@ -116,7 +113,9 @@ export const EditableDatepickerField = ({
 
   return (
     <Popover>
-      <PopoverTrigger>{value}</PopoverTrigger>
+      <PopoverTrigger className="rounded-md bg-primary/5 px-2 py-1">
+        {value}
+      </PopoverTrigger>
       <PopoverContent>
         <Calendar
           mode="single"

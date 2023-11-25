@@ -31,6 +31,7 @@ import {
   EditableInputField,
 } from "./EditTaskFields/EditableFields";
 import TaskStatusChange from "./TaskStatusChange";
+import { Separator } from "../ui/separator";
 
 const Task = ({ task }: { task: Task | any }) => {
   const { isMutating, doFetch } = useMutatingFetch();
@@ -93,21 +94,11 @@ const Task = ({ task }: { task: Task | any }) => {
           <CardDescription>
             {" "}
             <span className={priorityStyle} />
-            {task.priority}
-            {" "}
+            {task.priority}{" "}
             <span className={taskStatusStyle}>{task.status}</span>
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {/* <TaskStatusChange status={task.status} /> */}
-          <h3 className="text-md font-bold">Description</h3>
-          <EditableInputField
-            initialValue={theTask.description}
-            name="description"
-            onSave={handleSave}
-            isMutating={isMutating && mutatingFieldName === "description"}
-            type="textarea"
-          />
           <h3 className="text-md font-bold">Deadline</h3>
           <EditableDatepickerField
             initialValue={formattedDeadlineDate}
@@ -117,7 +108,36 @@ const Task = ({ task }: { task: Task | any }) => {
             isMutating={isMutating && mutatingFieldName === "deadline"}
             type="datepicker"
           />
-          {/* {formattedDeadlineDate} */}
+          <h3 className="text-md font-bold">Address</h3>
+          <EditableInputField
+            initialValue={theTask.address}
+            name="address"
+            onSave={handleSave}
+            isMutating={isMutating && mutatingFieldName === "address"}
+            type="text"
+          />
+          <EditableInputField
+            initialValue={theTask.postcode}
+            name="postcode"
+            onSave={handleSave}
+            isMutating={isMutating && mutatingFieldName === "postcode"}
+            type="text"
+          />
+          <EditableInputField
+            initialValue={theTask.city}
+            name="city"
+            onSave={handleSave}
+            isMutating={isMutating && mutatingFieldName === "city"}
+            type="text"
+          />
+          <h3 className="text-md font-bold">Description</h3>
+          <EditableInputField
+            initialValue={theTask.description}
+            name="description"
+            onSave={handleSave}
+            isMutating={isMutating && mutatingFieldName === "description"}
+            type="textarea"
+          />
         </CardContent>
       </Card>
       <Card className="flex-none">
@@ -141,7 +161,7 @@ const Task = ({ task }: { task: Task | any }) => {
                         className={`-ml-3 block z-${index++}`}
                         href={`/admin/users/${task.user.id}`}
                       >
-                        <Avatar className="h-[52px] w-[52px] border-2 border-black">
+                        <Avatar className="h-[52px] w-[52px] border-[3px] border-secondary">
                           <AvatarImage src={task.user.image} />
                           <AvatarFallback>{initials}</AvatarFallback>
                         </Avatar>
