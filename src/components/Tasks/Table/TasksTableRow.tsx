@@ -36,7 +36,6 @@ const TasksTableRow = ({
   onUncheck,
   isSelected,
 }: UsersTableRowProps) => {
-  console.log(task.status);
   const checkboxRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
   const { priorityStyle } = usePriorityStyle(task.priority);
@@ -106,7 +105,11 @@ const TasksTableRow = ({
               </Link>
             </DropdownMenuItem>
             <div className="mt-3 flex flex-col justify-stretch gap-1">
-              <TaskStatusChange admin={admin} taskId={task.id} status={task.status} />
+              <TaskStatusChange
+                admin={admin}
+                taskId={task.id}
+                status={task.status}
+              />
               {admin ? <DeleteTaskDialog taskId={task.id} /> : null}
             </div>
           </DropdownMenuContent>

@@ -1,12 +1,15 @@
 import { prisma, handlePrismaError } from "~/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
+import NewTaskEmailTemplate from "~/email/templates/NewTaskEmailTemplate";
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     const {
-      //   createdBy,
       createdById,
-      name, 
+      name,
       priority,
       description,
       deadline,
@@ -18,7 +21,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     const newTask = await prisma.task.create({
       data: {
-        // createdBy: createdBy,
         createdById: createdById,
         name: name,
         priority: priority,
@@ -35,9 +37,33 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       },
     });
 
+    const mailTo = await prisma.user.findMany({
+      where: {
+        id: {
+          in: assignedTo,
+        },
+      },
+      select: {
+        email: true,
+      },
+    });
+
+    const userEmails = mailTo.map((user) => user.email) as [];
+
+    const email = await resend.emails.send({
+      from: "TaskWizz <onboarding@resend.dev>",
+      to: userEmails,
+      subject: `TaskWizz - New assignment!`,
+      react: NewTaskEmailTemplate({ name, address, postcode, city, deadline }),
+    });
+
     return NextResponse.json({
       status: 200,
-      json: { user: newTask, message: "Task created successfully!" },
+      json: {
+        task: newTask,
+        email,
+        message: `Task created successfully! ${newTask}`,
+      },
     });
   } catch (error) {
     handlePrismaError(error);
