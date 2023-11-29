@@ -19,7 +19,7 @@ import {
 import { Loader2, Trash2, ArrowUpDown } from "lucide-react";
 
 // exclude values from TS since we are not using them in table
-type PartialTask = Omit<Task, "createdById" | "dateCreated" | "description">;
+type PartialTask = Omit<Task, "createdById" | "dateCreated" | "description" | "postcode" >;
 
 type TaskTableProps = {
   tasks: PartialTask[];

@@ -51,7 +51,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     const userEmails = mailTo.map((user) => user.email) as [];
 
     const email = await resend.emails.send({
-      from: "TaskWizz <onboarding@resend.dev>",
+      from: "TaskWizz <taskwizz@markomalec.com>",
       to: userEmails,
       subject: `TaskWizz - New assignment!`,
       react: NewTaskEmailTemplate({ name, address, postcode, city, deadline }),
