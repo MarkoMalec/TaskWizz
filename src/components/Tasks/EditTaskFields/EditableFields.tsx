@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import format from "date-fns/format";
 import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
 import { Skeleton } from "~/components/ui/skeleton";
-import { PenSquare } from "lucide-react";
 import { Calendar } from "~/components/ui/calendar";
 import { Popover, PopoverContent } from "~/components/ui/popover";
 import { PopoverTrigger } from "@radix-ui/react-popover";
+import { PenSquare } from "lucide-react";
 
 export const EditableInputField = ({
   initialValue,
@@ -20,8 +20,17 @@ export const EditableInputField = ({
 }: any) => {
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(initialValue);
+  const inputRef = useRef<any>(null);
 
-  const handleEdit = () => setIsEditing(true);
+  useEffect(() => {
+    if (isEditing && inputRef.current) {
+      (inputRef.current as HTMLInputElement | HTMLTextAreaElement).focus(); // Auto-focus the input when editing
+    }
+  }, [isEditing]);
+
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
 
   const handleSave = () => {
     if (value === initialValue) {
@@ -51,6 +60,7 @@ export const EditableInputField = ({
           </div>
         ) : type === "textarea" ? (
           <Textarea
+            ref={inputRef}
             value={value}
             onBlur={handleSave}
             onChange={(e) => setValue(e.target.value)}
@@ -64,10 +74,11 @@ export const EditableInputField = ({
           />
         ) : (
           <Input
+            ref={inputRef}
             value={value}
             onBlur={handleSave}
             onChange={(e) => setValue(e.target.value)}
-            className="max-w-[300px]"
+            className="max-w-[400px]"
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 handleSave();
@@ -81,14 +92,17 @@ export const EditableInputField = ({
   }
 
   return (
-    <div className="group mb-2 flex max-w-[400px] justify-between gap-2 rounded-md bg-primary/5 px-2 py-1">
+    <div className="group flex items-start justify-between gap-2 rounded-md py-1 pr-2 hover:bg-primary/5">
       {isMutating ? (
         <Skeleton className="h-[30px] w-[100%] max-w-[400px] rounded-full" />
       ) : (
-        <div className="max-w-[92%]">{value}</div>
+        <div className="max-w-[92%] text-primary/70">{value}</div>
       )}
-      <button className="ml-2 hidden group-hover:block" onClick={handleEdit}>
-        <PenSquare className="w-4 hover:stroke-cyan-500" />
+      <button
+        className="ml-2 hidden rounded bg-primary px-1 hover:bg-primary/80 group-hover:block"
+        onClick={handleEdit}
+      >
+        <PenSquare className="w-4 stroke-secondary" />
       </button>
     </div>
   );
@@ -114,7 +128,7 @@ export const EditableDatepickerField = ({
   return (
     <Popover>
       <PopoverTrigger className="rounded-md bg-primary/5 px-2 py-1">
-        {value}
+        {isMutating ? <Skeleton className="h-[21px] w-[82px]" /> : value}
       </PopoverTrigger>
       <PopoverContent>
         <Calendar

@@ -102,7 +102,7 @@ model Task {
     name        String?          @default("Task name")
     priority    String?          @default("Normal")
     deadline    DateTime?
-    description String?
+    description String?          @db.Text
     address     String?
     postcode    String?
     city        String?

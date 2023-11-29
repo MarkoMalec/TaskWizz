@@ -43,11 +43,13 @@ const TaskStatusChange = ({ admin, taskId, status }: TaskStatusChangeProps) => {
         },
       },
       () => {
-        toast.success(
-          status === "In progress"
-            ? "Task started. Good luck!"
-            : "Task finished. Great work!",
-        );
+        !admin
+          ? toast.success(
+              status === "In progress"
+                ? "Task started. Good luck!"
+                : "Task finished. Great work!",
+            )
+          : toast.success("Task updated successfully.");
       },
     );
   };

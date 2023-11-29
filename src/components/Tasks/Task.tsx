@@ -99,45 +99,51 @@ const Task = ({ task }: { task: Task | any }) => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <h3 className="text-md font-bold">Deadline</h3>
-          <EditableDatepickerField
-            initialValue={formattedDeadlineDate}
-            nonFormatDate={theTask.deadline}
-            name="deadline"
-            onSave={handleSave}
-            isMutating={isMutating && mutatingFieldName === "deadline"}
-            type="datepicker"
-          />
-          <h3 className="text-md font-bold">Address</h3>
-          <EditableInputField
-            initialValue={theTask.address}
-            name="address"
-            onSave={handleSave}
-            isMutating={isMutating && mutatingFieldName === "address"}
-            type="text"
-          />
-          <EditableInputField
-            initialValue={theTask.postcode}
-            name="postcode"
-            onSave={handleSave}
-            isMutating={isMutating && mutatingFieldName === "postcode"}
-            type="text"
-          />
-          <EditableInputField
-            initialValue={theTask.city}
-            name="city"
-            onSave={handleSave}
-            isMutating={isMutating && mutatingFieldName === "city"}
-            type="text"
-          />
-          <h3 className="text-md font-bold">Description</h3>
-          <EditableInputField
-            initialValue={theTask.description}
-            name="description"
-            onSave={handleSave}
-            isMutating={isMutating && mutatingFieldName === "description"}
-            type="textarea"
-          />
+          <div className="my-2 border-b py-2">
+            <h3 className="text-md font-bold">Deadline</h3>
+            <EditableDatepickerField
+              initialValue={formattedDeadlineDate}
+              nonFormatDate={theTask.deadline}
+              name="deadline"
+              onSave={handleSave}
+              isMutating={isMutating && mutatingFieldName === "deadline"}
+              type="datepicker"
+            />
+          </div>
+          <div className="my-2 border-b py-2">
+            <h3 className="text-md font-bold">Address</h3>
+            <EditableInputField
+              initialValue={theTask.address}
+              name="address"
+              onSave={handleSave}
+              isMutating={isMutating && mutatingFieldName === "address"}
+              type="text"
+            />
+            <EditableInputField
+              initialValue={theTask.postcode}
+              name="postcode"
+              onSave={handleSave}
+              isMutating={isMutating && mutatingFieldName === "postcode"}
+              type="text"
+            />
+            <EditableInputField
+              initialValue={theTask.city}
+              name="city"
+              onSave={handleSave}
+              isMutating={isMutating && mutatingFieldName === "city"}
+              type="text"
+            />
+          </div>
+          <div className="my-2 border-b py-2">
+            <h3 className="text-md font-bold">Description</h3>
+            <EditableInputField
+              initialValue={theTask.description}
+              name="description"
+              onSave={handleSave}
+              isMutating={isMutating && mutatingFieldName === "description"}
+              type="textarea"
+            />
+          </div>
         </CardContent>
       </Card>
       <Card className="flex-none">
