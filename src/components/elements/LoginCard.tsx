@@ -25,7 +25,7 @@ const LoginCard = () => {
       </CardContent>
       <CardFooter>
         <span className="w-full text-center text-[.8em] opacity-[.5]">
-          Dont share your password with anyone.
+          Dont share your password with anyone!
         </span>
       </CardFooter>
     </Card>
