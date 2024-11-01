@@ -20,14 +20,13 @@ const formSchema = z.object({
     message: "Username must be at least 2 characters long.",
   }),
   email: z.string().min(2, {
-    message: "email not correct",
+    message: "This email is not valid",
   }),
   password: z.string().min(8, {
     message: "Password must contain at least 8 characters.",
   }),
   image: z.string().optional(),
   profile: z.object({
-    // function: z.string(),
     profession: z.string(),
     hasTransport: z.boolean(),
   }),
@@ -35,10 +34,6 @@ const formSchema = z.object({
 
 const EditUserForm = ({ userData }: any) => {
   const { isMutating, doFetch } = useMutatingFetch();
-
-  if (!userData) {
-    return <div>Loading</div>;
-  }
 
   const userProfile = userData.profile;
 
@@ -50,7 +45,6 @@ const EditUserForm = ({ userData }: any) => {
       password: userData.password,
       image: userData.image,
       profile: {
-        // function: userProfile.function,
         profession: userProfile.profession,
         hasTransport: userProfile.hasTransport,
       },
@@ -129,7 +123,6 @@ const EditUserForm = ({ userData }: any) => {
               label="Profession"
               placeholder="Profession"
             />
-
             <UserFormInput
               control={form.control}
               name="profile.hasTransport"

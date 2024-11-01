@@ -1,6 +1,8 @@
 import React from "react";
 import { prisma } from "~/lib/prisma";
-import TasksTable from "~/components/Tasks/Table/TasksTable";
+// import TasksTable from "~/components/Tasks/Table/TasksTable";
+import { columns } from "~/components/Tasks/Table/tasks-table-columns";
+import { TasksTable } from "~/components/Tasks/Table/tasks-table";
 import AddTaskDialog from "~/components/Tasks/AddTaskDialog";
 import { getServerSession } from "next-auth";
 import { authOptions } from "~/server/auth";
@@ -20,24 +22,26 @@ const TasksPage = async ({
   const session = await getServerSession(authOptions);
   const defaultPageSize = 8;
 
-  const searchQuery = searchParams?.search || "";
+  const searchQuery = searchParams.search || "";
+  const statusQuery = searchParams.status || "";
 
-  // Update Prisma query to include search logic
   const whereClause = searchQuery
     ? {
         OR: [{ name: { contains: searchQuery } }],
       }
     : {};
 
+    const whereCause = searchQuery || statusQuery ? { OR: [{ status: { contains: searchQuery || statusQuery } }] } : {}; // how can I make it so that it takes the status or priority
+
   const perPage = Math.min(
-    Math.max(parseInt(searchParams?.per_page as string) || defaultPageSize, 1),
+    Math.max(parseInt(searchParams.per_page as string) || defaultPageSize, 1),
     100,
   );
 
   const totalTasks = await prisma.task.count({ where: whereClause });
   const totalPages = Math.ceil(totalTasks / perPage);
 
-  let page = parseInt(searchParams?.page as string) || 1;
+  let page = parseInt(searchParams.page as string) || 1;
   page = Math.max(1, Math.min(page, totalPages));
 
   const tasks = await prisma.task.findMany({
@@ -54,17 +58,10 @@ const TasksPage = async ({
       address: true,
       city: true,
     },
-    
   });
 
   const hasNextPage = page < totalPages;
   const hasPrevPage = page > 1;
-
-
-  if (!tasks) {
-    return <>Loading</>
-  }
-
 
   return (
     <>
@@ -83,11 +80,14 @@ const TasksPage = async ({
         <AddTaskDialog user={session?.user} />
       </div>
       <TasksTable
-        admin={true}
-        tasks={tasks}
-        totalTasks={totalTasks}
+        data={tasks}
+        columns={columns}
         hasNextPage={hasNextPage}
         hasPrevPage={hasPrevPage}
+        totalPages={totalPages}
+        pageNumber={page}
+        perPage={perPage}
+        admin={true}
       />
     </>
   );

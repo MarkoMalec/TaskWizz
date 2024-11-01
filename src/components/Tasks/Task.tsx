@@ -30,8 +30,6 @@ import {
   EditableDatepickerField,
   EditableInputField,
 } from "./EditTaskFields/EditableFields";
-import TaskStatusChange from "./TaskStatusChange";
-import { Separator } from "../ui/separator";
 
 const Task = ({ task }: { task: Task | any }) => {
   const { isMutating, doFetch } = useMutatingFetch();

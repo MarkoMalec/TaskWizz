@@ -1,13 +1,12 @@
 import React from "react";
-import { signIn } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "~/server/auth";
-import Link from "next/link";
 import LoginCard from "~/components/elements/LoginCard";
 
 const SignInPage = async () => {
   const session = await getServerSession(authOptions);
+
   if (!session) {
     return (
       <main className="px-4 sm:container bg-background text-foreground flex flex-col items-center justify-center">

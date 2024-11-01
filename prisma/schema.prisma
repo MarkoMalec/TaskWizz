@@ -97,15 +97,15 @@ model Task {
     id          String           @id @default(cuid())
     createdBy   User             @relation(fields: [createdById], references: [id])
     createdById String
-    dateCreated DateTime?        @default(now())
+    dateCreated DateTime        @default(now())
     status      String           @default("Pending")
-    name        String?          @default("Task name")
-    priority    String?          @default("Normal")
-    deadline    DateTime?
-    description String?          @db.Text
-    address     String?
-    postcode    String?
-    city        String?
+    name        String          @default("Task name")
+    priority    String          @default("Normal")
+    deadline    DateTime
+    description String          @db.Text
+    address     String
+    postcode    String
+    city        String
     assignedTo  TaskAssignment[]
 
     @@index([createdById])

@@ -26,7 +26,7 @@ import { toast } from "react-hot-toast";
 type TaskStatusChangeProps = {
   admin?: boolean;
   taskId: string;
-  status: "Pending" | "In progress" | "Finished";
+  status: string;
 };
 
 const TaskStatusChange = ({ admin, taskId, status }: TaskStatusChangeProps) => {

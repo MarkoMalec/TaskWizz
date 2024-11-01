@@ -1,14 +1,10 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import React from "react";
+import React, { useState } from "react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
-
-import { useState } from "react";
-
-import { Button } from "~/components/ui/button";
 import {
   Form,
   FormControl,
@@ -18,6 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
+import { Button } from "~/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { Input } from "~/components/ui/input";
 
@@ -32,6 +29,7 @@ export default function CredentialLoginForm() {
     password: z.string().min(8, {
       message: "Password must contain at least 8 characters",
     }),
+    redirect: z.boolean().default(true),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({

@@ -53,10 +53,12 @@ export default async function UserProfilePage({ params, searchParams }: Props) {
         select: {
           id: true,
           name: true,
+          status: true,
           priority: true,
           deadline: true,
           address: true,
           city: true,
+          postcode: true,
         },
       },
     },
@@ -74,6 +76,9 @@ export default async function UserProfilePage({ params, searchParams }: Props) {
       user={user}
       taskAssignments={taskAssignments}
       page={page}
+      pageNumber={page}
+      perPage={perPage}
+      totalPages={totalPages}
       totalTasks={totalTasks}
       hasPrevPage={hasPrevPage}
       hasNextPage={hasNextPage}

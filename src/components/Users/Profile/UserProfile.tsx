@@ -1,7 +1,9 @@
 "use client";
 
 import React from "react";
-import { User, Task, TaskAssignment } from "@prisma/client";
+import { User, Task } from "@prisma/client";
+import { TasksTable } from "~/components/Tasks/Table/tasks-table";
+import { columns } from "~/components/Tasks/Table/tasks-table-columns";
 import EditUserForm from "~/components/forms/EditUserForm";
 import {
   Card,
@@ -10,25 +12,29 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
-import TasksTable from "~/components/Tasks/Table/TasksTable";
 import ProfilePhoto from "./ProfilePhoto";
 
 // exclude values from TS since we are not using them in table
-type PartialTask = Omit<Task, 'createdById' | 'dateCreated' | 'description'>;
+type PartialTask = Omit<Task, "createdById" | "dateCreated" | "description">;
 
 type UserProfileProps = {
   user: User | null;
   taskAssignments: PartialTask[];
   page: number;
   totalTasks: number;
+  totalPages: number;
   hasPrevPage: boolean;
   hasNextPage: boolean;
+  pageNumber: number;
+  perPage: number;
 };
 
 const UserProfile = ({
   user,
   taskAssignments,
-  totalTasks,
+  pageNumber,
+  perPage,
+  totalPages,
   hasPrevPage,
   hasNextPage,
 }: UserProfileProps) => {
@@ -60,10 +66,14 @@ const UserProfile = ({
         </CardHeader>
         <CardContent>
           <TasksTable
-            totalTasks={totalTasks}
-            tasks={taskAssignments}
+            columns={columns}
+            pageNumber={pageNumber}
+            perPage={perPage}
+            data={taskAssignments}
+            totalPages={totalPages}
             hasPrevPage={hasPrevPage}
             hasNextPage={hasNextPage}
+            admin={true}
           />
         </CardContent>
       </Card>
