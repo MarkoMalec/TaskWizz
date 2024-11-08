@@ -43,6 +43,7 @@ const TasksTableRow = ({
 
   const simulateCheckboxClick = () => {
     const checkbox = checkboxRef.current;
+    console.log(checkbox, "checkbox clicked");
     if (checkbox) {
       checkbox.click();
     }
@@ -52,8 +53,9 @@ const TasksTableRow = ({
   const formattedDeadlineDate = format(deadlineDate, "dd-MM-Y");
 
   return (
-    <TableRow key={task.id} className={`${isSelected ? "bg-muted" : null}`}>
-      <TableCell onClick={simulateCheckboxClick}>
+    <TableRow key={task.id} className={`${isSelected ? "bg-muted" : null}`} onClick={simulateCheckboxClick}>
+      <TableCell>
+        <div className="w-20 h-20" onClick={simulateCheckboxClick}>h</div>
         <Checkbox
           ref={checkboxRef}
           checked={isSelected}

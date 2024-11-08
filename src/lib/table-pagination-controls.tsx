@@ -32,20 +32,39 @@ const TablePaginationControls: FC<TablePaginationControlsProps> = ({
   const page = searchParams.get("page") ?? "1";
   const per_page = searchParams.get("per_page") ?? "8";
 
+  const getParametersAndValues = () => {
+    const params = new URLSearchParams(window.location.search);
+    const parameters: { [key: string]: string[] } = {};
+    params.forEach((value, key) => {
+      if (!parameters[key]) {
+        parameters[key] = [];
+      }
+      parameters[key].push(value);
+    });
+    return parameters;
+  };
+
+  const buildQueryString = (newParams: { [key: string]: string | number }) => {
+    const params = new URLSearchParams(window.location.search);
+    Object.entries(newParams).forEach(([key, value]) => {
+      params.set(key, value.toString());
+    });
+    return params.toString();
+  };
+
   const handlePerPageChange = (newPerPage: string) => {
-    router.push(`?page=${Number(page)}&per_page=${newPerPage}`);
+    const queryString = buildQueryString({ page, per_page: newPerPage });
+    router.push(`?${queryString}`);
   };
 
   const handlePrevClick = () => {
-    router.push(
-      `?page=${pageNumber - 1}${per_page && `&per_page=${per_page}`}`,
-    );
+    const queryString = buildQueryString({ page: pageNumber - 1, per_page });
+    router.push(`?${queryString}`);
   };
 
   const handleNextClick = () => {
-    router.push(
-      `?page=${pageNumber + 1}${per_page && `&per_page=${per_page}`}`,
-    );
+    const queryString = buildQueryString({ page: pageNumber + 1, per_page });
+    router.push(`?${queryString}`);
   };
 
   return (

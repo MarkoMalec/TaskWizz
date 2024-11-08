@@ -1,5 +1,7 @@
 "use client";
 
+import React from "react";
+
 import { ColumnDef } from "@tanstack/react-table";
 import { usePriorityStyle } from "~/lib/hooks/usePriorityStyle";
 import { useTaskStatusStyle } from "~/lib/hooks/useTaskStatusStyle";
@@ -48,6 +50,8 @@ export const columns: ColumnDef<Task>[] = [
     cell: ({ row }) => {
       const task = row.original;
 
+      console.log(row);
+
       return (
         <Checkbox
           checked={row.getIsSelected()}
@@ -72,10 +76,10 @@ export const columns: ColumnDef<Task>[] = [
       const priorityStyle = usePriorityStyle(priority);
 
       return (
-        <>
+        <div className="flex items-center gap-1 text-sm">
           <span className={priorityStyle.priorityStyle} />
           {priority}
-        </>
+        </div>
       );
     },
   },

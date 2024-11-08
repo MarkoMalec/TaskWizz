@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Task } from "@prisma/client";
+import { Task as TaskType } from "@prisma/client";
 import { useMutatingFetch } from "~/lib/hooks/useMutatingFetch";
 import toast from "react-hot-toast";
 import Link from "next/link";
@@ -31,7 +31,7 @@ import {
   EditableInputField,
 } from "./EditTaskFields/EditableFields";
 
-const Task = ({ task }: { task: Task | any }) => {
+const Task = ({ task }: { task: TaskType | any }) => {
   const { isMutating, doFetch } = useMutatingFetch();
   const [mutatingFieldName, setMutatingFieldName] = useState(""); // identifier for mutating fields
   const { priorityStyle } = usePriorityStyle(task.priority);
@@ -75,7 +75,7 @@ const Task = ({ task }: { task: Task | any }) => {
   return (
     <div className="flex gap-5">
       <Card className="flex-1">
-        <div className="flex items-center gap-3 p-5">
+        <div className="flex items-center gap-3 p-5 text-sm">
           <div className="flex items-center gap-1">
             <CalendarDays />
             <span>{formattedDate}</span>
@@ -86,7 +86,7 @@ const Task = ({ task }: { task: Task | any }) => {
           </div>
         </div>
         <CardHeader className="pt-0">
-          <CardTitle className="antialised mb-2 pt-0 text-5xl font-extrabold tracking-tight">
+          <CardTitle className="antialised mb-2 flex items-center gap-2 pt-0 text-5xl font-extrabold tracking-tight">
             {task.name}
           </CardTitle>
           <CardDescription>

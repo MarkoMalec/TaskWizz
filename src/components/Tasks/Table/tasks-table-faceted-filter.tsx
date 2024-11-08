@@ -1,7 +1,9 @@
 import * as React from "react";
+import { useState } from "react";
 import { CheckIcon, PlusCircle } from "lucide-react";
 import { Column } from "@tanstack/react-table";
 import { useMutatingFetch } from "~/lib/hooks/useMutatingFetch";
+import { useRouter } from "next/navigation";
 
 import { cn } from "~/lib/utils";
 import { Badge } from "~/components/ui/badge";
@@ -32,13 +34,43 @@ interface DataTableFacetedFilterProps<TData, TValue> {
   }[];
 }
 
+interface Parameters {
+  status?: string[];
+  priority?: string[];
+  [key: string]: string[] | undefined;
+}
+
 export function DataTableFacetedFilter<TData, TValue>({
   column,
   title,
   options,
 }: DataTableFacetedFilterProps<TData, TValue>) {
+  const [params, setParams] = useState<Parameters | null>(null);
+
+  const router = useRouter();
+
   const facets = column?.getFacetedUniqueValues();
   const selectedValues = new Set(column?.getFilterValue() as string[]);
+
+  const getParametersAndValues = () => {
+    const params = new URLSearchParams(window.location.search);
+    const parameters: { [key: string]: string[] } = {};
+    params.forEach((value, key) => {
+      if (!parameters[key]) {
+        parameters[key] = [];
+      }
+      parameters[key].push(value);
+    });
+    return parameters;
+  };
+
+  React.useEffect(() => {
+    const parameters = getParametersAndValues();
+
+    if (parameters.status) {
+      setParams(parameters);
+    }
+  }, [column]);
 
   return (
     <Popover>
@@ -88,7 +120,13 @@ export function DataTableFacetedFilter<TData, TValue>({
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
               {options.map((option) => {
-                const isSelected = selectedValues.has(option.value);
+                const isSelected = selectedValues.has(option.value)
+                  ? true
+                  : params?.status?.includes(option.value) ||
+                    params?.priority?.includes(option.value)
+                  ? true
+                  : false;
+
                 return (
                   <CommandItem
                     key={option.value}
@@ -99,6 +137,17 @@ export function DataTableFacetedFilter<TData, TValue>({
                         selectedValues.add(option.value);
                       }
                       const filterValues = Array.from(selectedValues);
+
+                      const searchParams = new URLSearchParams(
+                        window.location.search,
+                      );
+                      searchParams.delete(title?.toLowerCase() || "");
+                      filterValues.forEach((value) => {
+                        searchParams.append(title?.toLowerCase() || "", value);
+                      });
+
+                      router.push(`?${searchParams.toString()}`);
+
                       column?.setFilterValue(
                         filterValues.length ? filterValues : undefined,
                       );

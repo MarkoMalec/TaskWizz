@@ -23,15 +23,16 @@ const TasksPage = async ({
   const defaultPageSize = 8;
 
   const searchQuery = searchParams.search || "";
-  const statusQuery = searchParams.status || "";
+  const statusQuery = Array.isArray(searchParams.status) ? searchParams.status : [searchParams.status].filter(Boolean);
+  const priorityQuery = Array.isArray(searchParams.priority) ? searchParams.priority : [searchParams.priority].filter(Boolean);
 
-  const whereClause = searchQuery
-    ? {
-        OR: [{ name: { contains: searchQuery } }],
-      }
-    : {};
-
-    const whereCause = searchQuery || statusQuery ? { OR: [{ status: { contains: searchQuery || statusQuery } }] } : {}; // how can I make it so that it takes the status or priority
+  const whereClause = {
+    AND: [
+      searchQuery ? { name: { contains: searchQuery } } : {},
+      statusQuery.length ? { status: { in: statusQuery } } : {},
+      priorityQuery.length ? { priority: { in: priorityQuery } } : {},
+    ],
+  };
 
   const perPage = Math.min(
     Math.max(parseInt(searchParams.per_page as string) || defaultPageSize, 1),
