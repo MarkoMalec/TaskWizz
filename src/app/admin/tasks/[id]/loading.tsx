@@ -3,7 +3,9 @@ import { Skeleton } from '~/components/ui/skeleton';
 
 const loading = () => {
   return (
-    <Skeleton className="w-full h-[500px]" />
+    <div className="py-10">
+      <Skeleton className="w-full h-[500px]" />
+    </div>
   )
 }
 
