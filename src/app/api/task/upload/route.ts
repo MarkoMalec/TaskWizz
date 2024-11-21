@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Readable } from 'stream';
 
-export const config = {
+export const route = {
   api: {
     bodyParser: false, // Disable body parsing to handle the file upload as a stream
   },
