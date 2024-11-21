@@ -17,6 +17,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  SelectLabel,
+  SelectGroup,
 } from "~/components/ui/select";
 
 import { Button } from "../ui/button";
@@ -63,47 +65,53 @@ const TaskStatusChange = ({ admin, taskId, status }: TaskStatusChangeProps) => {
           </div>
         ) : (
           <SelectTrigger>
-            <SelectValue placeholder="Status" />
+            <SelectValue placeholder={status} />
           </SelectTrigger>
         )}
 
         <SelectContent>
-          <SelectItem value="Pending">Pending</SelectItem>
-          <SelectItem value="In progress">In progress</SelectItem>
-          <SelectItem value="Finished">Finished</SelectItem>
+          <SelectGroup>
+            <SelectLabel className="test-xs">Change status</SelectLabel>
+            <SelectItem value="Pending">Pending</SelectItem>
+            <SelectItem value="In progress">In progress</SelectItem>
+            <SelectItem value="Finished">Finished</SelectItem>
+          </SelectGroup>
         </SelectContent>
       </Select>
     );
   }
 
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild className="block">
-        <Button>{status === "Pending" ? "Start task" : "Finish task"}</Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>
-            Do you want to {status === "Pending" ? "start" : "finish"} the task?
-          </AlertDialogTitle>
-          <AlertDialogDescription>
-            Make sure you double checked if this action is correct.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction
-            onClick={(update) =>
-              updateStatusOnServer(
-                status === "Pending" ? "In progress" : "Finished",
-              )
-            }
-          >
-            Confirm
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+    status !== "Finished" && (
+      <AlertDialog>
+        <AlertDialogTrigger asChild className="block">
+          <Button>{status === "Pending" ? "Start task" : "Finish task"}</Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              Do you want to {status === "Pending" ? "start" : "finish"} the
+              task?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              Make sure you double checked if this action is correct.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={(update) =>
+                updateStatusOnServer(
+                  status === "Pending" ? "In progress" : "Finished",
+                )
+              }
+            >
+              Confirm
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    )
   );
 };
 

@@ -29,6 +29,9 @@ const config = {
       {
         hostname: "files.edgestore.dev",
       },
+      {
+        hostname: "image.thum.io",
+      },
     ],
   },
   typescript: {

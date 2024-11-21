@@ -46,7 +46,14 @@ import { Calendar } from "~/components/ui/calendar";
 type TaskFormInputProps = {
   control: Control<any>;
   name: string;
-  type: "text" | "email" | "password" | "textarea" | "switch" | "select";
+  type:
+    | "text"
+    | "email"
+    | "password"
+    | "textarea"
+    | "switch"
+    | "select"
+    | "file";
   label: string;
   placeholder: string;
   options?: string[];
@@ -95,8 +102,18 @@ const TaskFormInput: React.FC<TaskFormInputProps> = ({
               </Select>
             ) : type === "textarea" ? (
               <Textarea placeholder={placeholder} {...field} />
+            ) : type === "file" ? (
+              <Input
+                type="file"
+                placeholder={placeholder}
+                onChange={(e) => field.onChange(e.target.files[0])}
+              />
             ) : (
-              <Input type={type} placeholder={placeholder} {...field} />
+              <Input
+                type={type}
+                placeholder={placeholder}
+                {...field}
+              />
             )}
           </FormControl>
           <FormMessage />
@@ -204,25 +221,28 @@ export function SelectUsers({ control, name, label }: SelectUsersInputProps) {
 }
 
 export function DatePicker({ control, name, label }: any) {
-
   return (
     <FormField
       control={control}
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel className="block">{label}</FormLabel>
+          <FormLabel className="block mb-1">{label}</FormLabel>
           <Popover>
             <PopoverTrigger asChild>
               <Button
                 variant={"outline"}
                 className={cn(
-                  "w-[280px] justify-start text-left font-normal",
+                  "w-[280px] h-10 justify-start text-left font-normal",
                   !field.value && "text-muted-foreground",
                 )}
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
-                {field.value ? format(field.value, "PPP") : <span>Set a deadline date</span>}
+                {field.value ? (
+                  format(field.value, "PPP")
+                ) : (
+                  <span>Set a deadline date</span>
+                )}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0">

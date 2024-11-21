@@ -17,6 +17,7 @@ export const EditableInputField = ({
   onSave,
   isMutating,
   type,
+  className,
 }: any) => {
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(initialValue);
@@ -64,7 +65,6 @@ export const EditableInputField = ({
             value={value}
             onBlur={handleSave}
             onChange={(e) => setValue(e.target.value)}
-            className="max-w-[300px]"
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 handleSave();
@@ -92,7 +92,7 @@ export const EditableInputField = ({
   }
 
   return (
-    <div className="group flex items-start justify-between gap-2 rounded-md py-1 pr-2 hover:bg-primary/5">
+    <div className={`${className} group flex items-start justify-between gap-2 rounded-md p-1 pl-2 hover:bg-primary/5`}>
       {isMutating ? (
         <Skeleton className="h-[30px] w-[100%] max-w-[400px] rounded-full" />
       ) : (

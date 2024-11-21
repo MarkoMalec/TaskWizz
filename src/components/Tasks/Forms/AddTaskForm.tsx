@@ -13,6 +13,7 @@ import { Button } from "~/components/ui/button";
 import { Separator } from "~/components/ui/separator";
 import { toast } from "react-hot-toast";
 import { Loader2 } from "lucide-react";
+import Task from "../Task";
 
 const formSchema = z.object({
   name: z.string().min(4, {
@@ -33,6 +34,7 @@ const formSchema = z.object({
     message: "City must be filled in.",
   }),
   assignedTo: z.array(z.string()).min(1, "At least one user must be assigned."),
+  file: z.any().refine((file) => file.length !== 0, "File is required"),
 });
 
 const AddTaskForm = ({ user }: any) => {
@@ -46,6 +48,7 @@ const AddTaskForm = ({ user }: any) => {
       address: "",
       postcode: "",
       city: "",
+      file: null,
       assignedTo: [],
     },
   });
@@ -62,22 +65,36 @@ const AddTaskForm = ({ user }: any) => {
     const userId = user.id;
     const extendedValues = {
       ...values,
+      fileName: `${values.file.name}`,
       createdById: userId,
     };
-    console.log(values);
-    doFetch(
-      "/api/task/create",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+
+    try {
+      await doFetch(
+        "/api/task/create",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "file-name": values.file.name,
+          },
+          body: JSON.stringify(extendedValues),
         },
-        body: JSON.stringify(extendedValues),
-      },
-      () => {
-        toast.success(`Task ${values.name} created`);
-      },
-    );
+        () => {
+          toast.success(`Task ${values.name} created`);
+        },
+      );
+
+      await doFetch("/api/task/upload", {
+        method: "POST",
+        body: values.file,
+        headers: {
+          "x-file-name": values.file.name,
+        },
+      });
+    } catch (error) {
+      toast.error("An error occurred while creating the task.");
+    }
   };
 
   return (
@@ -86,7 +103,7 @@ const AddTaskForm = ({ user }: any) => {
         <form
           autoComplete="off"
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8"
+          className="space-y-5"
         >
           <TaskFormInput
             control={form.control}
@@ -95,14 +112,22 @@ const AddTaskForm = ({ user }: any) => {
             type="text"
             placeholder="Task Name"
           />
-          <TaskFormInput
-            control={form.control}
-            name="priority"
-            label="Priority"
-            type="select"
-            placeholder="Select priority..."
-            options={["Low", "Normal", "High"]}
-          />
+          <div className="flex gap-3 items-end">
+            <TaskFormInput
+              control={form.control}
+              name="priority"
+              label="Priority"
+              type="select"
+              placeholder="Select priority..."
+              options={["Low", "Normal", "High"]}
+              className="w-full max-w-[150px]"
+            />
+            <DatePicker
+              control={form.control}
+              label="Deadline"
+              name="deadline"
+            />
+          </div>
           <TaskFormInput
             control={form.control}
             name="description"
@@ -110,7 +135,6 @@ const AddTaskForm = ({ user }: any) => {
             type="textarea"
             placeholder="Description"
           />
-          <DatePicker control={form.control} label="Deadline" name="deadline" />
           <Separator />
           <h3 className="text-xl font-extrabold">Location</h3>
           <div className="flex max-w-[400px] gap-3">
@@ -138,6 +162,14 @@ const AddTaskForm = ({ user }: any) => {
             type="text"
             placeholder="City"
             className="max-w-[400px] flex-1"
+          />
+          <TaskFormInput
+            control={form.control}
+            name="file"
+            label="Attach file"
+            type="file"
+            placeholder="Attach file"
+            // onChange={(e) => form.setValue("file", e.target.files[0])} // set the file object directly
           />
           <SelectUsers
             name="assignedTo"

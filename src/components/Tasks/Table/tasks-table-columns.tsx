@@ -50,8 +50,6 @@ export const columns: ColumnDef<Task>[] = [
     cell: ({ row }) => {
       const task = row.original;
 
-      console.log(row);
-
       return (
         <Checkbox
           checked={row.getIsSelected()}
@@ -70,7 +68,17 @@ export const columns: ColumnDef<Task>[] = [
       return value.includes(row.getValue("priority"));
     },
     accessorKey: "priority",
-    header: "Priority",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Priority
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const priority = row.getValue("priority") as string;
       const priorityStyle = usePriorityStyle(priority);
@@ -96,16 +104,51 @@ export const columns: ColumnDef<Task>[] = [
         </Button>
       );
     },
+    cell: ({ row, table }) => {
+      const task = row.original;
+      const admin = table.options.meta?.isAdmin;
+
+      return (
+        <Link
+          prefetch={false}
+          href={`${admin ? "/admin" : "/dashboard"}/tasks/${task.id}`}
+          className="hover:underline"
+        >
+          {task.name}
+        </Link>
+      );
+    },
+
     enableGlobalFilter: true,
     enableHiding: false,
   },
   {
     accessorKey: "city",
-    header: "Location",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          City
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: "deadline",
-    header: "Deadline",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Deadline
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const formattedDeadlineDate = format(row.getValue("deadline"), "dd-MM-Y");
 
@@ -117,7 +160,17 @@ export const columns: ColumnDef<Task>[] = [
       return value.includes(row.getValue("status") as string);
     },
     accessorKey: "status",
-    header: "Status",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Status
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const status = row.getValue("status") as string;
       const { taskStatusStyle } = useTaskStatusStyle(status);
@@ -159,7 +212,7 @@ export const columns: ColumnDef<Task>[] = [
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link prefetch={false} href={`/admin/tasks/${task.id}`}>
+              <Link prefetch={false} href={`${pathname}/${task.id}`}>
                 View task
               </Link>
             </DropdownMenuItem>

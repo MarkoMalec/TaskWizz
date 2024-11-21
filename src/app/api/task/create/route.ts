@@ -16,6 +16,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       address,
       postcode,
       city,
+      fileName,
       assignedTo,
     } = await req.json();
 
@@ -29,6 +30,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         address: address,
         postcode: postcode,
         city: city,
+        contractFileUrl: `/pdfs/${fileName}`,
         assignedTo: {
           createMany: {
             data: assignedTo.map((userId: any) => ({ userId })),
@@ -73,3 +75,4 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     });
   }
 }
+

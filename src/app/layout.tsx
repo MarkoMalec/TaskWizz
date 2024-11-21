@@ -5,6 +5,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "~/server/auth";
 import { ThemeProvider } from "~/components/theme-provider";
 import { Toaster } from "react-hot-toast";
+import React from "react";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -34,7 +35,9 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <Header session={session} />
-          <main className="container">{children}</main>
+          <main className="container">
+            {React.cloneElement(children as React.ReactElement, { session })}
+          </main>
           <Toaster />
         </ThemeProvider>
       </body>

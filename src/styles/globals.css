@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 h2 {
-    font-size: 32px;
+  font-size: 32px;
 }
 
 @layer base {
@@ -29,7 +29,7 @@ h2 {
     --ring: 224 71.4% 4.1%;
     --radius: 0.5rem;
   }
- 
+
   .dark {
     --background: 222 25% 16%;
     --foreground: 210 20% 98%;
@@ -52,33 +52,460 @@ h2 {
     --ring: 216 12.2% 83.9%;
   }
 }
-   
-  @layer base {
-    * {
-      @apply border-border;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.avatar-edit-hover::before {
+  content: "Edit";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  color: white; /* Text color */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+}
+
+.avatar-edit-hover:hover::before {
+  opacity: 1;
+}
+
+table th button {
+  padding-left: 0!important;
+  width: 100%;
+  justify-content: flex-start!important;
+}
+
+table th button:hover {
+  background: transparent!important;
+}
+
+.note {
+  position: relative;
+}
+
+.note div {
+  /* position: relative; */
+  /* z-index: 2; */
+}
+
+.note::after {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 2px;
+  height: 1.25rem;
+  bottom: -1.25rem;
+  left: 50%;
+  background-color: hsl(var(--border));
+  z-index: -1;
+}
+
+.note h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.note p {
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+
+.note a {
+  color: hsl(var(--primary));
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.note a:hover {
+  text-decoration: underline;
+}
+
+.note a:visited {
+  color: hsl(var(--primary));
+}
+
+.note a:visited:hover {
+  text-decoration: underline;
+}
+
+.note a:active {
+  color: hsl(var(--primary));
+}
+
+.note a:active:hover {
+  text-decoration: underline;
+} 
+
+.note li {
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+  list-style-type: disc;
+}
+
+.note ul {
+  padding-left: 1rem;
+}
+
+.note ol {
+  padding-left: 1rem;
+}
+
+.note blockquote {
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+  padding-left: 1rem;
+  border-left: 2px solid hsl(var(--border));
+}
+
+.note code {
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  background-color: hsl(var(--card));
+  color: hsl(var(--card-foreground));
+  border-radius: var(--radius);
+}
+
+.note pre {
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  background-color: hsl(var(--card));
+  color: hsl(var(--card-foreground));
+  border-radius: var(--radius);
+}
+
+.note table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0.5rem;
+}
+
+.note th {
+  font-weight: 700;
+  text-align: left;
+  padding: 0.5rem;
+  border-bottom: 2px solid hsl(var(--border));
+}
+
+.note td {
+  padding: 0.5rem;
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.note tr:nth-child(even) {
+  background-color: hsl(var(--card));
+}
+
+.note tr:nth-child(odd) {
+  background-color: hsl(var(--background));
+}
+
+.note hr {
+  border: 0;
+  border-top: 1px solid hsl(var(--border));
+  margin: 1rem 0;
+}
+
+.note .gatsby-highlight {
+  margin-bottom: 0.5rem;
+}
+
+.note .gatsby-highlight pre {
+  margin: 0;
+}
+
+.note .gatsby-highlight pre[class*="language-"] {
+  margin: 0;
+}
+
+.note .gatsby-highlight pre[class*="language-"]::before {
+  content: attr(class);
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0.25rem 0.5rem;
+  background-color: hsl(var(--card));
+  color: hsl(var(--card-foreground));
+  border-bottom-right-radius: var(--radius);
+}
+
+
+.ProseMirror {
+  p {
+    @apply leading-relaxed my-3 first:mt-0 last:mb-0;
+  }
+
+  & > p {
+    @apply my-6 first:mt-0 last:mb-0;
+  }
+
+  h1 {
+    @apply text-3xl;
+  }
+
+  h2 {
+    @apply text-2xl;
+  }
+
+  h3 {
+    @apply text-xl;
+  }
+
+  h4 {
+    @apply text-lg;
+  }
+
+  h5 {
+    @apply text-base;
+  }
+
+  h6 {
+    @apply text-sm;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-bold first:mt-0 last:mb-0;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply mt-12;
+  }
+
+  h4,
+  h5,
+  h6 {
+    @apply mt-8;
+  }
+
+  a.link {
+    @apply text-blue-500 font-extrabold dark:text-blue-400;
+  }
+
+  mark {
+    @apply bg-red-500 rounded-sm decoration-clone text-inherit py-1 px-0 dark:bg-red-400;
+  }
+
+  & img {
+    @apply h-auto w-full max-w-full;
+  }
+
+  [data-type='horizontalRule'] {
+    @apply my-8 py-4 transition-all duration-100 ease-in-out cursor-pointer;
+
+    &.ProseMirror-selectednode {
+      @apply bg-black/5 dark:bg-white/10;
+
+      hr {
+        @apply border-t-black/30 dark:border-t-white/30;
+      }
     }
-    body {
-      @apply bg-background text-foreground;
+
+    &:hover:not(&.ProseMirror-selectednode) {
+      @apply bg-black/5;
+      @apply dark:bg-white/10;
+    }
+
+    hr {
+      @apply border-0 border-t border-black/20 bg-black/80;
+      @apply dark:border-white/20 dark:bg-white/80;
     }
   }
 
-  .avatar-edit-hover::before {
-    content: 'Edit';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-    color: white; /* Text color */
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    cursor: pointer;
+  [data-type='emoji'] {
+    display: inline-block;
+
+    img {
+      width: 1em;
+      height: 1em;
+      object-fit: cover;
+      display: block;
+    }
   }
-  
-  .avatar-edit-hover:hover::before {
-    opacity: 1;
-  }
+}
+
+
+/* General styles for the Tiptap editor */
+/* .ProseMirror {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  font-size: 16px;
+  color: #333;
+  padding: 16px;
+  background: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: auto;
+  word-wrap: break-word;
+} */
+
+/* Headings */
+.ProseMirror h1,
+.note h1 {
+  font-size: 2em;
+  font-weight: bold;
+  margin: 0.67em 0;
+}
+
+.ProseMirror h2,
+.note h2 {
+  font-size: 1.75em;
+  font-weight: bold;
+  margin: 0.75em 0;
+}
+
+.ProseMirror h3,
+.note h3 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 0.85em 0;
+}
+
+/* Paragraphs */
+.ProseMirror p,
+.note p {
+  margin: 1em 0;
+}
+
+/* Lists */
+.ProseMirror ul,
+.note ul {
+  padding-left: 40px;
+  list-style-type: disc;
+}
+
+.ProseMirror ol,
+.note ol {
+  padding-left: 40px;
+  list-style-type: decimal;
+}
+
+.ProseMirror li,
+.note li {
+  margin: 0.5em 0;
+}
+
+/* Code blocks */
+.ProseMirror pre,
+.note pre {
+  background-color: rgba(0, 0, 0, 0.084);
+  padding: 12px;
+  border-radius: 4px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  overflow-x: auto;
+}
+
+.ProseMirror code,
+.note code {
+  background-color: rgba(0, 0, 0, 0.084);
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  color: #c7254e;
+}
+
+/* Blockquotes */
+.ProseMirror blockquote,
+.note blockquote {
+  padding: 10px 16px;
+  margin: .8em 0;
+  border-left: 2px solid #ccc;
+  /* background: #f9f9f9; */
+  font-style: italic;
+}
+
+/* Text decorations */
+.ProseMirror strong,
+.note strong {
+  font-weight: bold;
+}
+
+.ProseMirror em,
+.note em {
+  font-style: italic;
+}
+
+.ProseMirror u,
+.note u {
+  text-decoration: underline;
+}
+
+.ProseMirror s,
+.note s {
+  text-decoration: line-through;
+}
+
+/* Links */
+.ProseMirror a,
+.note a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.ProseMirror a:hover,
+.note a:hover {
+  text-decoration: underline;
+}
+
+/* Tables */
+.ProseMirror table,
+.note table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+}
+
+.ProseMirror th,
+.note th,
+.ProseMirror td,
+.note td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.ProseMirror th,
+.note th {
+  background: #f4f4f4;
+  font-weight: bold;
+}
+
+
+/* Horizontal rules */
+.ProseMirror hr,
+.note hr {
+  border: none;
+  border-top: 2px solid #eee;
+  margin: 1em 0;
+}

@@ -1,8 +1,6 @@
 import React from "react";
 import Task from "~/components/Tasks/Task";
 import { prisma } from "~/lib/prisma";
-import { getServerSession } from "next-auth";
-import { authOptions } from "~/server/auth";
 
 type Params = {
   params: {
@@ -11,8 +9,6 @@ type Params = {
 };
 
 const SingleTaskPage = async ({ params }: Params) => {
-  const session = await getServerSession(authOptions);
-
   const task = await prisma.task.findUnique({
     where: {
       id: params.id,
@@ -46,14 +42,14 @@ const SingleTaskPage = async ({ params }: Params) => {
             },
           },
         },
-      }
+      },
     },
   });
 
   return (
     task && (
       <div className="py-10">
-        <Task task={task} admin={true} />
+        <Task task={task} admin={false} />
       </div>
     )
   );

@@ -1,3 +1,5 @@
+
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
@@ -72,5 +74,18 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  variants: {
+    extend: {
+      backgroundColor: ['dark', 'light'],
+    }
+  },
+  plugins: [require("tailwindcss-animate"),
+    function ({ addVariant, e }) {
+      addVariant('light', ({ modifySelectors, separator }) => {
+        modifySelectors(({ className }) => {
+          return `:is(.light .${e(`light${separator}${className}`)})`
+        })
+      })
+    },
+  ],
 }

@@ -24,7 +24,7 @@ export const useMutatingFetch = (onSuccess?: () => void) => {
       const response = await fetch(url, options);
       const data = await response.json();
 
-      console.log(data, "the data");
+      console.log(data, "the dataaaaaa");
 
       if (data.error) {
         handleServerError(data.error);
