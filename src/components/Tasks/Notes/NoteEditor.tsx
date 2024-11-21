@@ -24,7 +24,7 @@ import {
   Undo2Icon,
 } from "lucide-react";
 
-const Tiptap = ({ taskId }: { taskId: String }) => {
+const NoteEditor = ({ taskId }: { taskId: String }) => {
   const { isMutating, doFetch } = useMutatingFetch();
 
   const editor = useEditor({
@@ -178,4 +178,4 @@ const Tiptap = ({ taskId }: { taskId: String }) => {
   );
 };
 
-export default Tiptap;
+export default NoteEditor;
