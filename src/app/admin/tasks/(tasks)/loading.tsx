@@ -2,7 +2,6 @@ import React from "react";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableHead,
   TableHeader,
   TableRow,
@@ -43,8 +42,7 @@ const loading = () => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>
-            </TableHead>
+            <TableHead></TableHead>
             <TableHead>
               <Skeleton className="h-4 w-[150px]" />
             </TableHead>

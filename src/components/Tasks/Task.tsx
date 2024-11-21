@@ -26,7 +26,7 @@ import getInitials from "~/lib/getInitials";
 import { usePriorityStyle } from "~/lib/hooks/usePriorityStyle";
 import { useTaskStatusStyle } from "~/lib/hooks/useTaskStatusStyle";
 import { format, formatDistance, subDays } from "date-fns";
-import { CalendarDays, Clock } from "lucide-react";
+import { CalendarDays, Clock, UploadIcon } from "lucide-react";
 import {
   EditableDatepickerField,
   EditableInputField,
@@ -200,19 +200,23 @@ const Task = ({
             </div>
             <div className="my-2 py-2">
               <h3 className="text-md pb-3 font-bold">Contract</h3>
-              <Link
-                className="w-content block"
-                href={`http://malec.ddns.net:1234${task.contractFileUrl}`}
-                target="_blank"
-              >
-                <Image
-                  src={`https://image.thum.io/get/pdfSource/width/300/page/1/auth/72737-pdfthumb/http://malec.ddns.net:1234${task.contractFileUrl}`}
-                  alt="pdf"
-                  width={180}
-                  height={300}
-                  className="border border-primary p-2 hover:opacity-80"
-                />
-              </Link>
+              {task.contractFileUrl ? (
+                <Link
+                  className="w-content block"
+                  href={`http://malec.ddns.net:1234${task.contractFileUrl}`}
+                  target="_blank"
+                >
+                  <Image
+                    src={`https://image.thum.io/get/pdfSource/width/300/page/1/auth/72737-pdfthumb/http://malec.ddns.net:1234${task.contractFileUrl}`}
+                    alt="pdf"
+                    width={180}
+                    height={300}
+                    className="border border-primary p-2 hover:opacity-80"
+                  />
+                </Link>
+              ) : (
+                <Button variant="outline"><UploadIcon size={18} className="mr-2" />Upload</Button>
+              )}
             </div>
           </div>
         </CardContent>

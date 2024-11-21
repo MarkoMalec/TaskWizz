@@ -24,7 +24,7 @@ const loading = () => {
           </div>
         </CardHeader>
         <CardContent>
-            <Skeleton className="w-full h-8" />
+          <Skeleton className="h-8 w-full" />
         </CardContent>
         <CardHeader>
           <CardTitle>
@@ -35,13 +35,13 @@ const loading = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Skeleton className="w-[100px] mb-2 h-3" />
+          <Skeleton className="mb-2 h-3 w-[100px]" />
           <Skeleton className="mb-8 h-8 w-full" />
-          <Skeleton className="w-[100px] mb-2 h-3" />
+          <Skeleton className="mb-2 h-3 w-[100px]" />
           <Skeleton className="mb-8 h-8 w-full" />
-          <Skeleton className="w-[100px] mb-2 h-3" />
+          <Skeleton className="mb-2 h-3 w-[100px]" />
           <Skeleton className="mb-8 h-8 w-full" />
-          <Skeleton className="w-full h-[500px]" />
+          <Skeleton className="h-[500px] w-full" />
         </CardContent>
       </Card>
     </div>
