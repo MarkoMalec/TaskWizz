@@ -35,7 +35,13 @@ import Tiptap from "./Notes/NoteEditor";
 import { Button } from "../ui/button";
 import TaskStatusChange from "./TaskStatusChange";
 
-const Task = ({ task, admin }: { task: TaskType | any, admin: true | false }) => {
+const Task = ({
+  task,
+  admin,
+}: {
+  task: TaskType | any;
+  admin: true | false;
+}) => {
   const { isMutating, doFetch } = useMutatingFetch();
   const [mutatingFieldName, setMutatingFieldName] = useState(""); // identifier for mutating fields
   const { priorityStyle } = usePriorityStyle(task.priority);
@@ -137,7 +143,11 @@ const Task = ({ task, admin }: { task: TaskType | any, admin: true | false }) =>
           </div>
         </div>
         <div className="border-t p-5">
-          <TaskStatusChange taskId={task.id} status={task.status} admin={admin} />
+          <TaskStatusChange
+            taskId={task.id}
+            status={task.status}
+            admin={admin}
+          />
         </div>
         <CardHeader className="border-b pt-0">
           <CardTitle className="antialised mb-2 flex items-center gap-2 pt-0 text-xl font-medium tracking-tight">
@@ -220,7 +230,9 @@ const Task = ({ task, admin }: { task: TaskType | any, admin: true | false }) =>
         </div>
         {!showTiptap ? (
           <div className="mt-10">
-            <h2 className="text-center">No comments yet.</h2>
+            {task.TaskNote.length < 1 ? (
+              <h2 className="text-center">No comments yet.</h2>
+            ) : null}
             <Button
               variant="positive"
               className="mx-auto block"
