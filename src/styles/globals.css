@@ -95,6 +95,11 @@ table th button:hover {
 
 .note {
   position: relative;
+  /* color: #a0a0a0; */
+}
+
+.note > div:nth-child(2) {
+  opacity: .8;
 }
 
 .note div {
@@ -102,7 +107,7 @@ table th button:hover {
   /* z-index: 2; */
 }
 
-.note::after {
+.note:not(:last-child)::after {
   content: "";
   position: absolute;
   display: block;

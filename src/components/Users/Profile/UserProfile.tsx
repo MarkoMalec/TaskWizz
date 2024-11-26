@@ -14,8 +14,11 @@ import {
 } from "~/components/ui/card";
 import ProfilePhoto from "./ProfilePhoto";
 
-// exclude values from TS since we are not using them in table
-type PartialTask = Omit<Task, "createdById" | "dateCreated" | "description">;
+// exclude values from TS since we are not using them in TasksTable
+type PartialTask = Omit<
+  Task,
+  "createdById" | "dateCreated" | "description" | "contractFileUrl"
+>;
 
 type UserProfileProps = {
   user: User | null;

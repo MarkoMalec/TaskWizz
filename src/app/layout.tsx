@@ -6,6 +6,9 @@ import { authOptions } from "~/server/auth";
 import { ThemeProvider } from "~/components/theme-provider";
 import { Toaster } from "react-hot-toast";
 import React from "react";
+// import { Session } from "~/lib/session";
+import SessionProvider from "~/lib/session";
+// import { SessionProvider } from "next-auth/react";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,18 +31,20 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`min-h-screen font-sans ${inter.variable}`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Header session={session} />
-          <main className="container">
-            {React.cloneElement(children as React.ReactElement, { session })}
-          </main>
-          <Toaster />
-        </ThemeProvider>
+        <SessionProvider session={session}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Header session={session} />
+            <main className="container">
+              {React.cloneElement(children as React.ReactElement, { session })}
+            </main>
+            <Toaster />
+          </ThemeProvider>
+        </SessionProvider>
       </body>
     </html>
   );

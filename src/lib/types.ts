@@ -22,3 +22,13 @@ export type User = {
     role: string | null,
     tasks?: object | null,
 }
+
+export type Note = {
+    id: string,
+    content: string,
+    createdBy: {
+        id: string,
+        name: string,
+        image: string,
+    }
+}

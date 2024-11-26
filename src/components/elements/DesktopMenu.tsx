@@ -56,7 +56,7 @@ type Props = {
   admin: true | false;
 };
 
-export function NavigationMenuDemo({ admin }: Props) {
+export function DesktopMenu({ admin }: Props) {
   if (!admin) {
     return <Link href="/dashboard/tasks">Tasks</Link>;
   }

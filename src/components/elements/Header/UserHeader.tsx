@@ -15,8 +15,15 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import CredentialLoginForm from "~/components/forms/CredentialLoginForm";
+import { SessionContext } from "~/lib/session";
 
-const UserHeader = ({ username, avatar, role }: any) => {
+const UserHeader = () => {
+  const session = React.useContext(SessionContext);
+
+  const username = session?.user.name;
+  const avatar = session?.user.image;
+  const role = session?.user.role;
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

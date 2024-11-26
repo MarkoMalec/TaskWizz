@@ -26,14 +26,15 @@ import getInitials from "~/lib/getInitials";
 import { usePriorityStyle } from "~/lib/hooks/usePriorityStyle";
 import { useTaskStatusStyle } from "~/lib/hooks/useTaskStatusStyle";
 import { format, formatDistance, subDays } from "date-fns";
-import { CalendarDays, Clock, UploadIcon } from "lucide-react";
+import { CalendarDays, Clock, PlusIcon, UploadIcon } from "lucide-react";
 import {
   EditableDatepickerField,
   EditableInputField,
 } from "./EditTaskFields/EditableFields";
-import Tiptap from "./Notes/NoteEditor";
 import { Button } from "../ui/button";
 import TaskStatusChange from "./TaskStatusChange";
+import NoteEditor from "./Notes/NoteEditor";
+import { SingleNote } from "./Notes/SingleNote";
 
 const Task = ({
   task,
@@ -48,7 +49,7 @@ const Task = ({
   const { taskStatusStyle } = useTaskStatusStyle(task.status);
   const [theTask, setTheTask] = useState(task);
 
-  const [showTiptap, setShowTiptap] = useState(false);
+  const [showNoteEditor, setShowNoteEditor] = useState(false);
 
   const dateCreated = new Date(task.dateCreated);
   const formattedDate = format(dateCreated, "dd.MM.yyyy");
@@ -87,8 +88,8 @@ const Task = ({
   console.log(task);
 
   return (
-    <div className="flex flex-wrap gap-5">
-      <Card className="flex w-full justify-between dark:bg-[#12161c7d]">
+    <div className="grid gap-5 md:grid-cols-12">
+      <Card className="col-span-12 flex items-center justify-between dark:bg-[#12161c7d]">
         <CardHeader className="p-4">
           <CardTitle>
             {task.name}
@@ -98,7 +99,6 @@ const Task = ({
               <span className={taskStatusStyle}>{task.status}</span>
             </div>
           </CardTitle>
-          {/* <CardDescription>Assigned users</CardDescription> */}
         </CardHeader>
         <CardContent className="flex items-center gap-5 pb-0 pl-0 pt-0">
           <div>Team</div>
@@ -131,7 +131,7 @@ const Task = ({
           </div>
         </CardContent>
       </Card>
-      <Card className="w-4/12 flex-1 dark:bg-[#12161c7d]">
+      <Card className="col-span-12 dark:bg-[#12161c7d] md:col-span-4">
         <div className="flex items-center gap-3 p-5 text-sm">
           <div className="flex items-center gap-1">
             <CalendarDays size={20} />
@@ -215,13 +215,16 @@ const Task = ({
                   />
                 </Link>
               ) : (
-                <Button variant="outline"><UploadIcon size={18} className="mr-2" />Upload</Button>
+                <Button variant="outline">
+                  <UploadIcon size={18} className="mr-2" />
+                  Upload
+                </Button>
               )}
             </div>
           </div>
         </CardContent>
       </Card>
-      <div className="w-8/12 flex-none p-10">
+      <div className="col-span-12 p-10 md:col-span-8">
         <div className="my-2 border-b py-2">
           <h3 className="text-md font-bold">Description</h3>
           <EditableInputField
@@ -232,41 +235,24 @@ const Task = ({
             type="textarea"
           />
         </div>
-        {!showTiptap ? (
+        {!showNoteEditor ? (
           <div className="mt-10">
             {task.TaskNote.length < 1 ? (
               <h2 className="text-center">No comments yet.</h2>
             ) : null}
             <Button
               variant="positive"
-              className="mx-auto block"
-              onClick={() => setShowTiptap(true)}
+              className="mx-auto flex gap-1"
+              onClick={() => setShowNoteEditor(true)}
             >
-              + Add comment
+              <PlusIcon size={20} /> Add comment
             </Button>
           </div>
         ) : null}
-        {showTiptap ? <Tiptap taskId={task.id} /> : null}
+        {showNoteEditor ? <NoteEditor taskId={task.id} /> : null}
         <div className="mt-5 space-y-5">
           {task.TaskNote.map((note: any) => (
-            <div
-              key={note.id}
-              className="note rounded-lg border bg-secondary dark:bg-[#12161c7d]"
-            >
-              <div className="flex items-center gap-2 rounded-tl-lg rounded-tr-lg px-2 py-1 dark:bg-[#12161c7d]">
-                <Avatar className="h-6 w-6">
-                  <AvatarImage src={note.createdBy.image} />
-                  <AvatarFallback>
-                    {getInitials(note.createdBy.name)}
-                  </AvatarFallback>
-                </Avatar>
-                <span className="text-sm">{note.createdBy.name}</span>
-              </div>
-              <div
-                className="px-4 py-6"
-                dangerouslySetInnerHTML={{ __html: note.content }}
-              />
-            </div>
+            <SingleNote key={note.id} note={note} />
           ))}
         </div>
       </div>
