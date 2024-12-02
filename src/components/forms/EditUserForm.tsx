@@ -4,6 +4,7 @@ import React from "react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import crypto from "crypto";
 
 import UserFormInput from "~/components/forms/UserFormInput";
 
@@ -13,7 +14,7 @@ import { toast } from "react-hot-toast";
 import { Button } from "~/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { Form } from "~/components/ui/form";
-import { Loader2 } from "lucide-react";
+import { EyeIcon, Loader2 } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -62,7 +63,7 @@ const EditUserForm = ({ userData }: any) => {
         },
       },
       () => {
-        toast.success(`User ${values.name} edited`);
+        toast.success(`User ${values.name} updated!`);
       },
     );
   };
@@ -130,7 +131,6 @@ const EditUserForm = ({ userData }: any) => {
               label="Does user have transport?"
               placeholder="transport"
             />
-
             <Button type="submit">
               {isMutating ? (
                 <Loader2 className="h-4 w-4 animate-spin" />

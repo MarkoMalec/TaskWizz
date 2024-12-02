@@ -83,6 +83,10 @@ h2 {
   opacity: 1;
 }
 
+.uppy-Dashboard-inner {
+  background-color: transparent!important;
+}
+
 table th button {
   padding-left: 0!important;
   width: 100%;
@@ -93,13 +97,29 @@ table th button:hover {
   background: transparent!important;
 }
 
+.notes-wrapper {
+  position: relative;
+}
+
+.notes-wrapper::before {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 2px;
+  border-left: 2px dashed rgba(255, 255, 255, 0.291);
+  height: 100%;
+  left: 18px;
+  top: 0;
+  z-index: -1;
+}
+
 .note {
   position: relative;
   /* color: #a0a0a0; */
 }
 
 .note > div:nth-child(2) {
-  opacity: .8;
+  opacity: .7;
 }
 
 .note div {

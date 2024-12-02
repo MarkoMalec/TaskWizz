@@ -1,8 +1,6 @@
 "use client";
 
-import { FC } from "react";
-import { useState, useEffect } from "react";
-import Link from "next/link";
+import { FC, useState } from "react";
 import { Button } from "~/components/ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
@@ -12,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
+import { ArrowBigLeftDashIcon, ArrowBigRightDashIcon } from "lucide-react";
 
 interface TablePaginationControlsProps {
   hasNextPage: boolean;
@@ -26,6 +25,7 @@ const TablePaginationControls: FC<TablePaginationControlsProps> = ({
   pageNumber,
   totalPages,
 }) => {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -75,10 +75,10 @@ const TablePaginationControls: FC<TablePaginationControlsProps> = ({
         disabled={!hasPrevPage}
         onClick={handlePrevClick}
       >
-        Previous
+        <ArrowBigLeftDashIcon />
       </Button>
       <span className="text-sm">
-        page {pageNumber} of {totalPages}
+        {pageNumber} of {totalPages}
       </span>
       <Button
         variant="outline"
@@ -86,7 +86,7 @@ const TablePaginationControls: FC<TablePaginationControlsProps> = ({
         disabled={!hasNextPage}
         onClick={handleNextClick}
       >
-        Next
+        <ArrowBigRightDashIcon />
       </Button>
       <Select onValueChange={(e: string) => handlePerPageChange(e)}>
         <SelectTrigger className="w-16 h-9">

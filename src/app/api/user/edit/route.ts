@@ -18,9 +18,6 @@ export async function PATCH(req: NextRequest): Promise<NextResponse> {
       profile: profile ? { update: { ...profile } } : undefined,
     };
 
-    console.log(email);
-    console.log(dataToUpdate);
-
     // Check if the password has changed and update it if so
     if (password && currentUser?.password !== password) {
       dataToUpdate.password = crypto
@@ -43,8 +40,8 @@ export async function PATCH(req: NextRequest): Promise<NextResponse> {
     console.error("Error in PATCH /api/user/edit:", error);
     return NextResponse.json({
       status: 500,
-      json: { message: 'Server error' },
-      error
+      json: { message: "Server error" },
+      error,
     });
   }
 }

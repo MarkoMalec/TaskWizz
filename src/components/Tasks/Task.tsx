@@ -35,6 +35,7 @@ import { Button } from "../ui/button";
 import TaskStatusChange from "./TaskStatusChange";
 import NoteEditor from "./Notes/NoteEditor";
 import { SingleNote } from "./Notes/SingleNote";
+import PdfUploader from "../uploaders/PdfUploader";
 
 const Task = ({
   task,
@@ -85,7 +86,7 @@ const Task = ({
     );
   };
 
-  console.log(task);
+  const fileUrls = task.contractFileUrl ? task.contractFileUrl.split("|||") : [];
 
   return (
     <div className="grid gap-5 md:grid-cols-12">
@@ -199,27 +200,28 @@ const Task = ({
               />
             </div>
             <div className="my-2 py-2">
-              <h3 className="text-md pb-3 font-bold">Contract</h3>
-              {task.contractFileUrl ? (
-                <Link
-                  className="w-content block"
-                  href={`http://malec.ddns.net:1234${task.contractFileUrl}`}
-                  target="_blank"
-                >
-                  <Image
-                    src={`https://image.thum.io/get/pdfSource/width/300/page/1/auth/72737-pdfthumb/http://malec.ddns.net:1234${task.contractFileUrl}`}
-                    alt="pdf"
-                    width={180}
-                    height={300}
-                    className="border border-primary p-2 hover:opacity-80"
-                  />
-                </Link>
-              ) : (
-                <Button variant="outline">
-                  <UploadIcon size={18} className="mr-2" />
-                  Upload
-                </Button>
-              )}
+              <h3 className="text-md pb-3 font-bold">Documents</h3>
+              <div className="flex gap-1">
+              {fileUrls.length
+                ? fileUrls.map((url: string) => (
+                    <Link
+                      key={url}
+                      className="block w-fit"
+                      href={`http://malec.ddns.net:1234${url}`}
+                      target="_blank"
+                    >
+                      <Image
+                        src={`https://image.thum.io/get/pdfSource/width/300/page/1/auth/72737-pdfthumb/http://malec.ddns.net:1234${url}`}
+                        alt="pdf"
+                        width={768}
+                        height={520}
+                        className="object-cover h-full hover:opacity-80 w-20 aspect-w-1 aspect-h-1"
+                      />
+                    </Link>
+                  ))
+                : null}
+                </div>
+              <PdfUploader taskId={task.id} />
             </div>
           </div>
         </CardContent>
@@ -250,8 +252,8 @@ const Task = ({
           </div>
         ) : null}
         {showNoteEditor ? <NoteEditor taskId={task.id} /> : null}
-        <div className="mt-5 space-y-5">
-          {task.TaskNote.map((note: any) => (
+        <div className="notes-wrapper mt-5 space-y-5">
+          {task.TaskNote.reverse().map((note: any) => (
             <SingleNote key={note.id} note={note} />
           ))}
         </div>

@@ -26,6 +26,8 @@ export type User = {
 export type Note = {
     id: string,
     content: string,
+    createdAt: Date,
+    updatedAt: Date,
     createdBy: {
         id: string,
         name: string,
