@@ -103,7 +103,7 @@ const PdfUploader = ({ taskId }: { taskId: string }) => {
       },
       autoProceed: false,
     }).use(Xhr, {
-      endpoint: "http://malec.ddns.net:1234/multiple-upload/pdfs",
+      endpoint: "https://malec.ddns.net/multiple-upload/pdfs",
       fieldName: "files[]",
       bundle: true,
     });
@@ -114,7 +114,7 @@ const PdfUploader = ({ taskId }: { taskId: string }) => {
   
   useEffect(() => {
     const filesAddedHandler = (files: any) => {
-      console.log("File uploading", files);
+      console.log("Files uploading", files);
       setStateFiles(uppy.getState().files);
     };
     

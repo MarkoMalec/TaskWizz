@@ -9,6 +9,7 @@ import { authOptions } from "~/server/auth";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 import { CalendarSearch } from "lucide-react";
+import SearchTasks from "~/components/Tasks/Forms/SearchTasks";
 
 export const metadata = {
   title: "Tasks",
@@ -68,13 +69,15 @@ const TasksPage = async ({
     <>
       <div className="flex items-center justify-between">
         <form method="get" action="/admin/tasks" className="flex items-center">
-          <Input
+          {/* <Input
             type="text"
             name="search"
             placeholder="Search tasks..."
             defaultValue={searchQuery}
-          />
-          <Button className="-ml-[58px]" type="submit">
+            className="relative"
+          /> */}
+          <SearchTasks searchQuery={searchQuery} />
+          <Button className="-ml-[58px] z-10" type="submit">
             <CalendarSearch />
           </Button>
         </form>

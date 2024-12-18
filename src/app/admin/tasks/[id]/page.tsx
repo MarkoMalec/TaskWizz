@@ -67,7 +67,7 @@ const SingleTaskPage = async ({ params }: Params) => {
 
   return (
     task && (
-      <div className="py-10">
+      <div className="py-10" suppressHydrationWarning>
         <Task task={task} admin={true} />
       </div>
     )

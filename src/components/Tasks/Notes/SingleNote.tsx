@@ -1,11 +1,26 @@
+"use client"
+
+import { useEffect, useState } from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "~/components/ui/avatar";
 import getInitials from "~/lib/getInitials";
 import { Note } from "~/lib/types";
 import { FileTextIcon } from "lucide-react";
 import format from "date-fns/format";
+import { set } from "date-fns";
 
 export const SingleNote = ({ note }: { note: Note }) => {
   const notePublishDate = format(new Date(note.createdAt), "dd.MM.yyyy");
+
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  });
+
+  if (!isMounted) {
+    return null;
+  }
+
   return (
     <div className="flex gap-5">
       <div>
@@ -28,7 +43,7 @@ export const SingleNote = ({ note }: { note: Note }) => {
         <div
           className="px-4 py-3"
           dangerouslySetInnerHTML={{ __html: note.content }}
-        />
+        ></div>
       </div>
     </div>
   );
