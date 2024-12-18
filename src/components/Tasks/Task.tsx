@@ -207,11 +207,11 @@ const Task = ({
                     <Link
                       key={url}
                       className="block w-fit"
-                      href={`http://malec.ddns.net:1234${url}`}
+                      href={`https://malec.ddns.net/${url}`}
                       target="_blank"
                     >
                       <Image
-                        src={`https://image.thum.io/get/pdfSource/width/300/page/1/auth/72737-pdfthumb/http://malec.ddns.net:1234${url}`}
+                        src={`https://image.thum.io/get/pdfSource/width/300/page/1/auth/72737-pdfthumb/https://malec.ddns.net/${url}`}
                         alt="pdf"
                         width={768}
                         height={520}
