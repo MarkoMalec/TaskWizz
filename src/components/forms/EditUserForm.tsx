@@ -57,10 +57,7 @@ const EditUserForm = ({ userData }: any) => {
       "/api/user/edit",
       {
         method: "PATCH",
-        body: JSON.stringify({ ...values, id: userData.id }),
-        headers: {
-          "Content-Type": "application/json",
-        },
+        body: JSON.stringify({ ...values, id: userData.id })
       },
       () => {
         toast.success(`User ${values.name} updated!`);

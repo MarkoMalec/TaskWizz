@@ -136,16 +136,16 @@ export function SelectUsers({ control, name, label }: SelectUsersInputProps) {
   const [values, setValues] = React.useState([]);
   const [users, setUsers] = React.useState<User[]>([]);
 
-  const { isMutating, doFetch } = useMutatingFetch();
+  const { doFetch } = useMutatingFetch();
 
   useEffect(() => {
     doFetch(
       "/api/users",
       {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        // headers: {
+        //   "Content-Type": "application/json",
+        // },
       },
       (data) => {
         setUsers(data);

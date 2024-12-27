@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
 import {
   AudioWaveform,
   BookOpen,
@@ -12,25 +12,24 @@ import {
   PieChart,
   Settings2,
   SquareTerminal,
-} from "lucide-react"
+} from "lucide-react";
 
-import { NavMain } from "./nav-main"
-import { NavProjects } from "./nav-projects"
-import { NavUser } from "./nav-user"
-import { TeamSwitcher } from "./team-switcher"
+import { NavMain } from "./nav-main";
+import { NavProjects } from "./nav-projects";
+import { NavUser } from "./nav-user";
+import { TeamSwitcher } from "./team-switcher";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
-} from "~/components/ui/sidebar"
-import { SessionContext } from "~/lib/session"
-import { useRecentlyViewedTasks } from "~/lib/hooks/useRecentlyViewedTasks"
-import { Clock } from "lucide-react"
+} from "~/components/ui/sidebar";
+import { SessionContext } from "~/lib/session";
+import { useRecentlyViewedTasks } from "~/lib/hooks/useRecentlyViewedTasks";
+import { Clock } from "lucide-react";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-
   const session = React.useContext(SessionContext);
 
   const recentTasks = useRecentlyViewedTasks();
@@ -50,12 +49,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     teams: [
       {
         name: "NeoPrism",
-        logo: 'TW',
+        logo: "TW",
         plan: "Enterprise",
       },
     ],
     navMain: [
-      
       {
         title: "Tasks",
         url: role === "admin" ? "/admin/tasks" : "/dashboard/tasks",
@@ -67,15 +65,24 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           },
           {
             title: "High priority",
-            url: role === "admin" ? "/admin/tasks?priority=high" : "/dashboard/tasks?priority=high",
+            url:
+              role === "admin"
+                ? "/admin/tasks?priority=high"
+                : "/dashboard/tasks?priority=high",
           },
           {
             title: "Normal priority",
-            url: role === "admin" ? "/admin/tasks?priority=normal" : "/dashboard/tasks?priority=normal",
+            url:
+              role === "admin"
+                ? "/admin/tasks?priority=normal"
+                : "/dashboard/tasks?priority=normal",
           },
           {
             title: "Low priority",
-            url: role === "admin" ? "/admin/tasks?priority=low" : "/dashboard/tasks?priority=low",
+            url:
+              role === "admin"
+                ? "/admin/tasks?priority=low"
+                : "/dashboard/tasks?priority=low",
           },
         ],
       },
@@ -126,9 +133,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         icon: Map,
       },
     ],
-  }
+  };
 
-  // console.log(data.navMain[1])
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -143,5 +149,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }

@@ -1,6 +1,5 @@
 "use client"
 
-import { useSidebar } from "~/components/ui/sidebar"
 import { ChevronRight, type LucideIcon } from "lucide-react"
 
 import {
@@ -33,7 +32,7 @@ export function NavMain({
     }[]
   }[]
 }) {
-  const { state, isMobile } = useSidebar();
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Platform</SidebarGroupLabel>

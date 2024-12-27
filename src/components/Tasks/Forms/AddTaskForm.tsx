@@ -98,94 +98,88 @@ const AddTaskForm = ({ user }: any) => {
   };
 
   return (
-    <div>
-      <Form {...form}>
-        <form
-          autoComplete="off"
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-5"
-        >
+    <Form {...form}>
+      <form
+        autoComplete="off"
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-5"
+      >
+        <TaskFormInput
+          control={form.control}
+          name="name"
+          label="Task Name"
+          type="text"
+          placeholder="Task Name"
+        />
+        <div className="flex items-end gap-3">
           <TaskFormInput
             control={form.control}
-            name="name"
-            label="Task Name"
+            name="priority"
+            label="Priority"
+            type="select"
+            placeholder="Select priority..."
+            options={["Low", "Normal", "High"]}
+            className="w-full max-w-[150px]"
+          />
+          <DatePicker control={form.control} label="Deadline" name="deadline" />
+        </div>
+        <TaskFormInput
+          control={form.control}
+          name="description"
+          label="Description"
+          type="textarea"
+          placeholder="Description"
+        />
+        <Separator />
+        <h3 className="text-xl font-extrabold">Location</h3>
+        <div className="flex max-w-[400px] gap-3">
+          <TaskFormInput
+            control={form.control}
+            name="address"
+            label="Address"
             type="text"
-            placeholder="Task Name"
+            placeholder="Streetname + House nr."
+            className="mb-2 flex-1"
           />
-          <div className="flex gap-3 items-end">
-            <TaskFormInput
-              control={form.control}
-              name="priority"
-              label="Priority"
-              type="select"
-              placeholder="Select priority..."
-              options={["Low", "Normal", "High"]}
-              className="w-full max-w-[150px]"
-            />
-            <DatePicker
-              control={form.control}
-              label="Deadline"
-              name="deadline"
-            />
-          </div>
           <TaskFormInput
             control={form.control}
-            name="description"
-            label="Description"
-            type="textarea"
-            placeholder="Description"
-          />
-          <Separator />
-          <h3 className="text-xl font-extrabold">Location</h3>
-          <div className="flex max-w-[400px] gap-3">
-            <TaskFormInput
-              control={form.control}
-              name="address"
-              label="Address"
-              type="text"
-              placeholder="Streetname + House nr."
-              className="mb-2 flex-1"
-            />
-            <TaskFormInput
-              control={form.control}
-              name="postcode"
-              label="Post code"
-              type="text"
-              placeholder="1234AB"
-              className="max-w-[90px] flex-1"
-            />
-          </div>
-          <TaskFormInput
-            control={form.control}
-            name="city"
-            label="City"
+            name="postcode"
+            label="Post code"
             type="text"
-            placeholder="City"
-            className="max-w-[400px] flex-1"
+            placeholder="1234AB"
+            className="max-w-[90px] flex-1"
           />
-          <TaskFormInput
-            control={form.control}
-            name="file"
-            label="Attach file"
-            type="file"
-            placeholder="Attach file"
-            // onChange={(e) => form.setValue("file", e.target.files[0])} // set the file object directly
-          />
-          <SelectUsers
-            name="assignedTo"
-            control={form.control}
-            label="Assign users"
-          />
-          <Button type="submit">
-            {isMutating ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              "Create Task"
-            )}
-          </Button>
-        </form>
-      </Form>
-    </div>
+        </div>
+        <TaskFormInput
+          control={form.control}
+          name="city"
+          label="City"
+          type="text"
+          placeholder="City"
+          className="max-w-[400px] flex-1"
+        />
+        <TaskFormInput
+          control={form.control}
+          name="file"
+          label="Attach file"
+          type="file"
+          placeholder="Attach file"
+          // onChange={(e) => form.setValue("file", e.target.files[0])} // set the file object directly
+        />
+        <SelectUsers
+          name="assignedTo"
+          control={form.control}
+          label="Assign users"
+        />
+        <Button type="submit">
+          {isMutating ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            "Create Task"
+          )}
+        </Button>
+      </form>
+    </Form>
   );
 };
 
