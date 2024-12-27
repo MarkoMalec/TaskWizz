@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "~/components/ui/avatar";
@@ -22,7 +22,7 @@ export const SingleNote = ({ note }: { note: Note }) => {
   }
 
   return (
-    <div className="flex gap-5">
+    <div className="flex gap-2 md:gap-5">
       <div>
         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary">
           <FileTextIcon className="h-5 w-5 opacity-75" />
@@ -35,10 +35,8 @@ export const SingleNote = ({ note }: { note: Note }) => {
             <AvatarFallback>{getInitials(note.createdBy.name)}</AvatarFallback>
           </Avatar>
           <span className="text-sm">{note.createdBy.name}</span>
-          
-          <div className="text-xs text-muted-foreground">
-            {notePublishDate}
-          </div>
+
+          <div className="text-xs text-muted-foreground">{notePublishDate}</div>
         </div>
         <div
           className="px-4 py-3"

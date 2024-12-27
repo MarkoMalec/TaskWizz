@@ -11,13 +11,13 @@ const Header = ({}: any) => {
   const userRole = session && session.user.role === "admin" ? true : false;
 
   return (
-    <header className="relative sticky top-0 z-10 w-full border-b backdrop-blur">
+    <header className="fixed top-0 z-20 w-full border-b backdrop-blur">
       <div className="container flex items-center justify-between">
-        <Link href="/">
-          <h2 className="text-[3rem] font-extrabold tracking-tight text-white">
+        {/* <Link href="/">
+          <h2 className="text-[2rem] font-extrabold tracking-tight text-white">
             <span className="text-[hsl(280,100%,70%)]">TW</span>
           </h2>
-        </Link>
+        </Link> */}
         {session ? <NavigationBar admin={userRole} /> : null}
       </div>
     </header>

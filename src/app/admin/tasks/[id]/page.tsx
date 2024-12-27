@@ -62,6 +62,13 @@ const SingleTaskPage = async ({ params }: Params) => {
           },
         },
       },
+      TaskFiles: {
+        select: {
+          id: true,
+          taskId: true,
+          url: true,
+        },
+      }
     },
   });
 

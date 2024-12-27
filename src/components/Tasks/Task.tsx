@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Session, Task as TaskType } from "@prisma/client";
+import { Task as TaskType } from "@prisma/client";
 import { useMutatingFetch } from "~/lib/hooks/useMutatingFetch";
 import toast from "react-hot-toast";
 import Image from "next/image";
@@ -10,7 +10,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
@@ -32,6 +31,7 @@ import {
   EditableInputField,
 } from "./EditTaskFields/EditableFields";
 import { Button } from "../ui/button";
+import { ScrollArea } from "../ui/scroll-area";
 import TaskStatusChange from "./TaskStatusChange";
 import NoteEditor from "./Notes/NoteEditor";
 import { SingleNote } from "./Notes/SingleNote";
@@ -61,14 +61,6 @@ const Task = ({
   const deadlineDate = new Date(task.deadline);
   const formattedDeadlineDate = format(deadlineDate, "dd.MM.yyyy");
 
-  const handleSave = (name: string, value: string) => {
-    setTheTask((prev: object) => ({ ...prev, [name]: value }));
-    const currentChanges = { [name]: value };
-
-    setMutatingFieldName(name);
-    saveChangeToServer(currentChanges);
-  };
-
   const saveChangeToServer = async (updates: any) => {
     doFetch(
       "/api/task/edit",
@@ -86,7 +78,15 @@ const Task = ({
     );
   };
 
-  const fileUrls = task.contractFileUrl ? task.contractFileUrl.split("|||") : [];
+  const handleSave = (name: string, value: string) => {
+    setTheTask((prev: object) => ({ ...prev, [name]: value }));
+    const currentChanges = { [name]: value };
+
+    setMutatingFieldName(name);
+    saveChangeToServer(currentChanges);
+  };
+
+  const taskFiles = task.TaskFiles;
 
   return (
     <div className="grid gap-5 md:grid-cols-12">
@@ -201,32 +201,41 @@ const Task = ({
             </div>
             <div className="my-2 py-2">
               <h3 className="text-md pb-3 font-bold">Documents</h3>
-              <div className="flex gap-1">
-              {fileUrls.length
-                ? fileUrls.map((url: string) => (
-                    <Link
-                      key={url}
-                      className="block w-fit"
-                      href={`https://malec.ddns.net/${url}`}
-                      target="_blank"
-                    >
-                      <Image
-                        src={`https://image.thum.io/get/pdfSource/width/300/page/1/auth/72737-pdfthumb/https://malec.ddns.net/${url}`}
-                        alt="pdf"
-                        width={768}
-                        height={520}
-                        className="object-cover h-full hover:opacity-80 w-20 aspect-w-1 aspect-h-1"
-                      />
-                    </Link>
-                  ))
-                : null}
+              {taskFiles.length ? (
+                // <ScrollArea className="h-96 w-full">
+                  <div className="pdf-grid flex flex-wrap gap-1">
+                    {taskFiles.map((taskFile: { id: string; url: string }) => (
+                      <Link
+                        key={taskFile.id}
+                        className="pdf-wrap block w-[19%]"
+                        href={`https://malec.ddns.net${taskFile.url}`}
+                        target="_blank"
+                      >
+                        <Image
+                          src={`https://image.thum.io/get/pdfSource/width/300/page/1/auth/72737-pdfthumb/https://malec.ddns.net${taskFile.url}`}
+                          alt="pdf"
+                          width={768}
+                          height={520}
+                          className="pdf-image aspect-w-1 aspect-h-1 relative h-full w-full object-cover transition-all hover:scale-110 hover:rounded-lg"
+                        />
+                      </Link>
+                    ))}
+                  </div>
+                // </ScrollArea>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <UploadIcon size={20} />
+                  <span className="text-muted-foreground">
+                    No documents uploaded
+                  </span>
                 </div>
+              )}
               <PdfUploader taskId={task.id} />
             </div>
           </div>
         </CardContent>
       </Card>
-      <div className="col-span-12 p-10 md:col-span-8">
+      <div className="col-span-12 p-0 md:col-span-8 md:p-10">
         <div className="my-2 border-b py-2">
           <h3 className="text-md font-bold">Description</h3>
           <EditableInputField
@@ -243,7 +252,7 @@ const Task = ({
               <h2 className="text-center">No comments yet.</h2>
             ) : null}
             <Button
-              variant="positive"
+              variant="default"
               className="mx-auto flex gap-1"
               onClick={() => setShowNoteEditor(true)}
             >

@@ -104,6 +104,7 @@ model Task {
   TaskNote        TaskNote[]
 
   @@index([createdById])
+  TaskFiles TaskFiles[]
 }
 
 model TaskAssignment {
@@ -129,4 +130,13 @@ model TaskNote {
 
   @@index([taskId])
   @@index([createdById])
+}
+
+model TaskFiles {
+  id     String @id @default(cuid())
+  taskId String
+  url    String
+  task   Task   @relation(fields: [taskId], references: [id])
+
+  @@index([taskId])
 }

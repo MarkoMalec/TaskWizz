@@ -28,6 +28,14 @@ h2 {
     --input: 220 13% 91%;
     --ring: 224 71.4% 4.1%;
     --radius: 0.5rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
@@ -50,6 +58,14 @@ h2 {
     --border: 210 21% 9%;
     --input: 215 27.9% 56.9%;
     --ring: 216 12.2% 83.9%;
+    --sidebar-background: var(--background);
+    --sidebar-foreground: var(--foreground);
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: var(--accent);
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
@@ -86,6 +102,38 @@ h2 {
 .uppy-Dashboard-inner {
   background-color: transparent!important;
 }
+
+.uppy-DragDrop-inner .uppy-c-icon {
+  fill: hsl(var(--primary))!important;
+  display: block;
+  margin-inline: auto;
+}
+
+.uppy-DragDrop-inner .uppy-DragDrop-label {
+  color: hsl(var(--primary))!important;
+}
+
+.pdf-grid:hover > .pdf-wrap img {
+  opacity: .75;
+}
+
+.pdf-wrap:hover img:hover {
+  opacity: 1;
+  z-index: 2;
+}
+
+.pdf-wrap:nth-child(5n + 1):hover img {
+  transform: translateX(5px) scale(1.10);
+}
+
+.pdf-wrap:nth-child(1):hover img, .pdf-wrap:nth-child(2):hover img, .pdf-wrap:nth-child(3):hover img, .pdf-wrap:nth-child(4):hover img, .pdf-wrap:nth-child(5):hover img {
+  transform: translateY(5px) scale(1.10);
+}
+
+.pdf-wrap:nth-child(1):hover img {
+  transform: translateX(5px) translateY(5px) scale(1.10);
+}
+
 
 table th button {
   padding-left: 0!important;

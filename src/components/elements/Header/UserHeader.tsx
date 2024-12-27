@@ -17,12 +17,38 @@ import {
 import CredentialLoginForm from "~/components/forms/CredentialLoginForm";
 import { SessionContext } from "~/lib/session";
 
-const UserHeader = () => {
+const UserHeader = ({ noMenu }: { noMenu?: true | false }) => {
   const session = React.useContext(SessionContext);
 
   const username = session?.user.name;
   const avatar = session?.user.image;
   const role = session?.user.role;
+
+  console.log(noMenu);
+
+  if (noMenu) {
+    return (
+      <div className="flex items-center gap-2">
+        <Avatar className="h-12 w-12 cursor-pointer">
+          <Link href="/account">
+            <AvatarImage
+              src={avatar}
+              alt={username ? `${username}'s avatar` : "User avatar"}
+            />
+            <AvatarFallback></AvatarFallback>
+          </Link>
+        </Avatar>
+        <div>
+          <Link href="/account" className="text-sm font-semibold">
+            {username}
+            <span className="block text-left text-xs font-light opacity-80">
+              {role}
+            </span>
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <DropdownMenu>

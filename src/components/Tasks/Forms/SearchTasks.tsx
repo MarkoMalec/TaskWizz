@@ -18,12 +18,9 @@ const SearchTasks: React.FC<SearchTasksProps> = ({ searchQuery }) => {
     setLoadingState(true);
     const handler = setTimeout(() => {
       if (inputValue) {
-        doFetch(
-          `/api/tasks?searchInput=${encodeURIComponent(inputValue)}`,
-          {
-            method: "GET",
-          },
-        ).then((data) => {
+        doFetch(`/api/tasks?searchInput=${encodeURIComponent(inputValue)}`, {
+          method: "GET",
+        }).then((data) => {
           setResults(data);
           setLoadingState(false);
         });
@@ -66,9 +63,13 @@ const SearchTasks: React.FC<SearchTasksProps> = ({ searchQuery }) => {
       if (results.length > 0) {
         return (
           <div className="rounded-b-2xl bg-secondary p-2 shadow-md">
-            <ul className="space-y-2">
+            <div className="space-y-2">
               {results.map((result, index) => (
-                <li key={index} className="border-b p-1">
+                <a
+                  href={`/admin/tasks/${result.id}`}
+                  key={index}
+                  className="block border-b p-1"
+                >
                   <strong>{result.name}</strong> <br />
                   <small className="text-xs">Note:</small>
                   {result.TaskNote.length
@@ -87,9 +88,9 @@ const SearchTasks: React.FC<SearchTasksProps> = ({ searchQuery }) => {
                         );
                       })
                     : ""}
-                </li>
+                </a>
               ))}
-            </ul>
+            </div>
           </div>
         );
       }

@@ -8,7 +8,12 @@ import { Toaster } from "react-hot-toast";
 import React from "react";
 // import { Session } from "~/lib/session";
 import SessionProvider from "~/lib/session";
-// import { SessionProvider } from "next-auth/react";
+import {
+  SidebarProvider,
+  SidebarTrigger,
+  SidebarInset,
+} from "~/components/ui/sidebar";
+import { AppSidebar } from "~/components/elements/Sidebar/Sidebar";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -38,10 +43,18 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <Header session={session} />
-            <main className="container">
-              {React.cloneElement(children as React.ReactElement, { session })}
-            </main>
+            <SidebarProvider>
+              <AppSidebar />
+              <SidebarInset>
+                <SidebarTrigger className="fixed top-[15px] z-50 ml-5" />
+                <Header session={session} />
+                <main className="container pt-20">
+                  {React.cloneElement(children as React.ReactElement, {
+                    session,
+                  })}
+                </main>
+              </SidebarInset>
+            </SidebarProvider>
             <Toaster />
           </ThemeProvider>
         </SessionProvider>
