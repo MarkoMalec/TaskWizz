@@ -19,8 +19,9 @@ import {
 } from "~/components/ui/alert-dialog";
 import { toast } from "react-hot-toast";
 import { useIsMobile } from "~/hooks/use-mobile";
-import { Plus, Loader2 } from "lucide-react";
+import { Plus, Loader2, Settings } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "~/components/ui/popover";
+import { Drawer, DrawerContent, DrawerTrigger } from "~/components/ui/drawer";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -158,20 +159,20 @@ export function DataTableToolbar<TData>({
         <DataTableViewOptions table={table} />
 </>
       ) : (
-        <Popover>
-          <PopoverTrigger asChild>
+        <Drawer>
+          <DrawerTrigger asChild>
             <Button
               variant="ghost"
               size="sm"
               className="h-8 px-2 lg:px-3"
             >
-              Options
+              <Settings />
             </Button>
-          </PopoverTrigger>
-          <PopoverContent>
+          </DrawerTrigger>
+          <DrawerContent>
             <DataTableViewOptions table={table} />
-          </PopoverContent>
-        </Popover>
+          </DrawerContent>
+        </Drawer>
       )}
     </div>
   );

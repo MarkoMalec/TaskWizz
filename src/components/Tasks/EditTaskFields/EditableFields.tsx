@@ -8,7 +8,9 @@ import { Skeleton } from "~/components/ui/skeleton";
 import { Calendar } from "~/components/ui/calendar";
 import { Popover, PopoverContent } from "~/components/ui/popover";
 import { PopoverTrigger } from "@radix-ui/react-popover";
+import { useIsMobile } from "~/hooks/use-mobile";
 import { PenSquare } from "lucide-react";
+import { Drawer, DrawerContent, DrawerTrigger } from "~/components/ui/drawer";
 
 export const EditableInputField = ({
   initialValue,
@@ -92,7 +94,9 @@ export const EditableInputField = ({
   }
 
   return (
-    <div className={`${className} group flex items-start justify-between gap-2 rounded-md p-1 pl-2 hover:bg-primary/5`}>
+    <div
+      className={`${className} group flex items-start justify-between gap-2 rounded-md p-1 pl-2 hover:bg-primary/5`}
+    >
       {isMutating ? (
         <Skeleton className="h-[30px] w-[100%] max-w-[400px] rounded-full" />
       ) : (
@@ -117,6 +121,7 @@ export const EditableDatepickerField = ({
   type,
 }: any) => {
   const [value, setValue] = useState(initialValue);
+  const isMobile = useIsMobile();
 
   const handleOnDateChange = (selectedDate: any) => {
     const newValue = new Date(selectedDate);
@@ -125,12 +130,32 @@ export const EditableDatepickerField = ({
     onSave(name, selectedDate);
   };
 
+  if (isMobile) {
+    return (
+      <Drawer>
+        <DrawerTrigger>
+          {isMutating ? <Skeleton className="h-[21px] w-[82px]" /> : value}
+        </DrawerTrigger>
+        <DrawerContent>
+          <div className="max-w-32 mx-auto">
+            <Calendar
+              mode="single"
+              selected={nonFormatDate}
+              onSelect={handleOnDateChange}
+              initialFocus
+            />
+          </div>
+        </DrawerContent>
+      </Drawer>
+    );
+  }
+
   return (
     <Popover>
       <PopoverTrigger className="rounded-md bg-primary/5 px-2 py-1">
         {isMutating ? <Skeleton className="h-[21px] w-[82px]" /> : value}
       </PopoverTrigger>
-      <PopoverContent>
+      <PopoverContent className="p-0">
         <Calendar
           mode="single"
           selected={nonFormatDate}
