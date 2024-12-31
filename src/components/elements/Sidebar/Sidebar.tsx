@@ -2,16 +2,12 @@
 
 import * as React from "react";
 import {
-  AudioWaveform,
   BookOpen,
   Bot,
-  Command,
   Frame,
-  GalleryVerticalEnd,
   Map,
   PieChart,
   Settings2,
-  SquareTerminal,
 } from "lucide-react";
 
 import { NavMain } from "./nav-main";
@@ -26,15 +22,10 @@ import {
   SidebarRail,
 } from "~/components/ui/sidebar";
 import { SessionContext } from "~/lib/session";
-import { useRecentlyViewedTasks } from "~/lib/hooks/useRecentlyViewedTasks";
-import { Clock } from "lucide-react";
 import { Separator } from "~/components/ui/separator";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const session = React.useContext(SessionContext);
-
-  // const recentTasks = useRecentlyViewedTasks();
-
 
   const username = session?.user.name;
   const userAvatar = session?.user.image;

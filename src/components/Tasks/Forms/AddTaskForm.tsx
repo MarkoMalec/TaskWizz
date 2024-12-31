@@ -13,7 +13,7 @@ import { Button } from "~/components/ui/button";
 import { Separator } from "~/components/ui/separator";
 import { toast } from "react-hot-toast";
 import { Loader2 } from "lucide-react";
-import Task from "../Task";
+import { useTranslations } from "next-intl";
 
 const formSchema = z.object({
   name: z.string().min(4, {
@@ -97,6 +97,8 @@ const AddTaskForm = ({ user }: any) => {
     }
   };
 
+  const labelTranslation = useTranslations("TaskForm.labels");
+
   return (
     <Form {...form}>
       <form
@@ -117,7 +119,7 @@ const AddTaskForm = ({ user }: any) => {
             name="priority"
             label="Priority"
             type="select"
-            placeholder="Select priority..."
+            placeholder="Select priority"
             options={["Low", "Normal", "High"]}
             className="w-full max-w-[150px]"
           />
@@ -132,36 +134,36 @@ const AddTaskForm = ({ user }: any) => {
         />
         <Separator />
         <h3 className="text-xl font-extrabold">Location</h3>
-        <div className="flex max-w-[400px] gap-3">
+        <div className="flex gap-3">
           <TaskFormInput
             control={form.control}
             name="address"
             label="Address"
             type="text"
-            placeholder="Streetname + House nr."
+            placeholder="Streetname + House number"
             className="mb-2 flex-1"
           />
           <TaskFormInput
             control={form.control}
             name="postcode"
-            label="Post code"
+            label="Postal code"
             type="text"
             placeholder="1234AB"
             className="max-w-[90px] flex-1"
           />
+          <TaskFormInput
+            control={form.control}
+            name="city"
+            label="City"
+            type="text"
+            placeholder="City"
+            className="max-w-10"
+          />
         </div>
         <TaskFormInput
           control={form.control}
-          name="city"
-          label="City"
-          type="text"
-          placeholder="City"
-          className="max-w-[400px] flex-1"
-        />
-        <TaskFormInput
-          control={form.control}
           name="file"
-          label="Attach file"
+          label="Attachements"
           type="file"
           placeholder="Attach file"
           // onChange={(e) => form.setValue("file", e.target.files[0])} // set the file object directly

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { User } from "~/lib/types";
 import { useMutatingFetch } from "~/lib/hooks/useMutatingFetch";
+import { useTranslations } from "next-intl";
 import { Control } from "react-hook-form";
 import { Input } from "~/components/ui/input";
 import { Switch } from "~/components/ui/switch";
@@ -39,9 +40,9 @@ import {
   CommandItem,
 } from "~/components/ui/command";
 
-import { Check, ChevronsUpDown } from "lucide-react";
-import { Calendar as CalendarIcon } from "lucide-react";
+import { Check, ChevronsUpDown, Calendar as CalendarIcon } from "lucide-react";
 import { Calendar } from "~/components/ui/calendar";
+import { Badge } from "~/components/ui/badge";
 
 type TaskFormInputProps = {
   control: Control<any>;
@@ -69,6 +70,10 @@ const TaskFormInput: React.FC<TaskFormInputProps> = ({
   options,
   className,
 }) => {
+  const translateLabel = useTranslations("TaskForm.labels");
+  const placeholderTranslation = useTranslations("TaskForm.placeholders");
+  const selectOptionsTranslation = useTranslations("TaskForm.selectOptions");
+
   return (
     <FormField
       control={control}
@@ -83,25 +88,30 @@ const TaskFormInput: React.FC<TaskFormInputProps> = ({
               : ""
           }
         >
-          <FormLabel>{label}</FormLabel>
+          <FormLabel>{translateLabel(label)}</FormLabel>
           <FormControl>
             {type === "switch" ? (
               <Switch checked={field.value} onCheckedChange={field.onChange} />
             ) : type === "select" ? (
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <SelectTrigger className="max-w-[180px]">
-                  <SelectValue placeholder={placeholder} />
+                  <SelectValue
+                    placeholder={placeholderTranslation(placeholder)}
+                  />
                 </SelectTrigger>
                 <SelectContent>
                   {options?.map((option) => (
                     <SelectItem key={option} value={option}>
-                      {option}
+                      {selectOptionsTranslation(option)}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             ) : type === "textarea" ? (
-              <Textarea placeholder={placeholder} {...field} />
+              <Textarea
+                placeholder={placeholderTranslation(placeholder)}
+                {...field}
+              />
             ) : type === "file" ? (
               <Input
                 type="file"
@@ -111,7 +121,7 @@ const TaskFormInput: React.FC<TaskFormInputProps> = ({
             ) : (
               <Input
                 type={type}
-                placeholder={placeholder}
+                placeholder={placeholderTranslation(placeholder)}
                 {...field}
               />
             )}
@@ -136,6 +146,9 @@ export function SelectUsers({ control, name, label }: SelectUsersInputProps) {
   const [values, setValues] = React.useState([]);
   const [users, setUsers] = React.useState<User[]>([]);
 
+  const labelTranslation = useTranslations("TaskForm.labels");
+  const placeholderTranslation = useTranslations("TaskForm.placeholders");
+
   const { doFetch } = useMutatingFetch();
 
   useEffect(() => {
@@ -143,9 +156,6 @@ export function SelectUsers({ control, name, label }: SelectUsersInputProps) {
       "/api/users",
       {
         method: "GET",
-        // headers: {
-        //   "Content-Type": "application/json",
-        // },
       },
       (data) => {
         setUsers(data);
@@ -159,14 +169,14 @@ export function SelectUsers({ control, name, label }: SelectUsersInputProps) {
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{label}</FormLabel>
+          <FormLabel>{labelTranslation(label)}</FormLabel>
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
                 role="combobox"
                 aria-expanded={open}
-                className="text-wrap flex w-[fit-content] justify-between"
+                className="text-wrap flex h-[unset] max-w-[350px] flex-wrap items-center justify-center pl-3"
               >
                 {field.value.length > 0
                   ? field.value
@@ -174,14 +184,16 @@ export function SelectUsers({ control, name, label }: SelectUsersInputProps) {
                         (id: string) =>
                           users.find((user) => user.id === id)?.name,
                       )
-                      .join(" | ")
-                  : "Select users..."}
+                      .map((name: string) => <Badge key={name}>{name}</Badge>)
+                  : `${placeholderTranslation("Select users")}...`}
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[200px] p-0">
               <Command>
-                <CommandInput placeholder="Search users..." />
+                <CommandInput
+                  placeholder={`${placeholderTranslation("Search users")}...`}
+                />
                 <CommandEmpty>No users found.</CommandEmpty>
                 <CommandGroup>
                   {users.map((user) => (
@@ -227,13 +239,13 @@ export function DatePicker({ control, name, label }: any) {
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel className="block mb-1">{label}</FormLabel>
+          <FormLabel className="mb-1 block">{label}</FormLabel>
           <Popover>
             <PopoverTrigger asChild>
               <Button
                 variant={"outline"}
                 className={cn(
-                  "w-[280px] h-10 justify-start text-left font-normal",
+                  "h-10 w-[280px] justify-start text-left font-normal",
                   !field.value && "text-muted-foreground",
                 )}
               >

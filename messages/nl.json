@@ -9,5 +9,34 @@
         "home": "Home",
         "about": "Over ons"
       }
+    },
+    "TaskForm": {
+        "labels": {
+            "Task Name": "Taaknaam",
+            "Description": "Beschrijving",
+            "Priority": "Prioriteit",
+            "Deadline": "Deadline",
+            "Address": "Adres",
+            "City": "Stad",
+            "Postal code": "Postcode",
+            "State": "Staat",
+            "Attachements": "Bijlagen",
+            "Assign users": "Gebruikers toewijzen"
+        },
+        "placeholders": {
+            "Task Name": "Voer de taaknaam in",
+            "Description": "Voer de beschrijving in",
+            "Select priority": "Selecteer prioriteit",
+            "Streetname + House number": "Straatnaam + Huisnummer",
+            "City": "Stad",
+            "1234AB": "1234AB",
+            "Search users": "Zoek gebruikers",
+            "Select users": "Selecteer gebruikers"
+        },
+        "selectOptions": {
+            "High": "Hoog",
+            "Normal": "Normaal",
+            "Low": "Laag"
+        }
     }
   }

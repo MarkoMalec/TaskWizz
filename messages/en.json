@@ -9,5 +9,35 @@
         "home": "Home",
         "about": "About"
       }
+    },
+    "TaskForm": {
+        "labels": {
+            "Task Name": "Task Name",
+            "Description": "Description",
+            "Priority": "Priority",
+            "Deadline": "Deadline",
+            "Address": "Address",
+            "City": "City",
+            "Postal code": "Postal code",
+            "State": "State",
+            "Attachements": "Attachements",
+            "Assign users": "Assign users"
+        },
+        "placeholders": {
+            "Task Name": "Task Name",
+            "Description": "Description",
+            "Select priority": "Select Priority",
+            "Streetname + House number": "Streetname + House number",
+            "City": "City",
+            "1234AB": "1234AB",
+            "Search users": "Search users",
+            "Select users": "Select users"
+        },
+        "selectOptions": {
+            "High": "High",
+            "Normal": "Normal",
+            "Low": "Low"
+        }
     }
-  }
+}
+  
