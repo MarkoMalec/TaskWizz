@@ -88,12 +88,13 @@ model VerificationToken {
 
 model Task {
   id              String           @id @default(cuid())
+  slug            String           @unique
   address         String
   createdById     String
   dateCreated     DateTime         @default(now())
   description     String           @db.Text
   priority        String           @default("Normal")
-  name            String           @default("Task name")
+  name            String           
   city            String
   deadline        DateTime
   status          String           @default("Pending")
@@ -104,6 +105,7 @@ model Task {
   TaskNote        TaskNote[]
 
   @@index([createdById])
+  @@unique([name, slug])
   TaskFiles TaskFiles[]
 }
 

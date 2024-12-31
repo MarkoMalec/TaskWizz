@@ -31,7 +31,6 @@ import {
   EditableInputField,
 } from "./EditTaskFields/EditableFields";
 import { Button } from "../ui/button";
-import { ScrollArea } from "../ui/scroll-area";
 import TaskStatusChange from "./TaskStatusChange";
 import NoteEditor from "./Notes/NoteEditor";
 import { SingleNote } from "./Notes/SingleNote";
@@ -67,9 +66,6 @@ const Task = ({
       {
         method: "PATCH",
         body: JSON.stringify({ id: task.id, ...updates }),
-        headers: {
-          "Content-Type": "application/json",
-        },
       },
       () => {
         toast.success(`Field successfully edited`);
@@ -202,26 +198,24 @@ const Task = ({
             <div className="my-2 py-2">
               <h3 className="text-md pb-3 font-bold">Documents</h3>
               {taskFiles.length ? (
-                // <ScrollArea className="h-96 w-full">
-                  <div className="pdf-grid flex flex-wrap gap-1">
-                    {taskFiles.map((taskFile: { id: string; url: string }) => (
-                      <Link
-                        key={taskFile.id}
-                        className="pdf-wrap block w-[19%]"
-                        href={`https://malec.ddns.net${taskFile.url}`}
-                        target="_blank"
-                      >
-                        <Image
-                          src={`https://image.thum.io/get/pdfSource/width/300/page/1/auth/72737-pdfthumb/https://malec.ddns.net${taskFile.url}`}
-                          alt="pdf"
-                          width={768}
-                          height={520}
-                          className="pdf-image aspect-w-1 aspect-h-1 relative h-full w-full object-cover transition-all hover:scale-110 hover:rounded-lg"
-                        />
-                      </Link>
-                    ))}
-                  </div>
-                // </ScrollArea>
+                <div className="pdf-grid flex flex-wrap gap-1">
+                  {taskFiles.map((taskFile: { id: string; url: string }) => (
+                    <Link
+                      key={taskFile.id}
+                      className="pdf-wrap block w-[19%]"
+                      href={`https://malec.ddns.net${taskFile.url}`}
+                      target="_blank"
+                    >
+                      <Image
+                        src={`https://image.thum.io/get/pdfSource/width/300/page/1/auth/72737-pdfthumb/https://malec.ddns.net${taskFile.url}`}
+                        alt="pdf"
+                        width={768}
+                        height={520}
+                        className="pdf-image aspect-w-1 aspect-h-1 relative h-full w-full object-cover transition-all hover:scale-110 hover:rounded-lg"
+                      />
+                    </Link>
+                  ))}
+                </div>
               ) : (
                 <div className="flex items-center gap-2">
                   <UploadIcon size={20} />

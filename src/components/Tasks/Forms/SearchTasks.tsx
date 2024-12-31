@@ -31,7 +31,7 @@ const SearchTasks: React.FC<SearchTasksProps> = ({ searchQuery }) => {
     }, 500);
 
     // setLoadingState(false);
-    console.log(loadingState, "after");
+
     return () => {
       clearTimeout(handler);
     };
@@ -99,12 +99,12 @@ const SearchTasks: React.FC<SearchTasksProps> = ({ searchQuery }) => {
   };
 
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <Input
         type="text"
         value={inputValue}
         onChange={(e) => inputSearch(e.target.value)}
-        className="w-[500px]"
+        className="w-full lg:w-[500px] "
       />
       {isMutating && loadingState && (
         <div className="z-15 absolute left-[50%] top-5">Loading...</div>

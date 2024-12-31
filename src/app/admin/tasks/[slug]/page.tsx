@@ -4,15 +4,14 @@ import { prisma } from "~/lib/prisma";
 
 type Params = {
   params: {
-    id: string;
-    name: string;
+    slug: string;
   };
 };
 
 export async function generateMetadata({ params }: Params) {
   const task = await prisma.task.findUnique({
     where: {
-      id: params.id,
+      slug: params.slug,
     },
     select: {
       name: true,
@@ -28,9 +27,10 @@ export async function generateMetadata({ params }: Params) {
 
 const SingleTaskPage = async ({ params }: Params) => {
 
+  // const taskName = decodeURIComponent(params.name);
   const task = await prisma.task.findUnique({
     where: {
-      id: params.id,
+      slug: params.slug,
     },
     include: {
       createdBy: {

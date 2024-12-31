@@ -18,7 +18,9 @@ import {
   AlertDialogTrigger,
 } from "~/components/ui/alert-dialog";
 import { toast } from "react-hot-toast";
+import { useIsMobile } from "~/hooks/use-mobile";
 import { Plus, Loader2 } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "~/components/ui/popover";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -62,6 +64,7 @@ export function DataTableToolbar<TData>({
   selectedTasks,
   setRowSelection,
 }: DataTableToolbarProps<TData>) {
+  const isMobile = useIsMobile();
   const { isMutating, doFetch } = useMutatingFetch();
   const isFiltered = table.getState().columnFilters.length > 0;
 
@@ -122,35 +125,54 @@ export function DataTableToolbar<TData>({
           </Button>
         )}
       </div>
-      <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <Button
-            variant="destructive"
-            size="sm"
-            disabled={selectedTasks().length === 0}
-            className="mr-2 h-8 px-2 lg:px-3"
-          >
-            Delete
-          </Button>
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete{" "}
-              {selectedTasks().length} task
-              {selectedTasks().length > 1 ? "s" : ""} from our servers.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={bulkTasksDelete}>
+      {!isMobile ? (
+        <>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button
+              variant="destructive"
+              size="sm"
+              disabled={selectedTasks().length === 0}
+              className="mr-2 h-8 px-2 lg:px-3"
+            >
               Delete
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-      <DataTableViewOptions table={table} />
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete{" "}
+                {selectedTasks().length} task
+                {selectedTasks().length > 1 ? "s" : ""} from our servers.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={bulkTasksDelete}>
+                Delete
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+        <DataTableViewOptions table={table} />
+</>
+      ) : (
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 px-2 lg:px-3"
+            >
+              Options
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent>
+            <DataTableViewOptions table={table} />
+          </PopoverContent>
+        </Popover>
+      )}
     </div>
   );
 }

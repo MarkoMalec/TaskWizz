@@ -1,0 +1,13 @@
+{
+    "common": {
+      "buttons": {
+        "submit": "Verzenden",
+        "cancel": "Annuleren",
+        "Comment": "Commentaar"
+      },
+      "navigation": {
+        "home": "Home",
+        "about": "Over ons"
+      }
+    }
+  }

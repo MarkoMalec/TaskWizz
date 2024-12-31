@@ -3,6 +3,9 @@
  * for Docker builds.
  */
 await import("./src/env.mjs");
+import createNextIntlPlugin from 'next-intl/plugin';
+
+const withNextIntl = createNextIntlPlugin();
 
 /** @type {import("next").NextConfig} */
 // module.exports = {
@@ -17,14 +20,17 @@ await import("./src/env.mjs");
 //       ],
 //     },
 //   }
-const config = {
+const nextConfig = {
+  trailingSlash: true,
+  experimental: {
+    serverActions: true,
+  },
   images: {
     remotePatterns: [
       {
         protocol: "https",
         hostname: "cdn.discordapp.com",
         port: "",
-        //   pathname: '/account123/**',
       },
       {
         hostname: "files.edgestore.dev",
@@ -46,4 +52,4 @@ const config = {
   },
 };
 
-export default config;
+export default withNextIntl(nextConfig);

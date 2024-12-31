@@ -26,6 +26,7 @@ import { ArrowUpDown } from "lucide-react";
 
 type Task = {
   id: string;
+  slug: string;
   priority: string | null;
   status: string;
   city: string;
@@ -48,8 +49,6 @@ export const columns: ColumnDef<Task>[] = [
       />
     ),
     cell: ({ row }) => {
-      const task = row.original;
-
       return (
         <Checkbox
           checked={row.getIsSelected()}
@@ -111,7 +110,7 @@ export const columns: ColumnDef<Task>[] = [
       return (
         <Link
           prefetch={false}
-          href={`${admin ? "/admin" : "/dashboard"}/tasks/${task.id}`}
+          href={`${admin ? "/admin" : "/dashboard"}/tasks/${task.slug}`}
           className="hover:underline"
         >
           {task.name}
@@ -202,7 +201,7 @@ export const columns: ColumnDef<Task>[] = [
             <DropdownMenuItem
               onClick={() => {
                 navigator.clipboard.writeText(
-                  `localhost:3000${pathname}/${task.id}`,
+                  `localhost:3000${pathname}/${task.slug}`,
                 );
                 toast.success("Task URL copied!");
               }}
@@ -212,7 +211,7 @@ export const columns: ColumnDef<Task>[] = [
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link prefetch={false} href={`${pathname}/${task.id}`}>
+              <Link prefetch={false} href={`${pathname}/${task.slug}`}>
                 View task
               </Link>
             </DropdownMenuItem>

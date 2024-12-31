@@ -1,24 +1,20 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
-import NavigationBar from "../NavigationBar";
 import { SessionContext } from "~/lib/session";
+import BreadcrumbNavigation from "~/lib/breadcrumbs-nav";
+import { SidebarTrigger } from "~/components/ui/sidebar";
 
-const Header = ({}: any) => {
+const Header = () => {
   const session = React.useContext(SessionContext);
 
-  const userRole = session && session.user.role === "admin" ? true : false;
+  if (!session) return null;
 
   return (
     <header className="fixed top-0 z-20 w-full border-b backdrop-blur">
-      <div className="container flex items-center justify-between">
-        {/* <Link href="/">
-          <h2 className="text-[2rem] font-extrabold tracking-tight text-white">
-            <span className="text-[hsl(280,100%,70%)]">TW</span>
-          </h2>
-        </Link> */}
-        {session ? <NavigationBar admin={userRole} /> : null}
+      <div className=" flex items-center">
+        <SidebarTrigger className="rounded-none border-r px-8 py-8" />
+        <BreadcrumbNavigation className="ml-7" />
       </div>
     </header>
   );

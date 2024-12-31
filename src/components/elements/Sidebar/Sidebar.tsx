@@ -28,11 +28,13 @@ import {
 import { SessionContext } from "~/lib/session";
 import { useRecentlyViewedTasks } from "~/lib/hooks/useRecentlyViewedTasks";
 import { Clock } from "lucide-react";
+import { Separator } from "~/components/ui/separator";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const session = React.useContext(SessionContext);
 
-  const recentTasks = useRecentlyViewedTasks();
+  // const recentTasks = useRecentlyViewedTasks();
+
 
   const username = session?.user.name;
   const userAvatar = session?.user.image;
@@ -90,7 +92,20 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         title: "Recent",
         url: "#",
         icon: BookOpen,
-        items: recentTasks,
+        items: [
+          {
+            title: "Tasks",
+            url: "#",
+          },
+          {
+            title: "Projects",
+            url: "#",
+          },
+          {
+            title: "Files",
+            url: "#",
+          }
+        ],
       },
       {
         title: "Settings",
@@ -135,11 +150,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     ],
   };
 
+  if (!session) return null;
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
+      <Separator />
       <SidebarContent>
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />

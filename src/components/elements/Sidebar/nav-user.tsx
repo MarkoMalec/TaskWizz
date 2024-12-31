@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import React from "react"
+import React from "react";
 
 import {
   BadgeCheck,
@@ -9,13 +9,10 @@ import {
   CreditCard,
   LogOut,
   Sparkles,
-} from "lucide-react"
+  LanguagesIcon,
+} from "lucide-react";
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "~/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,24 +21,31 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu"
+} from "~/components/ui/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "~/components/ui/sidebar"
+} from "~/components/ui/sidebar";
+import Link from "next/link";
+import { signOut } from "next-auth/react";
+import { Button } from "~/components/ui/button";
+import { ThemeSwitcher } from "../ThemeSwitcher/ThemeSwitcher";
+import { setNLCookie, setENCookie } from "~/lib/setLangCookie";
 
 export function NavUser({
   user,
+  noMenu,
 }: {
   user: {
-    name: string
-    email: string
-    avatar: string
-  }
+    name: string;
+    email: string;
+    avatar: string;
+  };
+  noMenu?: boolean;
 }) {
-  const { isMobile } = useSidebar()
+  const { isMobile } = useSidebar();
 
   return (
     <SidebarMenu>
@@ -60,11 +64,11 @@ export function NavUser({
                 <span className="truncate font-semibold">{user.name}</span>
                 <span className="truncate text-xs">{user.email}</span>
               </div>
-              <ChevronsUpDown className="ml-auto size-4" strokeWidth={1} />
+              <ChevronsUpDown className="size-4 ml-auto" strokeWidth={1} />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-full min-w-56 rounded-lg"
+            className="min-w-56 w-full rounded-lg"
             side={isMobile ? "bottom" : "right"}
             align="end"
             sideOffset={4}
@@ -83,6 +87,35 @@ export function NavUser({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
+              <DropdownMenuItem className="flex flex-col items-start">
+                <small className="block">Theme</small>
+                <ThemeSwitcher />
+              </DropdownMenuItem>
+              <DropdownMenuItem className="flex flex-col items-start">
+                <small className="flex items-center">
+                  Language <LanguagesIcon className="ml-2" size={15} />
+                </small>
+                <div className="flex gap-2">
+                  <form action={setENCookie}>
+                    <Button
+                      variant="outline"
+                      className="aspect-square h-9 w-9 p-0"
+                      type="submit"
+                    >
+                      EN
+                    </Button>
+                  </form>
+                  <form action={setNLCookie}>
+                    <Button
+                      variant="outline"
+                      className="aspect-square h-9 w-9 p-0"
+                      type="submit"
+                    >
+                      NL
+                    </Button>
+                  </form>
+                </div>
+              </DropdownMenuItem>
               <DropdownMenuItem>
                 <Sparkles className="mr-2" />
                 Upgrade to Pro
@@ -92,7 +125,7 @@ export function NavUser({
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <BadgeCheck className="mr-2" />
-                Account
+                <Link href="/account">Account</Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <CreditCard className="mr-2" />
@@ -105,12 +138,18 @@ export function NavUser({
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <LogOut className="mr-2" />
-              Log out
+              <Button
+                variant="destructive"
+                className="w-full"
+                onClick={() => signOut()}
+              >
+                <LogOut className="mr-1" />
+                Log out
+              </Button>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
-  )
+  );
 }

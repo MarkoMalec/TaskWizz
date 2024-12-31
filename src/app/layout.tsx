@@ -1,18 +1,19 @@
 import "~/styles/globals.css";
+import React from "react";
 import { Inter } from "next/font/google";
-import Header from "~/components/elements/Header/Header";
+import {NextIntlClientProvider} from 'next-intl';
+import {getLocale, getMessages} from 'next-intl/server';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "~/server/auth";
 import { ThemeProvider } from "~/components/theme-provider";
 import { Toaster } from "react-hot-toast";
-import React from "react";
 // import { Session } from "~/lib/session";
 import SessionProvider from "~/lib/session";
 import {
   SidebarProvider,
-  SidebarTrigger,
   SidebarInset,
 } from "~/components/ui/sidebar";
+import Header from "~/components/elements/Header/Header";
 import { AppSidebar } from "~/components/elements/Sidebar/Sidebar";
 
 const inter = Inter({
@@ -31,11 +32,16 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const locale = await getLocale();
+ 
+  const messages = await getMessages();
+
   const session = await getServerSession(authOptions);
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <body className={`min-h-screen font-sans ${inter.variable}`}>
+      <NextIntlClientProvider messages={messages}>
         <SessionProvider session={session}>
           <ThemeProvider
             attribute="class"
@@ -46,8 +52,7 @@ export default async function RootLayout({
             <SidebarProvider>
               <AppSidebar />
               <SidebarInset>
-                <SidebarTrigger className="fixed top-[15px] z-50 ml-5" />
-                <Header session={session} />
+                <Header />
                 <main className="container pt-20">
                   {React.cloneElement(children as React.ReactElement, {
                     session,
@@ -58,6 +63,7 @@ export default async function RootLayout({
             <Toaster />
           </ThemeProvider>
         </SessionProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

@@ -1,0 +1,13 @@
+{
+    "common": {
+      "buttons": {
+        "submit": "Submit",
+        "cancel": "Cancel",
+        "Comment": "Comment"
+      },
+      "navigation": {
+        "home": "Home",
+        "about": "About"
+      }
+    }
+  }

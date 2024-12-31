@@ -43,7 +43,7 @@ const TasksTableRow = ({
 
   const simulateCheckboxClick = () => {
     const checkbox = checkboxRef.current;
-    console.log(checkbox, "checkbox clicked");
+
     if (checkbox) {
       checkbox.click();
     }

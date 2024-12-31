@@ -122,7 +122,7 @@ h2 {
   z-index: 2;
 }
 
-.pdf-wrap:nth-child(5n + 1):hover img {
+/* .pdf-wrap:nth-child(5n + 1):hover img {
   transform: translateX(5px) scale(1.10);
 }
 
@@ -132,7 +132,7 @@ h2 {
 
 .pdf-wrap:nth-child(1):hover img {
   transform: translateX(5px) translateY(5px) scale(1.10);
-}
+} */
 
 
 table th button {

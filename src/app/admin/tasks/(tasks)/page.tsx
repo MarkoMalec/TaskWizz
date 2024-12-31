@@ -24,8 +24,12 @@ const TasksPage = async ({
   const defaultPageSize = 8;
 
   const searchQuery = searchParams.search || "";
-  const statusQuery = Array.isArray(searchParams.status) ? searchParams.status : [searchParams.status].filter(Boolean);
-  const priorityQuery = Array.isArray(searchParams.priority) ? searchParams.priority : [searchParams.priority].filter(Boolean);
+  const statusQuery = Array.isArray(searchParams.status)
+    ? searchParams.status
+    : [searchParams.status].filter(Boolean);
+  const priorityQuery = Array.isArray(searchParams.priority)
+    ? searchParams.priority
+    : [searchParams.priority].filter(Boolean);
 
   const whereClause = {
     AND: [
@@ -53,6 +57,7 @@ const TasksPage = async ({
     take: perPage,
     select: {
       id: true,
+      slug: true,
       name: true,
       priority: true,
       status: true,
@@ -67,7 +72,7 @@ const TasksPage = async ({
 
   return (
     <>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col items-center justify-between lg:flex-row">
         <form method="get" action="/admin/tasks" className="flex items-center">
           {/* <Input
             type="text"
@@ -77,7 +82,7 @@ const TasksPage = async ({
             className="relative"
           /> */}
           <SearchTasks searchQuery={searchQuery} />
-          <Button className="-ml-[58px] z-10" type="submit">
+          <Button className="z-10 -ml-[58px]" type="submit">
             <CalendarSearch />
           </Button>
         </form>
