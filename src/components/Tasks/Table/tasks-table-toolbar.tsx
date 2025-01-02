@@ -20,8 +20,17 @@ import {
 import { toast } from "react-hot-toast";
 import { useIsMobile } from "~/hooks/use-mobile";
 import { Plus, Loader2, Settings } from "lucide-react";
-import { Popover, PopoverContent, PopoverTrigger } from "~/components/ui/popover";
-import { Drawer, DrawerContent, DrawerTrigger } from "~/components/ui/drawer";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/ui/popover";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerTitle,
+  DrawerTrigger,
+} from "~/components/ui/drawer";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -91,30 +100,36 @@ export function DataTableToolbar<TData>({
   };
 
   return (
-    <div className="flex items-center justify-between py-3">
-      <div className="flex flex-1 items-center space-x-2">
+    <div className="flex flex-col space-y-3 py-3 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
+      <div className="flex flex-col space-y-2 sm:flex-row sm:flex-wrap sm:items-center sm:space-x-2 sm:space-y-0">
         <Input
           placeholder="Filter tasks..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("name")?.setFilterValue(event.target.value)
           }
-          className="h-8 w-[150px] lg:w-[250px]"
+          className="h-8 w-full sm:w-full lg:w-[250px]"
         />
-        {table.getColumn("status") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("status")}
-            title="Status"
-            options={statuses}
-          />
-        )}
-        {table.getColumn("priority") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("priority")}
-            title="Priority"
-            options={priorities}
-          />
-        )}
+        <div className="flex gap-2">
+          {table.getColumn("status") && (
+            <div className="">
+              <DataTableFacetedFilter
+                column={table.getColumn("status")}
+                title="Status"
+                options={statuses}
+              />
+            </div>
+          )}
+          {table.getColumn("priority") && (
+            <div className="">
+              <DataTableFacetedFilter
+                column={table.getColumn("priority")}
+                title="Priority"
+                options={priorities}
+              />
+            </div>
+          )}
+        </div>
         {isFiltered && (
           <Button
             variant="ghost"
@@ -126,54 +141,53 @@ export function DataTableToolbar<TData>({
           </Button>
         )}
       </div>
-      {!isMobile ? (
-        <>
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button
-              variant="destructive"
-              size="sm"
-              disabled={selectedTasks().length === 0}
-              className="mr-2 h-8 px-2 lg:px-3"
-            >
-              Delete
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete{" "}
-                {selectedTasks().length} task
-                {selectedTasks().length > 1 ? "s" : ""} from our servers.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={bulkTasksDelete}>
-                Delete
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-        <DataTableViewOptions table={table} />
-</>
-      ) : (
-        <Drawer>
-          <DrawerTrigger asChild>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-8 px-2 lg:px-3"
-            >
-              <Settings />
-            </Button>
-          </DrawerTrigger>
-          <DrawerContent>
+      <div className="flex justify-end space-x-2">
+        {!isMobile ? (
+          <>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  disabled={selectedTasks().length === 0}
+                  className="h-8 px-2 lg:px-3"
+                >
+                  Delete
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete{" "}
+                    {selectedTasks().length} task
+                    {selectedTasks().length > 1 ? "s" : ""} from our servers.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={bulkTasksDelete}>
+                    Delete
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
             <DataTableViewOptions table={table} />
-          </DrawerContent>
-        </Drawer>
-      )}
+          </>
+        ) : (
+          <Drawer>
+            <DrawerTrigger asChild>
+              <Button variant="ghost" size="sm" className="h-8 px-2 lg:px-3">
+                <Settings />
+              </Button>
+            </DrawerTrigger>
+            <DrawerContent>
+              <DrawerTitle>View options</DrawerTitle>
+              <DataTableViewOptions table={table} />
+            </DrawerContent>
+          </Drawer>
+        )}
+      </div>
     </div>
   );
 }
