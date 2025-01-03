@@ -8,6 +8,8 @@ import {
   Map,
   PieChart,
   Settings2,
+  Users,
+  ListTodo
 } from "lucide-react";
 
 import { NavMain } from "./nav-main";
@@ -50,7 +52,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       {
         title: "Tasks",
         url: role === "admin" ? "/admin/tasks" : "/dashboard/tasks",
-        icon: Bot,
+        icon: ListTodo,
         items: [
           {
             title: "All tasks",
@@ -78,6 +80,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 : "/dashboard/tasks?priority=low",
           },
         ],
+      },
+      {
+        title: "Users",
+        url: `${role === "admin" ? "/admin/users" : "/dashboard/users"}`,
+        icon: Users,
       },
       {
         title: "Recent",
