@@ -23,3 +23,4 @@ export const createNotification = async (notification: NotificationRequest) => {
       throw error;
     }
   };
+

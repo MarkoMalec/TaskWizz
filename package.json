@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@edgestore/react": "^0.2.2",
-    "@edgestore/server": "^0.1.4",
+    "@edgestore/server": "^0.2.2",
     "@hookform/resolvers": "^3.3.2",
     "@material-tailwind/react": "^2.1.4",
     "@next-auth/prisma-adapter": "^1.0.7",

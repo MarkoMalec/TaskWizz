@@ -58,26 +58,6 @@ export const useMutatingFetch = (onSuccess?: () => void) => {
         throw new Error(data.error);
       }
 
-      console.log("=================DATA", data, "DATA=================");
-
-      if (options.notification) {
-        try {
-          if (!data.json.task.createdById) {
-            throw new Error("User ID is required for notifications");
-          }
-
-          await createNotification({
-            userId: data.json.task.createdById,
-            message: options.notification.message,
-            type: options.notification.type,
-            relatedEntityId: data.id,
-            relatedEntityType: options.notification.entityType,
-          });
-        } catch (notificationError) {
-          console.error("Error creating notification:", notificationError);
-        }
-      }
-
       callback?.(data);
       onSuccess?.();
 

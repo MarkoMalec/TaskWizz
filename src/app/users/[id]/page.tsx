@@ -53,6 +53,7 @@ export default async function UserProfilePage({ params, searchParams }: Props) {
         select: {
           id: true,
           name: true,
+          slug: true,
           status: true,
           priority: true,
           deadline: true,

@@ -3,6 +3,7 @@ import React from "react";
 import { Inter } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
+import { EdgeStoreProvider } from "~/lib/edgestore";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "~/server/auth";
 import { ThemeProvider } from "~/components/theme-provider";
@@ -27,8 +28,6 @@ export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
-  analytics: React.ReactNode;
-  notifications: React.ReactNode;
 }) {
   const locale = await getLocale();
 
@@ -40,27 +39,29 @@ export default async function RootLayout({
     <html lang={locale} suppressHydrationWarning>
       <body className={`min-h-screen font-sans ${inter.variable}`}>
         <NextIntlClientProvider messages={messages}>
-          <SessionProvider session={session}>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
-              <SidebarProvider>
-                <AppSidebar />
-                <SidebarInset>
-                  <Header />
-                  <main className="container pt-20">
-                    {React.cloneElement(children as React.ReactElement, {
-                      session,
-                    })}
-                  </main>
-                </SidebarInset>
-              </SidebarProvider>
-              <Toaster />
-            </ThemeProvider>
-          </SessionProvider>
+            <SessionProvider session={session}>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+                >
+                <EdgeStoreProvider>
+                <SidebarProvider>
+                  <AppSidebar />
+                  <SidebarInset>
+                    <Header />
+                    <main className="container pt-20">
+                      {React.cloneElement(children as React.ReactElement, {
+                        session,
+                      })}
+                    </main>
+                  </SidebarInset>
+                </SidebarProvider>
+          </EdgeStoreProvider>
+                <Toaster />
+              </ThemeProvider>
+            </SessionProvider>
         </NextIntlClientProvider>
       </body>
     </html>

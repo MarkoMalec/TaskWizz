@@ -57,11 +57,6 @@ const AddTaskForm = ({ user }: any) => {
   const { isMutating, doFetch } = useMutatingFetch(reset);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    // doFetch("/api/task/email", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(values),
-    // });
     const userId = user.id;
     const extendedValues = {
       ...values,
@@ -79,24 +74,24 @@ const AddTaskForm = ({ user }: any) => {
             "file-name": values.file.name,
           },
           body: JSON.stringify(extendedValues),
-          notification: {
-            message: `${user.name} created a task: ${values.name}`,
-            type: "info",
-            entityType: "task",
-          },
         },
         () => {
           toast.success(`Task ${values.name} created`);
         },
       );
 
-      // await doFetch("/api/task/upload", {
-      //   method: "POST",
-      //   body: values.file,
-      //   headers: {
-      //     "x-file-name": values.file.name,
-      //   },
-      // });
+      for (const assignedUserId of values.assignedTo) {
+        await doFetch("/api/notifications", {
+          method: "POST",
+          body: JSON.stringify({
+            userId: assignedUserId,
+            type: "info",
+            message: `You have been assigned a new task: ${
+              values.name
+            }. Deadline: ${values.deadline.toDateString()}`,
+          }),
+        });
+      }
     } catch (error) {
       toast.error("An error occurred while creating the task.");
     }

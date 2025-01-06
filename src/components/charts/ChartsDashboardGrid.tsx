@@ -8,7 +8,7 @@ const ChartsDashboardGrid = ({ tasks }: { tasks: Task[] }) => {
       <h2 className="mb-2 text-2xl font-semibold">Charts</h2>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <TaskStatusQuantityChart tasks={tasks} />
-      <TaskCompletionChart tasks={tasks} />
+        <TaskCompletionChart tasks={tasks} />
       </div>
     </>
   );

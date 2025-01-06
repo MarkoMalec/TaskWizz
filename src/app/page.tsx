@@ -23,14 +23,6 @@ export default async function HomePage() {
     },
   });
 
-  // if (session && session.user.role === 'admin') {
-  //   redirect('/admin');
-  // }
-
-  // if (session && session.user.role !== 'admin') {
-  //   redirect('/dashboard');
-  // }
-
   return (
     <div className="flex w-full gap-6">
       <div className="w-4/12">
