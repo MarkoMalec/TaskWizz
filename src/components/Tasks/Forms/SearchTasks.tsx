@@ -66,7 +66,7 @@ const SearchTasks: React.FC<SearchTasksProps> = ({ searchQuery }) => {
             <div className="space-y-2">
               {results.map((result, index) => (
                 <a
-                  href={`/admin/tasks/${result.id}`}
+                  href={`/tasks/${result.slug}`}
                   key={index}
                   className="block border-b p-1"
                 >

@@ -20,7 +20,7 @@ const SignInPage = async () => {
       </main>
     );
   }
-  redirect("/dashboard");
+  redirect("/");
 };
 
 export default SignInPage;

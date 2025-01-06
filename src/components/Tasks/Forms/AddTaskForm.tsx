@@ -79,19 +79,24 @@ const AddTaskForm = ({ user }: any) => {
             "file-name": values.file.name,
           },
           body: JSON.stringify(extendedValues),
+          notification: {
+            message: `${user.name} created a task: ${values.name}`,
+            type: "info",
+            entityType: "task",
+          },
         },
         () => {
           toast.success(`Task ${values.name} created`);
         },
       );
 
-      await doFetch("/api/task/upload", {
-        method: "POST",
-        body: values.file,
-        headers: {
-          "x-file-name": values.file.name,
-        },
-      });
+      // await doFetch("/api/task/upload", {
+      //   method: "POST",
+      //   body: values.file,
+      //   headers: {
+      //     "x-file-name": values.file.name,
+      //   },
+      // });
     } catch (error) {
       toast.error("An error occurred while creating the task.");
     }

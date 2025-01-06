@@ -1,10 +1,18 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import handleServerError from "../server-error-handle";
+import { createNotification } from "../createNotification";
 import { toast } from "react-hot-toast";
+
+interface NotificationOptions {
+  message: string;
+  type: "success" | "error" | "info" | "warning";
+  entityType?: string;
+}
 
 type FetchOptions = RequestInit & {
   headers?: Record<string, string>;
+  notification?: NotificationOptions;
 };
 
 type FetchCallback<T = any> = (data: T) => void;
@@ -48,6 +56,26 @@ export const useMutatingFetch = (onSuccess?: () => void) => {
       if (data.error) {
         handleServerError(data.error);
         throw new Error(data.error);
+      }
+
+      console.log("=================DATA", data, "DATA=================");
+
+      if (options.notification) {
+        try {
+          if (!data.json.task.createdById) {
+            throw new Error("User ID is required for notifications");
+          }
+
+          await createNotification({
+            userId: data.json.task.createdById,
+            message: options.notification.message,
+            type: options.notification.type,
+            relatedEntityId: data.id,
+            relatedEntityType: options.notification.entityType,
+          });
+        } catch (notificationError) {
+          console.error("Error creating notification:", notificationError);
+        }
       }
 
       callback?.(data);

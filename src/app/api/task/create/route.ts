@@ -24,6 +24,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       data: {
         createdById: createdById,
         name: name,
+        slug: name.toLowerCase().replace(/ /g, "-"),
         priority: priority,
         description: description,
         deadline: deadline,

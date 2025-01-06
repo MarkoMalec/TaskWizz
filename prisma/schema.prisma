@@ -61,10 +61,24 @@ model User {
   sessions      Session[]
   posts         Post[]
   tasks         TaskAssignment[]
+  notifications Notification[]
   profile       Profile?
   Task          Task[]
+  TaskNote      TaskNote[]
+}
 
-  TaskNote TaskNote[]
+model Notification {
+  id                String   @id @default(cuid())
+  userId            String
+  message           String
+  type              String // 'success' | 'error' | 'info' | 'warning'
+  read              Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  relatedEntityId   String?
+  relatedEntityType String?
+  user              User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
 }
 
 model Profile {
@@ -94,7 +108,7 @@ model Task {
   dateCreated     DateTime         @default(now())
   description     String           @db.Text
   priority        String           @default("Normal")
-  name            String           
+  name            String
   city            String
   deadline        DateTime
   status          String           @default("Pending")
@@ -103,10 +117,10 @@ model Task {
   createdBy       User             @relation(fields: [createdById], references: [id])
   assignedTo      TaskAssignment[]
   TaskNote        TaskNote[]
+  TaskFiles       TaskFiles[]
 
-  @@index([createdById])
   @@unique([name, slug])
-  TaskFiles TaskFiles[]
+  @@index([createdById])
 }
 
 model TaskAssignment {

@@ -20,6 +20,7 @@ import {
   SelectLabel,
   SelectGroup,
 } from "~/components/ui/select";
+import { SessionContext } from "~/lib/session";
 
 import { Button } from "../ui/button";
 import { Loader2 } from "lucide-react";
@@ -32,7 +33,9 @@ type TaskStatusChangeProps = {
 };
 
 const TaskStatusChange = ({ admin, taskId, status }: TaskStatusChangeProps) => {
+  const { user } = React.useContext(SessionContext);
   const { isMutating, doFetch } = useMutatingFetch();
+
 
   const updateStatusOnServer = async (status: any) => {
     doFetch(
@@ -40,8 +43,10 @@ const TaskStatusChange = ({ admin, taskId, status }: TaskStatusChangeProps) => {
       {
         method: "PATCH",
         body: JSON.stringify({ id: taskId, status }),
-        headers: {
-          "Content-Type": "application/json",
+        notification: {
+          message: `${user.name} marked the task as ${status}`,
+          type: "info",
+          entityType: "task",
         },
       },
       () => {

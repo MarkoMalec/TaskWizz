@@ -83,7 +83,7 @@ const UsersTableRow = ({
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link prefetch={false} href={`/admin/users/${user.id}`}>View user</Link>
+              <Link prefetch={false} href={`/users/${user.id}`}>View user</Link>
             </DropdownMenuItem>
             <div className="mt-3 flex flex-col justify-stretch gap-1">
               <EditUserDialog user={user} />

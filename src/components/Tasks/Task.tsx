@@ -110,7 +110,7 @@ const Task = ({
                       <Link
                         key={task.user.id}
                         className={`-ml-3 block z-${index++}`}
-                        href={`/admin/users/${task.user.id}`}
+                        href={`/users/${task.user.id}`}
                       >
                         <Avatar className="h-[42px] w-[42px] border-[3px] border-secondary">
                           <AvatarImage src={task.user.image} />

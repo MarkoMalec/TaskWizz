@@ -1,6 +1,8 @@
 import React from "react";
 import Task from "~/components/Tasks/Task";
 import { prisma } from "~/lib/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "~/server/auth";
 
 type Params = {
   params: {
@@ -26,8 +28,9 @@ export async function generateMetadata({ params }: Params) {
 }
 
 const SingleTaskPage = async ({ params }: Params) => {
+  const session = await getServerSession(authOptions);
+  const isAdmin = session?.user.role === "admin" ? true : false;
 
-  // const taskName = decodeURIComponent(params.name);
   const task = await prisma.task.findUnique({
     where: {
       slug: params.slug,
@@ -68,14 +71,14 @@ const SingleTaskPage = async ({ params }: Params) => {
           taskId: true,
           url: true,
         },
-      }
+      },
     },
   });
 
   return (
     task && (
       <div className="py-10" suppressHydrationWarning>
-        <Task task={task} admin={true} />
+        <Task task={task} admin={isAdmin} />
       </div>
     )
   );

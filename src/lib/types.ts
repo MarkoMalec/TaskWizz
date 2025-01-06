@@ -34,3 +34,11 @@ export type Note = {
         image: string,
     }
 }
+
+export interface NotificationRequest {
+    userId: string;
+    message: string;
+    type: "success" | "error" | "info" | "warning";
+    relatedEntityId?: string | null;
+    relatedEntityType?: string | null;
+  }

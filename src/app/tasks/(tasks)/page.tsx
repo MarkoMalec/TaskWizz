@@ -46,7 +46,8 @@ const TasksPage = async ({
       searchQuery ? { name: { contains: searchQuery } } : {},
       statusQuery.length ? { status: { in: statusQuery } } : {},
       priorityQuery.length ? { priority: { in: priorityQuery } } : {},
-      { id: { in: userTasks } },
+      session?.user.role === "admin" ? {} : { assignedTo: { some: { userId: session?.user.id } } },
+
     ],
   };
 
@@ -64,7 +65,7 @@ const TasksPage = async ({
   const tasks = await prisma.task.findMany({
     where: {
       ...whereClause,
-      AND: [{ id: { in: userTasks } }],
+      // AND: [{ id: { in: userTasks } }],
     },
     orderBy: { dateCreated: "desc" },
     skip: (page - 1) * perPage,
@@ -72,6 +73,7 @@ const TasksPage = async ({
     select: {
       id: true,
       name: true,
+      slug: true,
       priority: true,
       status: true,
       deadline: true,
@@ -95,7 +97,7 @@ const TasksPage = async ({
   return (
     <>
       <div className="flex items-center justify-between">
-        <form method="get" action="/admin/tasks" className="flex items-center">
+        <form method="get" action="/tasks" className="flex items-center">
           <Input
             type="text"
             name="search"
@@ -116,7 +118,7 @@ const TasksPage = async ({
         totalPages={totalPages}
         pageNumber={page}
         perPage={perPage}
-        admin={false}
+        admin={session?.user.role === "admin" ? true : false}
       />
     </>
   );

@@ -51,39 +51,30 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     navMain: [
       {
         title: "Tasks",
-        url: role === "admin" ? "/admin/tasks" : "/dashboard/tasks",
+        url: "/tasks",
         icon: ListTodo,
         items: [
           {
             title: "All tasks",
-            url: role === "admin" ? "/admin/tasks" : "/dashboard/tasks",
+            url: "/tasks",
           },
           {
             title: "High priority",
-            url:
-              role === "admin"
-                ? "/admin/tasks?priority=high"
-                : "/dashboard/tasks?priority=high",
+            url: "/tasks?priority=high"
           },
           {
             title: "Normal priority",
-            url:
-              role === "admin"
-                ? "/admin/tasks?priority=normal"
-                : "/dashboard/tasks?priority=normal",
+            url: "/tasks?priority=normal"
           },
           {
             title: "Low priority",
-            url:
-              role === "admin"
-                ? "/admin/tasks?priority=low"
-                : "/dashboard/tasks?priority=low",
+            url: "/tasks?priority=low"
           },
         ],
       },
       {
         title: "Users",
-        url: `${role === "admin" ? "/admin/users" : "/dashboard/users"}`,
+        url: `${role === "admin" ? "/users" : "/"}`,
         icon: Users,
       },
       {

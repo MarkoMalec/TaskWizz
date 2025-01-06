@@ -105,12 +105,11 @@ export const columns: ColumnDef<Task>[] = [
     },
     cell: ({ row, table }) => {
       const task = row.original;
-      const admin = table.options.meta?.isAdmin;
 
       return (
         <Link
           prefetch={false}
-          href={`${admin ? "/admin" : "/dashboard"}/tasks/${task.slug}`}
+          href={`/tasks/${task.slug}`}
           className="hover:underline"
         >
           {task.name}
@@ -201,7 +200,7 @@ export const columns: ColumnDef<Task>[] = [
             <DropdownMenuItem
               onClick={() => {
                 navigator.clipboard.writeText(
-                  `localhost:3000${pathname}/${task.slug}`,
+                  `taskwizz.markomalec.com/${task.slug}`,
                 );
                 toast.success("Task URL copied!");
               }}
@@ -211,7 +210,7 @@ export const columns: ColumnDef<Task>[] = [
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link prefetch={false} href={`${pathname}/${task.slug}`}>
+              <Link prefetch={false} href={`/${pathname}/${task.slug}`}>
                 View task
               </Link>
             </DropdownMenuItem>

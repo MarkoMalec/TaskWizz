@@ -22,9 +22,6 @@ const withNextIntl = createNextIntlPlugin();
 //   }
 const nextConfig = {
   trailingSlash: true,
-  experimental: {
-    serverActions: true,
-  },
   images: {
     remotePatterns: [
       {
@@ -50,6 +47,7 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  
 };
 
 export default withNextIntl(nextConfig);
