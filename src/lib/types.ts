@@ -36,7 +36,7 @@ export type Note = {
 }
 
 export interface NotificationRequest {
-    userId: string;
+    notifyWhoId: string;
     message: string;
     type: "success" | "error" | "info" | "warning";
     relatedEntityId?: string | null;

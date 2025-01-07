@@ -78,6 +78,24 @@ h2 {
   }
 }
 
+/* Add this to your CSS file */
+@keyframes slideIn {
+  from {
+    /* transform: translateX(100%); */
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.slide-in {
+  animation: slideIn 0.5s forwards;
+  transform: translateX(100%);
+  opacity: 0;
+}
+
 .avatar-edit-hover::before {
   content: "Edit";
   position: absolute;

@@ -10,10 +10,14 @@ const UserNotificationsList = ({
 }) => {
   return (
     <>
-    <h2 className="text-2xl font-semibold mb-2">Notifications</h2>
+      <h2 className="mb-2 text-2xl font-semibold">Notifications</h2>
       <div className="space-y-2">
-        {notifications.map((notification) => (
-          <NotificationCard key={notification.id} notification={notification} />
+        {notifications.map((notification, index) => (
+          <NotificationCard
+            key={notification.id}
+            notification={notification}
+            style={{ animationDelay: `${index * 0.1}s` }}
+          />
         ))}
       </div>
     </>

@@ -14,6 +14,7 @@ import { Separator } from "~/components/ui/separator";
 import { toast } from "react-hot-toast";
 import { Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useCreateNotification } from "~/lib/hooks/useCreateNotification";
 
 const formSchema = z.object({
   name: z.string().min(4, {
@@ -55,6 +56,7 @@ const AddTaskForm = ({ user }: any) => {
 
   const { reset } = form;
   const { isMutating, doFetch } = useMutatingFetch(reset);
+  const { createNotification } = useCreateNotification();
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const userId = user.id;
@@ -81,19 +83,15 @@ const AddTaskForm = ({ user }: any) => {
       );
 
       for (const assignedUserId of values.assignedTo) {
-        await doFetch("/api/notifications", {
-          method: "POST",
-          body: JSON.stringify({
-            userId: assignedUserId,
-            type: "info",
-            message: `You have been assigned a new task: ${
-              values.name
-            }. Deadline: ${values.deadline.toDateString()}`,
-          }),
+        await createNotification({
+          notifyWhoId: assignedUserId,
+          type: "info",
+          message: `You have been assigned a new task: ${values.name}.`,
         });
       }
     } catch (error) {
       toast.error("An error occurred while creating the task.");
+      console.error(error);
     }
   };
 

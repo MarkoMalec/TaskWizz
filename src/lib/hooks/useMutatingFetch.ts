@@ -1,7 +1,6 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import handleServerError from "../server-error-handle";
-import { createNotification } from "../createNotification";
 import { toast } from "react-hot-toast";
 
 interface NotificationOptions {

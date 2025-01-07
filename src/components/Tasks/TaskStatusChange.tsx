@@ -43,11 +43,6 @@ const TaskStatusChange = ({ admin, taskId, status }: TaskStatusChangeProps) => {
       {
         method: "PATCH",
         body: JSON.stringify({ id: taskId, status }),
-        notification: {
-          message: `${user.name} marked the task as ${status}`,
-          type: "info",
-          entityType: "task",
-        },
       },
       () => {
         !admin

@@ -39,14 +39,14 @@ export default async function RootLayout({
     <html lang={locale} suppressHydrationWarning>
       <body className={`min-h-screen font-sans ${inter.variable}`}>
         <NextIntlClientProvider messages={messages}>
-            <SessionProvider session={session}>
-              <ThemeProvider
-                attribute="class"
-                defaultTheme="system"
-                enableSystem
-                disableTransitionOnChange
-                >
-                <EdgeStoreProvider>
+          <SessionProvider session={session}>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <EdgeStoreProvider>
                 <SidebarProvider>
                   <AppSidebar />
                   <SidebarInset>
@@ -58,10 +58,10 @@ export default async function RootLayout({
                     </main>
                   </SidebarInset>
                 </SidebarProvider>
-          </EdgeStoreProvider>
-                <Toaster />
-              </ThemeProvider>
-            </SessionProvider>
+              </EdgeStoreProvider>
+              <Toaster />
+            </ThemeProvider>
+          </SessionProvider>
         </NextIntlClientProvider>
       </body>
     </html>

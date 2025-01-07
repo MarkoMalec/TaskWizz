@@ -1,12 +1,12 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import { prisma } from '~/lib/prisma';
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     
     // Validate the required fields
-    if (!body.userId || !body.message || !body.type) {
+    if (!body.notifyWhoId || !body.message || !body.type) {
       return NextResponse.json(
         { error: 'Missing required fields: userId, message, and type are required' },
         { status: 400 }
@@ -25,7 +25,7 @@ export async function POST(request: Request) {
     // Create the notification
     const notification = await prisma.notification.create({
       data: {
-        userId: body.userId,
+        userId: body.notifyWhoId,
         message: body.message,
         type: body.type,
         read: false,
