@@ -200,7 +200,7 @@ export const columns: ColumnDef<Task>[] = [
             <DropdownMenuItem
               onClick={() => {
                 navigator.clipboard.writeText(
-                  `taskwizz.markomalec.com/${task.slug}`,
+                  `taskwizz.markomalec.com/tasks/${task.slug}`,
                 );
                 toast.success("Task URL copied!");
               }}
@@ -210,7 +210,7 @@ export const columns: ColumnDef<Task>[] = [
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link prefetch={false} href={`/${pathname}/${task.slug}`}>
+              <Link prefetch={false} href={`/tasks/${task.slug}`}>
                 View task
               </Link>
             </DropdownMenuItem>

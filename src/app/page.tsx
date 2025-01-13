@@ -3,11 +3,11 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "~/server/auth";
 import { redirect } from "next/navigation";
-
-import { prisma } from "~/lib/prisma";
+import { Suspense } from "react";
 
 import UserNotificationsList from "~/components/notifications/UserNotificationsList";
 import ChartsDashboardGrid from "~/components/charts/ChartsDashboardGrid";
+import ChartSkeleton from "~/components/skeletons/ChartSkeleton";
 
 export default async function HomePage() {
   const session = await getServerSession(authOptions);
@@ -16,20 +16,19 @@ export default async function HomePage() {
     redirect("/signin");
   }
 
-  const tasks = await prisma.task.findMany();
-  const notifications = await prisma.notification.findMany({
-    where: {
-      userId: session.user.id,
-    },
-  });
-
   return (
     <div className="flex w-full gap-6">
       <div className="w-4/12">
-        <UserNotificationsList notifications={notifications} />
+        <Suspense fallback={<ChartSkeleton />}>
+          <UserNotificationsList />
+        </Suspense>
       </div>
       <div className="w-8/12">
-        {session.user.role === "admin" && <ChartsDashboardGrid tasks={tasks} />}
+        {session.user.role === "admin" && (
+          <Suspense fallback={<ChartSkeleton />}>
+            <ChartsDashboardGrid />
+          </Suspense>
+        )}
       </div>
     </div>
   );

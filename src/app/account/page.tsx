@@ -1,9 +1,16 @@
-import React from 'react'
+import React from "react";
+import { getServerSession } from "next-auth";
+import { authOptions } from "~/server/auth";
+import UserAccountForm from "~/components/forms/UserAccountForm";
 
-const Account = () => {
-  return (
-    <div>Account</div>
-  )
-}
+const Account = async () => {
+  const session = await getServerSession(authOptions);
 
-export default Account
+  const user = await prisma.user.findUnique({
+    where: { id: session?.user.id },
+  });
+
+  return <UserAccountForm userData={user} />;
+};
+
+export default Account;

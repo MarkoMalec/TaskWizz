@@ -4,7 +4,6 @@ import React from "react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import crypto from "crypto";
 
 import UserFormInput from "~/components/forms/UserFormInput";
 
@@ -14,7 +13,8 @@ import { toast } from "react-hot-toast";
 import { Button } from "~/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { Form } from "~/components/ui/form";
-import { EyeIcon, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
+import UserAccountForm from "./UserAccountForm";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -57,7 +57,7 @@ const EditUserForm = ({ userData }: any) => {
       "/api/user/edit",
       {
         method: "PATCH",
-        body: JSON.stringify({ ...values, id: userData.id })
+        body: JSON.stringify({ ...values, id: userData.id }),
       },
       () => {
         toast.success(`User ${values.name} updated!`);
@@ -75,40 +75,8 @@ const EditUserForm = ({ userData }: any) => {
           Profile
         </TabsTrigger>
       </TabsList>
-      {/* ACCOUNT */}
       <TabsContent value="account">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <UserFormInput
-              control={form.control}
-              name="name"
-              type="text"
-              label="Name"
-              placeholder="Username"
-            />
-            <UserFormInput
-              control={form.control}
-              name="email"
-              type="email"
-              label="E-mail"
-              placeholder="Email"
-            />
-            <UserFormInput
-              control={form.control}
-              name="password"
-              type="password"
-              label="Password"
-              placeholder="Password"
-            />
-            <Button type="submit">
-              {isMutating ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                "Save"
-              )}
-            </Button>
-          </form>
-        </Form>
+        <UserAccountForm userData={userData} />
       </TabsContent>
       {/* PROFILE */}
       <TabsContent value="profile">

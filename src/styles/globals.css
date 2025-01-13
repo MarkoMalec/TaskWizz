@@ -10,7 +10,7 @@ h2 {
   :root {
     --background: 0 0% 100%;
     --foreground: 224 71.4% 4.1%;
-    --card: 0 0% 99%;
+    --card: 0 0% 99.9%;
     --card-foreground: 224 71.4% 4.1%;
     --popover: 0 0% 100%;
     --popover-foreground: 224 71.4% 4.1%;
@@ -92,7 +92,7 @@ h2 {
 
 .slide-in {
   animation: slideIn 0.5s forwards;
-  transform: translateX(100%);
+  transform: translateX(-100%);
   opacity: 0;
 }
 
